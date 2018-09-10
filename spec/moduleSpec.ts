@@ -18,9 +18,14 @@ describe("when a module is clicked", () => {
     click(moduleItems.item(1))
   })
   
-  it("shows the title for that module", async () => {
+  it("shows the title of the module", async () => {
     var title = find("#title")
     expect(textOf(title)).toEqual("Module1.Module2")
+  })
+
+  it("shows the description of the module", () => {
+    var doc = find("#documentation")
+    expect(textOf(doc)).toContain("Comment about Module1.Module2")
   })
 
   describe("when there are values", () => {

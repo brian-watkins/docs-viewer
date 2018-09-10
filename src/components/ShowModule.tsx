@@ -22,6 +22,9 @@ export const ShowModule = (props: ShowModuleProps) =>
         { props.docs.aliases.map(showTypeAlias) }
       </ul>
     </div>
+    <div id="documentation">
+      <div>{ props.docs.comment }</div>
+    </div>
   </div>
 
 const showFunction = (value: ValueDocumentation) => (
