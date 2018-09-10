@@ -1,6 +1,6 @@
-import { renderApp } from "./renderApp";
+import { renderApp } from "./helpers/renderApp";
 import { testDocs } from "./fixtures/testDocumentation"
-import { findAll, find, textOf, click } from "./testHelpers"
+import { findAll, find, textOf, click } from "./helpers/testHelpers"
 
 var wait = () => {
   return new Promise((resolve) => {
@@ -21,5 +21,13 @@ describe("when a module is clicked", () => {
   it("shows the title for that module", async () => {
     var title = find("#title")
     expect(textOf(title)).toEqual("Module1.Module2")
+  })
+
+  describe("when there are values", () => {
+    it("shows the documented values", () => {
+      var values = findAll("#values li")
+      expect(textOf(values.item(0))).toEqual("funcOne")
+      expect(textOf(values.item(1))).toEqual("funcTwo")
+    })
   })
 })

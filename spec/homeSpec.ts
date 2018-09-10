@@ -1,6 +1,6 @@
-import { renderApp } from "./renderApp"
+import { renderApp } from "./helpers/renderApp"
 import { testDocs } from "./fixtures/testDocumentation"
-import { findAll, textOf } from "./testHelpers";
+import { findAll, textOf } from "./helpers/testHelpers";
 
 describe("home page", () => {
   beforeEach(() => {

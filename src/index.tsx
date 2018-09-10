@@ -5,7 +5,7 @@ import { App } from "./components/App"
 
 ReactDOM.render(
   <BrowserRouter>
-    <App moduleDocs={[]} />
+    <App docs={[]} />
   </BrowserRouter>,
   document.getElementById("example")
 )

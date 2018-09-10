@@ -1,7 +1,8 @@
 import * as React from "react"
 import * as ReactDOM from "react-dom"
 import { MemoryRouter } from "react-router-dom"
-import { App, ModuleDocumentation } from "../src/components/App"
+import { App } from "../../src/components/App"
+import { ModuleDocumentation } from "../../src/model/ModuleDocumentation"
 
 export const renderApp = (testDocumentation: Array<ModuleDocumentation>) => {
   var div = document.querySelector("#react-test-app")
@@ -14,8 +15,11 @@ export const renderApp = (testDocumentation: Array<ModuleDocumentation>) => {
     document.querySelector("body").appendChild(div)  
   }
 
-  ReactDOM.render(
-  <MemoryRouter>
-    <App moduleDocs={testDocumentation} />
-  </MemoryRouter>, div);
+  ReactDOM.render(app(testDocumentation), div)
 }
+
+const app = (testDocumentation: Array<ModuleDocumentation>) => (
+  <MemoryRouter>
+    <App docs={testDocumentation} />
+  </MemoryRouter>
+)
