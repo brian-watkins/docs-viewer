@@ -1,3 +1,4 @@
 export interface ValueDocumentation {
-  name: string
+  name: string,
+  comment: string
 }

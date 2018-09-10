@@ -34,6 +34,12 @@ describe("when a module is clicked", () => {
       expect(textOf(values.item(0))).toEqual("funcOne")
       expect(textOf(values.item(1))).toEqual("funcTwo")
     })
+
+    it("shows the comment for each documented value", () => {
+      var doc = find("#documentation")
+      expect(textOf(doc)).toContain("Here is a comment about funcOne")
+      expect(textOf(doc)).toContain("Here is a comment about funcTwo")
+    })
   })
 
   describe("when there are type aliases", () => {

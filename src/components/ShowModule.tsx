@@ -1,8 +1,5 @@
 import * as React from "react"
-import {
-  match,
-} from 'react-router-dom'
-import { ModuleDocumentation } from "../model/ModuleDocumentation";
+import { ModuleDocumentation, moduleComment } from "../model/ModuleDocumentation";
 import { ValueDocumentation } from "../model/ValueDocumentation";
 
 interface ModuleRouteParams { moduleName : string }
@@ -23,7 +20,7 @@ export const ShowModule = (props: ShowModuleProps) =>
       </ul>
     </div>
     <div id="documentation">
-      <div>{ props.docs.comment }</div>
+      <div>{ moduleComment(props.docs) }</div>
     </div>
   </div>
 
