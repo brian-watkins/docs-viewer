@@ -3,22 +3,31 @@ import {
   match,
 } from 'react-router-dom'
 import { ModuleDocumentation } from "../model/ModuleDocumentation";
+import { ValueDocumentation } from "../model/ValueDocumentation";
 
 interface ModuleRouteParams { moduleName : string }
 
 interface ShowModuleProps { 
-  match: match<ModuleRouteParams>,
   docs: ModuleDocumentation
 }
 
 export const ShowModule = (props: ShowModuleProps) => 
   <div>
     <div id="title">
-      { props.match.params.moduleName }
+      { props.docs.name }
     </div>
     <div id="values">
       <ul>
-        { props.docs.values.map((value) => <li key={value.name}>{value.name}</li>) }
+        { props.docs.values.map(showFunction) }
+        { props.docs.aliases.map(showTypeAlias) }
       </ul>
     </div>
   </div>
+
+const showFunction = (value: ValueDocumentation) => (
+  <li key={value.name} className="function">{value.name}</li>
+)
+
+const showTypeAlias = (value: ValueDocumentation) => (
+  <li key={value.name} className="type-alias">{value.name}</li>
+)

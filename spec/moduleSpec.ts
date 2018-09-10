@@ -25,9 +25,17 @@ describe("when a module is clicked", () => {
 
   describe("when there are values", () => {
     it("shows the documented values", () => {
-      var values = findAll("#values li")
+      var values = findAll("#values li.function")
       expect(textOf(values.item(0))).toEqual("funcOne")
       expect(textOf(values.item(1))).toEqual("funcTwo")
+    })
+  })
+
+  describe("when there are type aliases", () => {
+    it("shows the documented type aliases", () => {
+      var types = findAll("#values li.type-alias")
+      expect(textOf(types.item(0))).toEqual("typeAliasOne")
+      expect(textOf(types.item(1))).toEqual("typeAliasTwo")
     })
   })
 })
