@@ -1,4 +1,5 @@
 import * as React from "react"
+import * as ReactMarkdown from 'react-markdown'
 import { ModuleDocumentation, DocumentationBlock, documentationBlocks, ValueBlock } from "../model/ModuleDocumentation";
 import { ValueDocumentation } from "../model/ValueDocumentation";
 
@@ -26,15 +27,17 @@ export const ShowModule = (props: ShowModuleProps) =>
 
 const printBlock = (block: DocumentationBlock, index: number) => {
   switch (block.kind) {
-    case "comment": return <div key={index}>{ block.value }</div>
-    case "value": return printValue(block)
+    case "comment": 
+      return <ReactMarkdown source={block.value} key={index} />
+    case "value": 
+      return printValue(block)
   }
 }
 
 const printValue = (block: ValueBlock) =>
   <div className="value-block" key={block.name}>
     <div className="title">{ `${block.name} : ${block.type}` }</div>
-    <div className="comment">{ block.comment }</div>
+    <ReactMarkdown className="comment" source={block.comment} />
   </div>
 
 const showFunction = (value: ValueDocumentation) => (

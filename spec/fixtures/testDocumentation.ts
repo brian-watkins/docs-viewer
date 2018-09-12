@@ -9,7 +9,7 @@ export const testDocs : Array<ModuleDocumentation> = [
   },
   { 
     name: "Module1.Module2",
-    comment: "Comment about Module1.Module2\n\n#First Functions\n@docs funcOne, funcTwo\n\n#Second Functions\n@docs funcThree",
+    comment: "Comment about Module1.Module2\n\n# First Functions\n@docs funcOne, funcTwo\n\n# Second Functions\n@docs funcThree",
     aliases: [
       { 
         name: "typeAliasOne",
@@ -25,7 +25,7 @@ export const testDocs : Array<ModuleDocumentation> = [
     values: [
       { 
         name: "funcOne",
-        comment: "Here is a comment about funcOne",
+        comment: "Here is a comment about funcOne\n\n\tAnd here is a code block.\n\tHere is some more code.\n",
         type: "String -> String"
       },
       { 
