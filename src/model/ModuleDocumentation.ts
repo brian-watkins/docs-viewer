@@ -7,23 +7,44 @@ export interface ModuleDocumentation {
   aliases: Array<ValueDocumentation>
 }
 
-export const moduleComment = (doc: ModuleDocumentation) =>
-  doc.comment.split("\n")
-    .map((line) => {
-      if (line.startsWith("@docs")) {
-        return line.substring(5).trim().split(",")
-          .map(functionCommentPrinter(doc))
-          .join("\n\n")
-      }
-      return line
-    })
-    .join("\n")
+export interface CommentBlock {
+  kind: "comment",
+  value: string
+}
 
-const functionCommentPrinter = (doc: ModuleDocumentation) =>
-  (name: string) => {
-    const value = findFunction(doc, name.trim())
-    return value.comment
+export interface ValueBlock extends ValueDocumentation {
+  kind: "value"
+}
+
+export type DocumentationBlock = CommentBlock | ValueBlock
+
+export const documentationBlocks = (doc: ModuleDocumentation): Array<DocumentationBlock> => {
+  let blocks:Array<DocumentationBlock> = []
+  const lines = doc.comment.split("\n")
+
+  let currentComment = ""
+  for (let line of lines) {
+    if (line.startsWith("@docs")) {
+      blocks.push({ kind: "comment", value: currentComment })
+      currentComment = ""
+
+      line.substring(5).trim().split(",")
+        .map((name) => name.trim())
+        .map((name) => findFunction(doc, name))
+        .map((value) => {
+          return { 
+            kind: "value",
+            ...value
+          } as ValueBlock
+        })
+        .forEach((block) => blocks.push(block))
+    } else {
+      currentComment += line + "\n"
+    }
   }
+
+  return blocks
+}
 
 const findFunction = (doc: ModuleDocumentation, name: string): ValueDocumentation => {
   return doc.values.find((value) => value.name == name)

@@ -1,5 +1,5 @@
 import * as React from "react"
-import { ModuleDocumentation, moduleComment } from "../model/ModuleDocumentation";
+import { ModuleDocumentation, DocumentationBlock, documentationBlocks, ValueBlock } from "../model/ModuleDocumentation";
 import { ValueDocumentation } from "../model/ValueDocumentation";
 
 interface ModuleRouteParams { moduleName : string }
@@ -20,8 +20,21 @@ export const ShowModule = (props: ShowModuleProps) =>
       </ul>
     </div>
     <div id="documentation">
-      <div>{ moduleComment(props.docs) }</div>
+      { documentationBlocks(props.docs).map(printBlock) }
     </div>
+  </div>
+
+const printBlock = (block: DocumentationBlock, index: number) => {
+  switch (block.kind) {
+    case "comment": return <div key={index}>{ block.value }</div>
+    case "value": return printValue(block)
+  }
+}
+
+const printValue = (block: ValueBlock) =>
+  <div className="value-block" key={block.name}>
+    <div className="title">{ `${block.name} : ${block.type}` }</div>
+    <div className="comment">{ block.comment }</div>
   </div>
 
 const showFunction = (value: ValueDocumentation) => (

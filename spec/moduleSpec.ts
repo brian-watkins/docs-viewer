@@ -1,6 +1,6 @@
 import { renderApp } from "./helpers/renderApp";
 import { testDocs } from "./fixtures/testDocumentation"
-import { findAll, find, textOf, click } from "./helpers/testHelpers"
+import { findAll, find, findWithin, textOf, click } from "./helpers/testHelpers"
 
 var wait = () => {
   return new Promise((resolve) => {
@@ -35,10 +35,16 @@ describe("when a module is clicked", () => {
       expect(textOf(values.item(1))).toEqual("funcTwo")
     })
 
-    it("shows the comment for each documented value", () => {
-      var doc = find("#documentation")
-      expect(textOf(doc)).toContain("Here is a comment about funcOne")
-      expect(textOf(doc)).toContain("Here is a comment about funcTwo")
+    it("shows the details for each documented value", () => {
+      var values = findAll("#documentation .value-block")
+      expect(textOf(findWithin(values.item(0), ".title"))).toContain("funcOne : String -> String")
+      expect(textOf(findWithin(values.item(0), ".comment"))).toContain("Here is a comment about funcOne")
+
+      expect(textOf(findWithin(values.item(1), ".title"))).toContain("funcTwo : Int -> String")
+      expect(textOf(findWithin(values.item(1), ".comment"))).toContain("Here is a comment about funcTwo")
+
+      expect(textOf(findWithin(values.item(2), ".title"))).toContain("funcThree : Int -> Int")
+      expect(textOf(findWithin(values.item(2), ".comment"))).toContain("Here is a comment about funcThree")
     })
   })
 
