@@ -1,7 +1,10 @@
 import * as React from "react"
 import * as ReactMarkdown from 'react-markdown'
-import { ModuleDocumentation, DocumentationBlock, documentationBlocks, ValueBlock } from "../model/ModuleDocumentation";
+import { ModuleDocumentation } from "../model/ModuleDocumentation";
+import { DocumentationBlock, ValueBlock, AliasBlock } from "../model/DocumentationBlock"
+import * as DocumentationParser from "../parser/DocumentationParser"
 import { ValueDocumentation } from "../model/ValueDocumentation";
+import { Block } from "./Block";
 
 interface ModuleRouteParams { moduleName : string }
 
@@ -21,7 +24,7 @@ export const ShowModule = (props: ShowModuleProps) =>
       </ul>
     </div>
     <div id="documentation">
-      { documentationBlocks(props.docs).map(printBlock) }
+      { DocumentationParser.parse(props.docs).map(printBlock) }
     </div>
   </div>
 
@@ -30,15 +33,19 @@ const printBlock = (block: DocumentationBlock, index: number) => {
     case "comment": 
       return <ReactMarkdown source={block.value} key={index} />
     case "value": 
-      return printValue(block)
+      return <Block className="value-block" key={block.name} title={valueTitle(block)} comment={block.comment} /> 
+    case "alias":
+      return <Block className="type-alias-block" key={block.name} title={typeAliasTitle(block)} comment={block.comment} />
   }
 }
 
-const printValue = (block: ValueBlock) =>
-  <div className="value-block" key={block.name}>
-    <div className="title">{ `${block.name} : ${block.type}` }</div>
-    <ReactMarkdown className="comment" source={block.comment} />
-  </div>
+const valueTitle = (block: ValueBlock): string => (
+  `${block.name} : ${block.type}`
+)
+
+const typeAliasTitle = (block: AliasBlock): string => (
+  `type alias ${block.name} ${block.args.join(' ')} = ${block.type}`
+)
 
 const showFunction = (value: ValueDocumentation) => (
   <li key={value.name} className="function">{value.name}</li>

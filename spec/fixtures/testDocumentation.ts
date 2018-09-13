@@ -9,17 +9,19 @@ export const testDocs : Array<ModuleDocumentation> = [
   },
   { 
     name: "Module1.Module2",
-    comment: "Comment about Module1.Module2\n\n# First Functions\n@docs funcOne, funcTwo\n\n# Second Functions\n@docs funcThree",
+    comment: "Comment about Module1.Module2\n\n# Type Alias\n@docs typeAliasOne\n\n# First Functions\n@docs funcOne, funcTwo\n\n# More Stuff\n@docs typeAliasTwo, funcThree",
     aliases: [
       { 
         name: "typeAliasOne",
-        comment: "",
-        type: ""
+        comment: "Represents something cool",
+        type: "Some.Type.blah msgA msgB",
+        args: [ "msgA", "msgB" ]
       },
       { 
         name: "typeAliasTwo",
-        comment: "",
-        type: ""
+        comment: "Represents something awesome",
+        type: "Some.Type.Model msg",
+        args: [ "msg" ]
       }
     ],
     values: [

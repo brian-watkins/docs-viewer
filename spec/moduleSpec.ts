@@ -54,5 +54,14 @@ describe("when a module is clicked", () => {
       expect(textOf(types.item(0))).toEqual("typeAliasOne")
       expect(textOf(types.item(1))).toEqual("typeAliasTwo")
     })
+
+    it("shows the details for each documented type alias", () => {
+      var typeAliases = findAll("#documentation .type-alias-block")
+      expect(textOf(findWithin(typeAliases.item(0), ".title"))).toContain("type alias typeAliasOne msgA msgB = Some.Type.blah msgA msgB")
+      expect(textOf(findWithin(typeAliases.item(0), ".comment"))).toContain("Represents something cool")
+
+      expect(textOf(findWithin(typeAliases.item(1), ".title"))).toContain("type alias typeAliasTwo msg = Some.Type.Model msg")
+      expect(textOf(findWithin(typeAliases.item(1), ".comment"))).toContain("Represents something awesome")
+    })
   })
 })
