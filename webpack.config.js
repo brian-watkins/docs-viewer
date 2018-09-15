@@ -1,6 +1,10 @@
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
 module.exports = {
   entry: "./src/index.tsx",
   output: {
+      publicPath: "/",
       filename: "bundle.js",
       path: __dirname + "/dist"
   },
@@ -10,7 +14,7 @@ module.exports = {
 
   resolve: {
       // Add '.ts' and '.tsx' as resolvable extensions.
-      extensions: [".ts", ".tsx", ".js", ".json"]
+      extensions: [".ts", ".tsx", ".js", ".json", ".scss"]
   },
 
   module: {
@@ -19,7 +23,16 @@ module.exports = {
           { test: /\.tsx?$/, loader: "awesome-typescript-loader" },
 
           // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
-          { enforce: "pre", test: /\.js$/, loader: "source-map-loader" }
+          { enforce: "pre", test: /\.js$/, loader: "source-map-loader" },
+
+          {
+            test: /\.scss$/,
+            use: [
+                process.env.NODE_ENV !== "production" ? "style-loader" : MiniCssExtractPlugin.loader,
+                "css-loader", // translates CSS into CommonJS
+                "sass-loader" // compiles Sass to CSS, using Node Sass by default
+            ]
+          }
       ]
   },
 
@@ -30,5 +43,25 @@ module.exports = {
   externals: {
       "react": "React",
       "react-dom": "ReactDOM"
+  },
+
+  plugins: [
+    new HtmlWebpackPlugin({
+        title: "Elmer Documentation",
+        template: "./src/template.html"
+    }),
+    new MiniCssExtractPlugin({
+        // Options similar to the same options in webpackOptions.output
+        // both options are optional
+        filename: "[name].css",
+        chunkFilename: "[id].css"
+    })
+  ],
+
+  devServer: {
+    historyApiFallback: {
+        disableDotRule: true
+    }
   }
+
 };
