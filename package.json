@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack",
+    "start": "webpack-dev-server",
+    "build": "webpack",
     "test": "karma start"
   },
   "author": "",
@@ -31,6 +32,7 @@
     "source-map-loader": "^0.2.4",
     "typescript": "^3.0.3",
     "webpack": "^4.17.2",
-    "webpack-cli": "^3.1.0"
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-server": "^3.1.8"
   }
 }
