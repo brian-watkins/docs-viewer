@@ -1,10 +1,8 @@
 import * as React from "react"
 import {
   Route,
-  Link,
   RouteComponentProps,
 } from 'react-router-dom'
-
 import { ShowModule } from "./ShowModule"
 import { ModuleList } from "./ModuleList"
 import { ModuleDocumentation } from "../model/ModuleDocumentation"
@@ -16,10 +14,19 @@ interface MatchProps { moduleName: string }
 
 export class App extends React.Component<AppProps, {}> {
   render = () => (
-    <div>
-      <ModuleList docs={this.props.docs} />
+    <div id="container">
+      <Route exact path={"/"} render={this.showModuleList} />
+      <Route path={"/module/:moduleName"} render={this.showModuleList} />
       <Route path={"/module/:moduleName"} render={this.showModule} />
     </div>
+  )
+
+  showModuleList = (props: RouteComponentProps<MatchProps>) => (
+    <ModuleList
+      docs={this.props.docs}
+      history={props.history}
+      currentModule={props.match.params.moduleName}
+    />
   )
 
   showModule = (props: RouteComponentProps<MatchProps>) => (

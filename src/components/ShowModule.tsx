@@ -6,17 +6,16 @@ import * as DocumentationParser from "../parser/DocumentationParser"
 import { ValueDocumentation } from "../model/ValueDocumentation";
 import { Block } from "./Block";
 
-interface ModuleRouteParams { moduleName : string }
 
 interface ShowModuleProps { 
   docs: ModuleDocumentation
 }
 
 export const ShowModule = (props: ShowModuleProps) => 
-  <div>
-    <div id="title">
+  <div id="module">
+    <h1>
       { props.docs.name }
-    </div>
+    </h1>
     <div id="values">
       <ul>
         { props.docs.values.map(showFunction) }

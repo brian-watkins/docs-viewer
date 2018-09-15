@@ -14,12 +14,17 @@ describe("when a module is clicked", () => {
   beforeEach(() => {
     renderApp(testDocs)
 
-    const moduleItems = findAll("#modules li a")
+    const moduleItems = findAll("#module-list li")
     click(moduleItems.item(1))
   })
   
-  it("shows the title of the module", async () => {
-    var title = find("#title")
+  it("highlights the selected module", () => {
+    var selectedItem = find("#module-list li.selected")
+    expect(textOf(selectedItem)).toEqual("Module1.Module2")
+  })
+
+  it("shows the title of the module", () => {
+    var title = find("#module h1")
     expect(textOf(title)).toEqual("Module1.Module2")
   })
 

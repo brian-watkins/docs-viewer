@@ -1,19 +1,38 @@
 import * as React from "react"
-import { Link } from "react-router-dom"
 import { ModuleDocumentation } from "../model/ModuleDocumentation"
+import { History } from "history";
 
-export interface ModuleListProps { docs : Array<ModuleDocumentation> }
 
-export const ModuleList = (props: ModuleListProps) => (
-  <div id="modules">
-    <ul>
-      { props.docs.map(moduleItem) }
-    </ul>
-  </div>
-)
+export interface ModuleListProps { 
+  docs : Array<ModuleDocumentation>,
+  history: History,
+  currentModule: string
+}
 
-const moduleItem = (moduleDoc: ModuleDocumentation) => (
-  <li key={moduleDoc.name}>
-    <Link to={`/module/${moduleDoc.name}`}>{moduleDoc.name}</Link>
-  </li>
-)
+export class ModuleList extends React.Component<ModuleListProps, {}> {
+  render = () => (
+    <div id="module-list">
+      <ul>
+        { this.props.docs.map(this.moduleItem) }
+      </ul>
+    </div>
+  )
+
+  moduleItem = (moduleDoc: ModuleDocumentation) => (
+    <li 
+      key={moduleDoc.name} 
+      className={ this.isModuleSelected(moduleDoc.name) ? "selected" : "" } 
+      onClick={ () => this.goToPage(`/module/${moduleDoc.name}`) } 
+    >
+      {moduleDoc.name}
+    </li>
+  )
+  
+  isModuleSelected = (name: string) => (
+    this.props.currentModule === name
+  )
+
+  goToPage = (location: string) => {
+    this.props.history.push(location)
+  }
+}

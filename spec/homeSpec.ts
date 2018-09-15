@@ -8,7 +8,7 @@ describe("home page", () => {
   })
 
   it("shows a list of modules", () => {
-    var modules = findAll("#modules li")
+    var modules = findAll("#module-list li")
     expect(textOf(modules.item(0))).toEqual("Module1")
     expect(textOf(modules.item(1))).toEqual("Module1.Module2")
     expect(textOf(modules.item(2))).toEqual("Module1.Module3")
