@@ -1,6 +1,7 @@
 $link-color: #2196F3;
 $text-color: #333333;
-$font-stack: 'Oxygen', sans-serif;
+$font-stack: 'Source Sans Pro', sans-serif;
+$fixed-width-font-stack: 'Roboto Mono', sans-serif;
 
 body {
   font: 100% $font-stack;
@@ -8,11 +9,6 @@ body {
   background-color: #fafafa;
   padding: 0px;
   margin: 0px;
-}
-
-
-.title {
-  color: red;
 }
 
 a:visited, a:link, a:active {
@@ -52,6 +48,17 @@ a:hover {
   h1 {
     font-size: 2em;
     font-weight: bold;
+  }
+}
+
+#documentation {
+  h1 {
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+
+  .title {
+    font: 100% $fixed-width-font-stack
   }
 }
 

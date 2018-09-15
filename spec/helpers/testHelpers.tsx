@@ -30,3 +30,7 @@ export const textOf = (element: HTMLElement): string => {
 export const click = (element: HTMLElement) => {
   element.click()
 }
+
+export const expectLinkTo = (element: HTMLElement, expectedHref: string) => {
+  expect(element.getAttribute("href")).toEqual(expectedHref)
+}

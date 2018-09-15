@@ -4,7 +4,6 @@ import { ModuleDocumentation } from "../model/ModuleDocumentation";
 import { DocumentationBlock, ValueBlock, AliasBlock } from "../model/DocumentationBlock"
 import * as DocumentationParser from "../parser/DocumentationParser"
 import { ValueDocumentation } from "../model/ValueDocumentation";
-import { Block } from "./Block";
 
 
 interface ShowModuleProps { 
@@ -19,7 +18,7 @@ export const ShowModule = (props: ShowModuleProps) =>
     <div id="values">
       <ul>
         { props.docs.values.map(showFunction) }
-        { props.docs.aliases.map(showTypeAlias) }
+        { props.docs.aliases.map(showTypeAliasName) }
       </ul>
     </div>
     <div id="documentation">
@@ -32,24 +31,34 @@ const printBlock = (block: DocumentationBlock, index: number) => {
     case "comment": 
       return <ReactMarkdown source={block.value} key={index} />
     case "value": 
-      return <Block className="value-block" key={block.name} title={valueTitle(block)} comment={block.comment} /> 
+      return showValue(block)
     case "alias":
-      return <Block className="type-alias-block" key={block.name} title={typeAliasTitle(block)} comment={block.comment} />
+      return showTypeAlias(block)
   }
 }
 
-const valueTitle = (block: ValueBlock): string => (
-  `${block.name} : ${block.type}`
+const showValue = (block: ValueBlock) => (
+  <div key={block.name} className="value-block">
+    <div className="title">
+      <a className="name" href={`#${block.name}`}>{block.name}</a> : {block.type}
+    </div>
+    <ReactMarkdown className="comment" source={block.comment} />
+  </div>
 )
 
-const typeAliasTitle = (block: AliasBlock): string => (
-  `type alias ${block.name} ${block.args.join(' ')} = ${block.type}`
+const showTypeAlias = (block: AliasBlock) => (
+  <div key={block.name} className="type-alias-block">
+    <div className="title">
+      type alias <a className="name" href={`#${block.name}`}>{block.name}</a> {block.args.join(' ')} = {block.type}
+    </div>
+    <ReactMarkdown className="comment" source={block.comment} />
+  </div>
 )
 
 const showFunction = (value: ValueDocumentation) => (
   <li key={value.name} className="function">{value.name}</li>
 )
 
-const showTypeAlias = (value: ValueDocumentation) => (
+const showTypeAliasName = (value: ValueDocumentation) => (
   <li key={value.name} className="type-alias">{value.name}</li>
 )

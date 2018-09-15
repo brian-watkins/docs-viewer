@@ -1,6 +1,6 @@
 import { renderApp } from "./helpers/renderApp";
 import { testDocs } from "./fixtures/testDocumentation"
-import { findAll, find, findWithin, textOf, click } from "./helpers/testHelpers"
+import { findAll, find, findWithin, textOf, click, expectLinkTo } from "./helpers/testHelpers"
 
 var wait = () => {
   return new Promise((resolve) => {
@@ -40,6 +40,13 @@ describe("when a module is clicked", () => {
       expect(textOf(values.item(1))).toEqual("funcTwo")
     })
 
+    it("adds a link to the value", () => {
+      var values = findAll("#documentation .value-block")
+      expectLinkTo(findWithin(values.item(0), ".name"), "#funcOne")
+      expectLinkTo(findWithin(values.item(1), ".name"), "#funcTwo")
+      expectLinkTo(findWithin(values.item(2), ".name"), "#funcThree")
+    })
+
     it("shows the details for each documented value", () => {
       var values = findAll("#documentation .value-block")
       expect(textOf(findWithin(values.item(0), ".title"))).toContain("funcOne : String -> String")
@@ -60,6 +67,12 @@ describe("when a module is clicked", () => {
       expect(textOf(types.item(1))).toEqual("typeAliasTwo")
     })
 
+    it("adds a link to the type alias", () => {
+      var typeAliases = findAll("#documentation .type-alias-block")
+      expectLinkTo(findWithin(typeAliases.item(0), ".name"), "#typeAliasOne")
+      expectLinkTo(findWithin(typeAliases.item(1), ".name"), "#typeAliasTwo")
+    })
+
     it("shows the details for each documented type alias", () => {
       var typeAliases = findAll("#documentation .type-alias-block")
       expect(textOf(findWithin(typeAliases.item(0), ".title"))).toContain("type alias typeAliasOne msgA msgB = Some.Type.blah msgA msgB")
@@ -70,3 +83,4 @@ describe("when a module is clicked", () => {
     })
   })
 })
+
