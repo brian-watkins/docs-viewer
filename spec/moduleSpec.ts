@@ -47,12 +47,18 @@ describe("when a module is clicked", () => {
       expectLinkTo(findWithin(values.item(2), ".name"), "#funcThree")
     })
 
+    it("links to an item documented in another file", () => {
+      var values = findAll("#documentation .value-block")
+      expectLinkTo(findWithin(values.item(0), "[data-arg-link]"), "/module/Module1#FunAlias")
+      expectLinkTo(findWithin(values.item(1), "[data-arg-link]"), "/module/Module1.Module3#SomeFunction")
+    })
+
     it("shows the details for each documented value", () => {
       var values = findAll("#documentation .value-block")
-      expect(textOf(findWithin(values.item(0), ".title"))).toContain("funcOne : String -> String")
+      expect(textOf(findWithin(values.item(0), ".title"))).toContain("funcOne : FunAlias msg -> String")
       expect(textOf(findWithin(values.item(0), ".comment"))).toContain("Here is a comment about funcOne")
 
-      expect(textOf(findWithin(values.item(1), ".title"))).toContain("funcTwo : Int -> String")
+      expect(textOf(findWithin(values.item(1), ".title"))).toContain("funcTwo : Int -> SomeFunction")
       expect(textOf(findWithin(values.item(1), ".comment"))).toContain("Here is a comment about funcTwo")
 
       expect(textOf(findWithin(values.item(2), ".title"))).toContain("funcThree : Int -> Int")

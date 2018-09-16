@@ -3,8 +3,15 @@ import { ModuleDocumentation } from "../../src/model/ModuleDocumentation"
 export const testDocs : Array<ModuleDocumentation> = [
   { 
     name: "Module1",
-    comment: "Comment about Module1",
-    aliases: [],
+    comment: "Comment about Module1\n\n# Stuff\n@docs FunAlias",
+    aliases: [
+      { 
+        name: "FunAlias",
+        comment: "Represents something fun",
+        type: "Some.Other.Type msg",
+        args: [ "msg" ]
+      }
+    ],
     values: []
   },
   { 
@@ -28,12 +35,12 @@ export const testDocs : Array<ModuleDocumentation> = [
       { 
         name: "funcOne",
         comment: "Here is a comment about funcOne\n\n\tAnd here is a code block.\n\tHere is some more code.\n",
-        type: "String -> String"
+        type: "Module1.FunAlias msg -> String"
       },
       { 
         name: "funcTwo",
         comment: "Here is a comment about funcTwo",
-        type: "Int -> String"
+        type: "Int -> Module1.Module3.SomeFunction"
       },
       {
         name: "funcThree",
@@ -43,8 +50,14 @@ export const testDocs : Array<ModuleDocumentation> = [
     ]
   },
   { name: "Module1.Module3",
-    comment: "Comment about Module3",
+    comment: "Comment about Module3\n\n# Things\n@docs SomeFunction",
     aliases: [],
-    values: []
+    values: [
+      {
+        name: "SomeFunction",
+        comment: "Here is some function",
+        type: "String -> Bool"
+      }
+    ]
   }
 ]
