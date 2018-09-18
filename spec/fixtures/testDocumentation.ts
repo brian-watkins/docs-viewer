@@ -40,7 +40,7 @@ export const testDocs : Array<ModuleDocumentation> = [
     values: [
       { 
         name: "funcOne",
-        comment: "Here is a comment about funcOne\n\n\tAnd here is a code block.\n\tHere is some more code.\n",
+        comment: "Here is a comment about funcOne\n\n\ttarget \"selector1 selector2\"\n\ttarget \"selector3\"\n",
         type: "Module1.FunAlias msg -> String"
       },
       { 

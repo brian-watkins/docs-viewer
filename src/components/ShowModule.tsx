@@ -6,6 +6,7 @@ import * as DocumentationParser from "../parser/DocumentationParser"
 import { ValueDocumentation } from "../model/ValueDocumentation";
 import { TypeDefinition } from "./TypeDefinition"
 import { TypeReference } from "./TypeReference";
+import { CodeBlock } from "./CodeBlock"
 
 interface ShowModuleProps {
   allDocs: Array<ModuleDocumentation>,
@@ -27,7 +28,7 @@ export class ShowModule extends React.Component<ShowModuleProps> {
   printBlock = (block: DocumentationBlock, index: number) => {
     switch (block.kind) {
       case "comment": 
-        return <ReactMarkdown source={block.value} key={index} />
+        return <ReactMarkdown source={block.value} key={index} renderers={{code: CodeBlock}} />
       case "value": 
         return this.showValue(block)
       case "alias":
@@ -42,7 +43,7 @@ export class ShowModule extends React.Component<ShowModuleProps> {
         <span className="separator">:</span>
         <TypeDefinition docs={this.props.allDocs} definition={block.type} />
       </div>
-      <ReactMarkdown className="comment" source={block.comment} />
+      <ReactMarkdown className="comment" source={block.comment} renderers={{code: CodeBlock}} />
     </div>
   )
   
@@ -55,7 +56,7 @@ export class ShowModule extends React.Component<ShowModuleProps> {
         <span className="separator">=</span>
         <TypeDefinition docs={this.props.allDocs} definition={block.type} />
       </div>
-      <ReactMarkdown className="comment" source={block.comment} />
+      <ReactMarkdown className="comment" source={block.comment} renderers={{code: CodeBlock}} />
     </div>
   )
   
