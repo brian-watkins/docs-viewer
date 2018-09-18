@@ -56,10 +56,35 @@ a:hover {
   h1 {
     font-size: 1.5em;
     font-weight: bold;
+    padding: 14px 0px 14px 0px;
   }
 
   .title {
     font: 100% $fixed-width-font-stack
+  }
+
+  .comment {
+    padding-left: 21px;
+  }
+
+  .separator {
+    display: inline-block;
+  }
+
+  .separator::before {
+    content: "\00a0";
+  }
+
+  .separator::after {
+    content: "\00a0";
+  }
+
+  .type-arg {
+    display: inline-block;
+  }
+
+  .type-arg::before {
+    content: "\00a0";
   }
 }
 
@@ -68,34 +93,27 @@ a:hover {
 }
 
 .type-alias-block {
+  padding-bottom: 28px;
+
   .definition {
     padding-left: 28px;
   }
-  .separator {
-    display: inline-block;
-    margin: 0px 9px;
-  }
-  .type-arg {
-    display: inline-block;
-    padding-left: 9px;
-  }
+
   .type-qualifier {
     color: $light-text-color;
     display: inline-block;
-    padding-right: 9px;
   }
+  .type-qualifier::after {
+    content: "\00a0";
+  }
+
 }
 
 .value-block {
+  padding-bottom: 28px;
+
   .definition {
     display: inline-block;
   }
-  .separator {
-    display: inline-block;
-    margin: 0px 9px;
-  }
-  .type-arg {
-    display: inline-block;
-    padding-left: 9px;
-  }
+
 }
