@@ -16,12 +16,12 @@ export const testDocs : Array<ModuleDocumentation> = [
   },
   { 
     name: "Module1.Module2",
-    comment: "Comment about Module1.Module2\n\n# Type Alias\n@docs typeAliasOne\n\n# First Functions\n@docs funcOne, funcTwo\n\n# More Stuff\n@docs typeAliasTwo, funcThree",
+    comment: "Comment about Module1.Module2\n\n# Type Alias\n@docs typeAliasOne, typeAliasThree\n\n# First Functions\n@docs funcOne, funcTwo\n\n# More Stuff\n@docs typeAliasTwo, funcThree",
     aliases: [
       { 
         name: "typeAliasOne",
         comment: "Represents something cool",
-        type: "Some.Type.blah msgA msgB",
+        type: "Some.Type.Blah msgA msgB",
         args: [ "msgA", "msgB" ]
       },
       { 
@@ -29,6 +29,12 @@ export const testDocs : Array<ModuleDocumentation> = [
         comment: "Represents something awesome",
         type: "Some.Type.Model msg",
         args: [ "msg" ]
+      },
+      {
+        name: "typeAliasThree",
+        comment: "Links to another Type Alias",
+        type: "String -> Module1.Module3.AwesomeAlias",
+        args: []
       }
     ],
     values: [
@@ -45,13 +51,20 @@ export const testDocs : Array<ModuleDocumentation> = [
       {
         name: "funcThree",
         comment: "Here is a comment about funcThree",
-        type: "Int -> Int"
+        type: "Some.Other.FunType -> Int"
       }
     ]
   },
   { name: "Module1.Module3",
-    comment: "Comment about Module3\n\n# Things\n@docs SomeFunction",
-    aliases: [],
+    comment: "Comment about Module3\n\n# Things\n@docs AwesomeAlias, SomeFunction",
+    aliases: [
+      {
+        name: "AwesomeAlias",
+        comment: "Represents something awesome",
+        type: "String",
+        args: []
+      }
+    ],
     values: [
       {
         name: "SomeFunction",

@@ -30,7 +30,7 @@ export class App extends React.Component<AppProps, {}> {
   )
 
   showModule = (props: RouteComponentProps<MatchProps>) => (
-    <ShowModule docs={ this.docsFor(props.match.params.moduleName) } />
+    <ShowModule allDocs={this.props.docs} docs={ this.docsFor(props.match.params.moduleName) } />
   )
 
   docsFor(moduleName: string) {

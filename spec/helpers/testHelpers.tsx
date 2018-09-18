@@ -23,6 +23,14 @@ export const findWithin = (element: HTMLElement, selector: string): HTMLElement 
   return el
 }
 
+export const findAllWithin = (element: HTMLElement, selector: string): NodeListOf<HTMLElement> => {
+  if (!element) {
+    fail("Cannot find all within null element!")
+    return null
+  }
+  return element.querySelectorAll(selector)
+}
+
 export const textOf = (element: HTMLElement): string => {
   return element ? element.textContent : null
 }
@@ -31,6 +39,15 @@ export const click = (element: HTMLElement) => {
   element.click()
 }
 
-export const expectLinkTo = (element: HTMLElement, expectedHref: string) => {
+export const expectLink = (element: HTMLElement, expectedHref: string, expectedText: string) => {
   expect(element.getAttribute("href")).toEqual(expectedHref)
+  expect(textOf(element)).toContain(expectedText)
+}
+
+export const expectNotWithin = (element: HTMLElement, selector: string) => {
+  expect(element.querySelector(selector)).toBeNull()
+}
+
+export const expectAttribute = (element: HTMLElement, name: string, expectedValue: string) => {
+  expect(element.getAttribute(name)).toEqual(expectedValue)
 }

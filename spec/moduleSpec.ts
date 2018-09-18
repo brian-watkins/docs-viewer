@@ -1,6 +1,6 @@
 import { renderApp } from "./helpers/renderApp";
 import { testDocs } from "./fixtures/testDocumentation"
-import { findAll, find, findWithin, textOf, click, expectLinkTo } from "./helpers/testHelpers"
+import { findAll, find, findWithin, textOf, click, expectLink, expectNotWithin, expectAttribute, findAllWithin } from "./helpers/testHelpers"
 
 var wait = () => {
   return new Promise((resolve) => {
@@ -42,27 +42,44 @@ describe("when a module is clicked", () => {
 
     it("adds a link to the value", () => {
       var values = findAll("#documentation .value-block")
-      expectLinkTo(findWithin(values.item(0), ".name"), "#funcOne")
-      expectLinkTo(findWithin(values.item(1), ".name"), "#funcTwo")
-      expectLinkTo(findWithin(values.item(2), ".name"), "#funcThree")
+      expectAttribute(values.item(0), "id", "funcOne")
+      expectLink(findWithin(values.item(0), "[data-type-name]"), "/module/Module1.Module2#funcOne", "funcOne")
+
+      expectAttribute(values.item(1), "id", "funcTwo")
+      expectLink(findWithin(values.item(1), "[data-type-name]"), "/module/Module1.Module2#funcTwo", "funcTwo")
+
+      expectAttribute(values.item(2), "id", "funcThree")
+      expectLink(findWithin(values.item(2), "[data-type-name]"), "/module/Module1.Module2#funcThree", "funcThree")
     })
 
-    it("links to an item documented in another file", () => {
-      var values = findAll("#documentation .value-block")
-      expectLinkTo(findWithin(values.item(0), "[data-arg-link]"), "/module/Module1#FunAlias")
-      expectLinkTo(findWithin(values.item(1), "[data-arg-link]"), "/module/Module1.Module3#SomeFunction")
+    it("shows the definition for each documented value", () => {
+      var values = findAll("#documentation .value-block .definition")
+
+      expectTypeDefinition(values.item(0), [ "FunAlias msg", "String" ])
+      expectTypeDefinition(values.item(1), [ "Int", "SomeFunction" ])
+      expectTypeDefinition(values.item(2), [ "FunType", "Int" ])
     })
 
-    it("shows the details for each documented value", () => {
-      var values = findAll("#documentation .value-block")
-      expect(textOf(findWithin(values.item(0), ".title"))).toContain("funcOne : FunAlias msg -> String")
-      expect(textOf(findWithin(values.item(0), ".comment"))).toContain("Here is a comment about funcOne")
+    it("shows the comment for each documented value", () => {
+      var values = findAll("#documentation .value-block .comment")
+      expect(textOf(values.item(0))).toContain("Here is a comment about funcOne")
+      expect(textOf(values.item(1))).toContain("Here is a comment about funcTwo")
+      expect(textOf(values.item(2))).toContain("Here is a comment about funcThree")
+    })
 
-      expect(textOf(findWithin(values.item(1), ".title"))).toContain("funcTwo : Int -> SomeFunction")
-      expect(textOf(findWithin(values.item(1), ".comment"))).toContain("Here is a comment about funcTwo")
+    describe("when the referenced type is known", () => {
+      it("links to types documented in another file", () => {
+        var values = findAll("#documentation .value-block .definition")
+        expectLink(findWithin(values.item(0), "[data-arg-link]"), "/module/Module1#FunAlias", "FunAlias")
+        expectLink(findWithin(values.item(1), "[data-arg-link]"), "/module/Module1.Module3#SomeFunction", "SomeFunction")
+      })
+    })
 
-      expect(textOf(findWithin(values.item(2), ".title"))).toContain("funcThree : Int -> Int")
-      expect(textOf(findWithin(values.item(2), ".comment"))).toContain("Here is a comment about funcThree")
+    describe("when the refereced type is not known", () => {
+      it("does not link to the type", () => {
+        var values = findAll("#documentation .value-block .definition")
+        expectNotWithin(values.item(2), "[data-arg-link]")
+      })
     })
   })
 
@@ -75,18 +92,52 @@ describe("when a module is clicked", () => {
 
     it("adds a link to the type alias", () => {
       var typeAliases = findAll("#documentation .type-alias-block")
-      expectLinkTo(findWithin(typeAliases.item(0), ".name"), "#typeAliasOne")
-      expectLinkTo(findWithin(typeAliases.item(1), ".name"), "#typeAliasTwo")
+      expectAttribute(typeAliases.item(0), "id", "typeAliasOne")
+      expectLink(findWithin(typeAliases.item(0), "[data-type-name]"), "/module/Module1.Module2#typeAliasOne", "typeAliasOne")
+
+      expectAttribute(typeAliases.item(1), "id", "typeAliasThree")
+      expectLink(findWithin(typeAliases.item(1), "[data-type-name]"), "/module/Module1.Module2#typeAliasThree", "typeAliasThree")
+
+      expectAttribute(typeAliases.item(2), "id", "typeAliasTwo")
+      expectLink(findWithin(typeAliases.item(2), "[data-type-name]"), "/module/Module1.Module2#typeAliasTwo", "typeAliasTwo")
     })
 
-    it("shows the details for each documented type alias", () => {
-      var typeAliases = findAll("#documentation .type-alias-block")
-      expect(textOf(findWithin(typeAliases.item(0), ".title"))).toContain("type alias typeAliasOne msgA msgB = Some.Type.blah msgA msgB")
-      expect(textOf(findWithin(typeAliases.item(0), ".comment"))).toContain("Represents something cool")
+    it("shows the comment for the documented type alias", () => {
+      var typeAliases = findAll("#documentation .type-alias-block .comment")
+      expect(textOf(typeAliases.item(0))).toContain("Represents something cool")
+      expect(textOf(typeAliases.item(1))).toContain("Links to another Type Alias")
+      expect(textOf(typeAliases.item(2))).toContain("Represents something awesome")
+    })
 
-      expect(textOf(findWithin(typeAliases.item(1), ".title"))).toContain("type alias typeAliasTwo msg = Some.Type.Model msg")
-      expect(textOf(findWithin(typeAliases.item(1), ".comment"))).toContain("Represents something awesome")
+    it("shows the definition for the documented type alias", () => {
+      var typeAliases = findAll("#documentation .type-alias-block .definition")
+      expectTypeDefinition(typeAliases.item(0), [ "Blah msgA msgB" ])
+      expectTypeDefinition(typeAliases.item(1), [ "String", "AwesomeAlias" ])
+      expectTypeDefinition(typeAliases.item(2), [ "Model msg" ])
+    })
+
+    describe("when the aliased type is unknown", () => {
+      it("does not link to the unknown type", () => {
+        var typeAliases = findAll("#documentation .type-alias-block .definition")
+        expectNotWithin(typeAliases.item(0), "[data-arg-link]")
+        expectNotWithin(typeAliases.item(2), "[data-arg-link]")
+      })
+    })
+
+    describe("when the aliased type is known", () => {
+      it("links to the aliased type", () => {
+        var typeAliases = findAll("#documentation .type-alias-block .definition")
+        expectLink(findWithin(typeAliases.item(1), "[data-arg-link]"), "/module/Module1.Module3#AwesomeAlias", "AwesomeAlias")
+      })
     })
   })
 })
 
+const expectTypeDefinition = (element: HTMLElement, expectedTypes: Array<string>) => {
+  const typeParts = findAllWithin(element, ".type-value")
+  expectedTypes.map((expectedType, index) => {
+    expectedType.split(" ").map((typeWord) => {
+      expect(textOf(typeParts.item(index))).toContain(typeWord)
+    })
+  })
+}

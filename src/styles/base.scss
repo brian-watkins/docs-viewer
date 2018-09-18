@@ -1,5 +1,6 @@
 $link-color: #2196F3;
 $text-color: #333333;
+$light-text-color: #666666;
 $font-stack: 'Source Sans Pro', sans-serif;
 $fixed-width-font-stack: 'Roboto Mono', sans-serif;
 
@@ -64,4 +65,37 @@ a:hover {
 
 #container {
   display: flex;
+}
+
+.type-alias-block {
+  .definition {
+    padding-left: 28px;
+  }
+  .separator {
+    display: inline-block;
+    margin: 0px 9px;
+  }
+  .type-arg {
+    display: inline-block;
+    padding-left: 9px;
+  }
+  .type-qualifier {
+    color: $light-text-color;
+    display: inline-block;
+    padding-right: 9px;
+  }
+}
+
+.value-block {
+  .definition {
+    display: inline-block;
+  }
+  .separator {
+    display: inline-block;
+    margin: 0px 9px;
+  }
+  .type-arg {
+    display: inline-block;
+    padding-left: 9px;
+  }
 }

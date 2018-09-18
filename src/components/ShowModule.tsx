@@ -1,81 +1,82 @@
 import * as React from "react"
 import * as ReactMarkdown from 'react-markdown'
-import { Link } from "react-router-dom"
 import { ModuleDocumentation } from "../model/ModuleDocumentation";
 import { DocumentationBlock, ValueBlock, AliasBlock } from "../model/DocumentationBlock"
 import * as DocumentationParser from "../parser/DocumentationParser"
 import { ValueDocumentation } from "../model/ValueDocumentation";
+import { TypeDefinition } from "./TypeDefinition"
+import { TypeReference } from "./TypeReference";
 
-
-interface ShowModuleProps { 
+interface ShowModuleProps {
+  allDocs: Array<ModuleDocumentation>,
   docs: ModuleDocumentation
 }
 
-export const ShowModule = (props: ShowModuleProps) => 
-  <div id="module">
-    <h1>
-      { props.docs.name }
-    </h1>
-    <div id="values">
-      <ul>
-        { props.docs.values.map(showFunction) }
-        { props.docs.aliases.map(showTypeAliasName) }
-      </ul>
+export class ShowModule extends React.Component<ShowModuleProps> {
+  render = () => (
+    <div id="module">
+      <h1>
+        { this.props.docs.name }
+      </h1>
+      <div id="values">
+        <ul>
+          { this.props.docs.values.map(this.showFunction) }
+          { this.props.docs.aliases.map(this.showTypeAliasName) }
+        </ul>
+      </div>
+      <div id="documentation">
+        { DocumentationParser.parse(this.props.docs).map(this.printBlock) }
+      </div>
     </div>
-    <div id="documentation">
-      { DocumentationParser.parse(props.docs).map(printBlock) }
-    </div>
-  </div>
+  )
 
-const printBlock = (block: DocumentationBlock, index: number) => {
-  switch (block.kind) {
-    case "comment": 
-      return <ReactMarkdown source={block.value} key={index} />
-    case "value": 
-      return showValue(block)
-    case "alias":
-      return showTypeAlias(block)
+  printBlock = (block: DocumentationBlock, index: number) => {
+    switch (block.kind) {
+      case "comment": 
+        return <ReactMarkdown source={block.value} key={index} />
+      case "value": 
+        return this.showValue(block)
+      case "alias":
+        return this.showTypeAlias(block)
+    }
   }
+  
+  showValue = (block: ValueBlock) => (
+    <div key={block.name} id={block.name} className="value-block">
+      <div className="title">
+        <TypeReference module={this.props.docs.name} name={block.name} data-type-name />
+        <span className="separator">:</span>
+        <TypeDefinition docs={this.props.allDocs} definition={block.type} />
+      </div>
+      <ReactMarkdown className="comment" source={block.comment} />
+    </div>
+  )
+  
+  showTypeAlias = (block: AliasBlock) => (
+    <div key={block.name} id={block.name} className="type-alias-block">
+      <div className="title">
+        <span className="type-qualifier">type alias</span>
+        <TypeReference module={this.props.docs.name} name={block.name} data-type-name />
+        { block.args.map(this.showArg) }
+        <span className="separator">=</span>
+        <TypeDefinition docs={this.props.allDocs} definition={block.type} />
+      </div>
+      <ReactMarkdown className="comment" source={block.comment} />
+    </div>
+  )
+  
+  showArg = (arg: string, index: number) => {
+    return <span key={`${arg}-${index}`} className="type-arg">{ arg }</span>
+  }
+  
+  showFunction = (value: ValueDocumentation) => (
+    <li key={value.name} className="function">{value.name}</li>
+  )
+  
+  showTypeAliasName = (value: ValueDocumentation) => (
+    <li key={value.name} className="type-alias">{value.name}</li>
+  )
 }
 
-const showValue = (block: ValueBlock) => (
-  <div key={block.name} className="value-block">
-    <div className="title">
-      <a className="name" href={`#${block.name}`}>{block.name}</a> : {withLinks(block.type)}
-    </div>
-    <ReactMarkdown className="comment" source={block.comment} />
-  </div>
-)
 
-const withLinks = (typeString: string) => {
-  const regex = /((\w+\.)+)(\w+)/g
 
-  let match
-  let start = 0
-  let parts = []
-  while ((match = regex.exec(typeString)) != null) {
-    parts.push(<span key={start}>{typeString.substring(start, match.index)}</span>)
-    parts.push(<Link key={`${start}-link`} to={`/module/${match[1].slice(0, -1)}#${match[3]}`} data-arg-link>{match[3]}</Link>)
-    start = regex.lastIndex
-  }
-  parts.push(<span key={start}>{typeString.substring(start)}</span>)
-
-  return parts
-}
-
-const showTypeAlias = (block: AliasBlock) => (
-  <div key={block.name} className="type-alias-block">
-    <div className="title">
-      type alias <a className="name" href={`#${block.name}`}>{block.name}</a> {block.args.join(' ')} = {block.type}
-    </div>
-    <ReactMarkdown className="comment" source={block.comment} />
-  </div>
-)
-
-const showFunction = (value: ValueDocumentation) => (
-  <li key={value.name} className="function">{value.name}</li>
-)
-
-const showTypeAliasName = (value: ValueDocumentation) => (
-  <li key={value.name} className="type-alias">{value.name}</li>
-)
