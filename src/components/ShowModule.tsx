@@ -18,12 +18,6 @@ export class ShowModule extends React.Component<ShowModuleProps> {
       <h1>
         { this.props.docs.name }
       </h1>
-      <div id="values">
-        <ul>
-          { this.props.docs.values.map(this.showFunction) }
-          { this.props.docs.aliases.map(this.showTypeAliasName) }
-        </ul>
-      </div>
       <div id="documentation">
         { DocumentationParser.parse(this.props.docs).map(this.printBlock) }
       </div>

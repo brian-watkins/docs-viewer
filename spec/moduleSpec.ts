@@ -34,12 +34,6 @@ describe("when a module is clicked", () => {
   })
 
   describe("when there are values", () => {
-    it("shows the documented values", () => {
-      var values = findAll("#values li.function")
-      expect(textOf(values.item(0))).toEqual("funcOne")
-      expect(textOf(values.item(1))).toEqual("funcTwo")
-    })
-
     it("adds a link to the value", () => {
       var values = findAll("#documentation .value-block")
       expectAttribute(values.item(0), "id", "funcOne")
@@ -84,12 +78,6 @@ describe("when a module is clicked", () => {
   })
 
   describe("when there are type aliases", () => {
-    it("shows the documented type aliases", () => {
-      var types = findAll("#values li.type-alias")
-      expect(textOf(types.item(0))).toEqual("typeAliasOne")
-      expect(textOf(types.item(1))).toEqual("typeAliasTwo")
-    })
-
     it("adds a link to the type alias", () => {
       var typeAliases = findAll("#documentation .type-alias-block")
       expectAttribute(typeAliases.item(0), "id", "typeAliasOne")
