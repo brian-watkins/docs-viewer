@@ -4,7 +4,7 @@ import { BrowserRouter } from "react-router-dom"
 import { App } from "./components/App"
 import "./styles/base.scss"
 
-import { testDocs } from "../spec/fixtures/testDocumentation"
+import * as testDocs from "../elmer-docs.json"
 
 ReactDOM.render(
   <BrowserRouter>
