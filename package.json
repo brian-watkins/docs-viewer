@@ -6,16 +6,19 @@
   "scripts": {
     "start": "NODE_ENV=dev webpack-dev-server",
     "build": "NODE_ENV=production webpack",
-    "test": "karma start"
+    "test": "karma start --single-run",
+    "test:watch": "karma start"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@types/highlight.js": "^9.12.3",
+    "@types/parsimmon": "^1.10.0",
     "@types/react": "^16.4.13",
     "@types/react-dom": "^16.0.7",
     "@types/react-router-dom": "^4.3.0",
     "highlight.js": "^9.12.0",
+    "parsimmon": "^1.12.0",
     "react": "^16.5.0",
     "react-dom": "^16.5.0",
     "react-markdown": "^3.6.0",

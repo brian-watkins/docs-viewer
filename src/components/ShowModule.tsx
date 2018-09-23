@@ -3,10 +3,10 @@ import * as ReactMarkdown from 'react-markdown'
 import { ModuleDocumentation } from "../model/ModuleDocumentation";
 import { DocumentationBlock, ValueBlock, AliasBlock } from "../model/DocumentationBlock"
 import * as DocumentationParser from "../parser/DocumentationParser"
-import { ValueDocumentation } from "../model/ValueDocumentation";
 import { TypeDefinition } from "./TypeDefinition"
 import { TypeReference } from "./TypeReference";
 import { CodeBlock } from "./CodeBlock"
+import { TypeArgs } from "./TypeArgs";
 
 interface ShowModuleProps {
   allDocs: Array<ModuleDocumentation>,
@@ -52,25 +52,13 @@ export class ShowModule extends React.Component<ShowModuleProps> {
       <div className="title">
         <span className="type-qualifier">type alias</span>
         <TypeReference module={this.props.docs.name} name={block.name} data-type-name />
-        { block.args.map(this.showArg) }
+        <TypeArgs args={ block.args } />
         <span className="separator">=</span>
         <TypeDefinition docs={this.props.allDocs} definition={block.type} />
       </div>
       <ReactMarkdown className="comment" source={block.comment} renderers={{code: CodeBlock}} />
     </div>
-  )
-  
-  showArg = (arg: string, index: number) => {
-    return <span key={`${arg}-${index}`} className="type-arg">{ arg }</span>
-  }
-  
-  showFunction = (value: ValueDocumentation) => (
-    <li key={value.name} className="function">{value.name}</li>
-  )
-  
-  showTypeAliasName = (value: ValueDocumentation) => (
-    <li key={value.name} className="type-alias">{value.name}</li>
-  )
+  )  
 }
 
 

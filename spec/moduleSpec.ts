@@ -1,6 +1,6 @@
 import { renderApp } from "./helpers/renderApp";
 import { testDocs } from "./fixtures/testDocumentation"
-import { findAll, find, findWithin, textOf, click, expectLink, expectNotWithin, expectAttribute, findAllWithin } from "./helpers/testHelpers"
+import { findAll, find, findWithin, textOf, click, expectLink, expectNotWithin, expectAttribute, typeOf, expectTypeDefinition } from "./helpers/testHelpers"
 
 var wait = () => {
   return new Promise((resolve) => {
@@ -49,9 +49,9 @@ describe("when a module is clicked", () => {
     it("shows the definition for each documented value", () => {
       var values = findAll("#documentation .value-block .definition")
 
-      expectTypeDefinition(values.item(0), [ "FunAlias msg", "String" ])
-      expectTypeDefinition(values.item(1), [ "Int", "SomeFunction" ])
-      expectTypeDefinition(values.item(2), [ "FunType", "Int" ])
+      expectTypeDefinition(values.item(0), [ typeOf("FunAlias", "msg"), typeOf("String") ])
+      expectTypeDefinition(values.item(1), [ typeOf("Int"), typeOf("SomeFunction") ])
+      expectTypeDefinition(values.item(2), [ typeOf("FunType"), typeOf("Int") ])
     })
 
     it("shows the comment for each documented value", () => {
@@ -90,6 +90,13 @@ describe("when a module is clicked", () => {
       expectLink(findWithin(typeAliases.item(2), "[data-type-name]"), "/module/Module1.Module2#typeAliasTwo", "typeAliasTwo")
     })
 
+    it("shows the args for the type alias", () => {
+      var typeAliases = findAll("#documentation .type-alias-block")
+      expect(textOf(findWithin(typeAliases.item(0), ".type-args"))).toEqual("msgA msgB")
+      expectNotWithin(typeAliases.item(1), ".type-args")
+      expect(textOf(findWithin(typeAliases.item(2), ".type-args"))).toEqual("msg")
+    })
+
     it("shows the comment for the documented type alias", () => {
       var typeAliases = findAll("#documentation .type-alias-block .comment")
       expect(textOf(typeAliases.item(0))).toContain("Represents something cool")
@@ -99,9 +106,9 @@ describe("when a module is clicked", () => {
 
     it("shows the definition for the documented type alias", () => {
       var typeAliases = findAll("#documentation .type-alias-block .definition")
-      expectTypeDefinition(typeAliases.item(0), [ "Blah msgA msgB" ])
-      expectTypeDefinition(typeAliases.item(1), [ "String", "AwesomeAlias" ])
-      expectTypeDefinition(typeAliases.item(2), [ "Model msg" ])
+      expectTypeDefinition(typeAliases.item(0), [ typeOf("Blah", "msgA msgB") ])
+      expectTypeDefinition(typeAliases.item(1), [ typeOf("String"), typeOf("AwesomeAlias") ])
+      expectTypeDefinition(typeAliases.item(2), [ typeOf("Model", "msg") ])
     })
 
     describe("when the aliased type is unknown", () => {
@@ -120,12 +127,3 @@ describe("when a module is clicked", () => {
     })
   })
 })
-
-const expectTypeDefinition = (element: HTMLElement, expectedTypes: Array<string>) => {
-  const typeParts = findAllWithin(element, ".type-value")
-  expectedTypes.map((expectedType, index) => {
-    expectedType.split(" ").map((typeWord) => {
-      expect(textOf(typeParts.item(index))).toContain(typeWord)
-    })
-  })
-}

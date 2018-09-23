@@ -51,3 +51,46 @@ export const expectNotWithin = (element: HTMLElement, selector: string) => {
 export const expectAttribute = (element: HTMLElement, name: string, expectedValue: string) => {
   expect(element.getAttribute(name)).toEqual(expectedValue)
 }
+
+export type TypeExpectation = SingleTypeExpectation | ComplexTypeExpectation
+  
+export interface SingleTypeExpectation {
+  kind: 'single',
+  name: string,
+  args: string
+}
+
+export interface ComplexTypeExpectation {
+  kind: 'complex',
+  types: Array<TypeExpectation>
+}
+
+export const typeOf = (name: string, args?: string): TypeExpectation => {
+  return { kind: 'single', name, args }
+}
+
+export const complexTypeOf = (types: Array<TypeExpectation>): TypeExpectation => {
+  return { kind: 'complex', types }
+}
+
+export const expectTypeDefinition = (element: HTMLElement, expectedTypes: Array<TypeExpectation>) => {
+  const actualTypes = findAllWithin(element, ":scope > .type-designation")
+  expectedTypes.map((expectedType, index) => {
+    const actualType = actualTypes.item(index)
+    switch (expectedType.kind) {
+      case "single":
+        expect(textOf(findWithin(actualType, ".type-name"))).toEqual(expectedType.name)
+        if (expectedType.args) {
+          expect(textOf(findWithin(actualType, ".type-args"))).toEqual(expectedType.args)
+        } else {
+          expectNotWithin(actualType, ".type-args")
+        }
+        break;
+
+      case "complex":
+        expectTypeDefinition(actualType, expectedType.types)
+        break;
+    }
+
+  })
+}

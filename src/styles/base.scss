@@ -141,13 +141,22 @@ a:hover {
     content: "\00a0";
   }
 
-  .type-arg {
+  .type-args {
     display: inline-block;
   }
 
-  .type-arg::before {
+  .type-args::before {
     content: "\00a0";
   }
+
+  .type-designation>.type-designation:first-child::before {
+    content: "("
+  }
+
+  .type-designation>.type-designation:last-child::after {
+    content: ")"
+  }
+
 }
 
 #container {
@@ -158,6 +167,7 @@ a:hover {
   padding-bottom: 28px;
 
   .definition {
+    display: block;
     padding-left: 28px;
   }
 
@@ -165,10 +175,10 @@ a:hover {
     color: $light-text-color;
     display: inline-block;
   }
+
   .type-qualifier::after {
     content: "\00a0";
   }
-
 }
 
 .value-block {

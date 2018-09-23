@@ -7,7 +7,7 @@ export interface TypeReferenceProps extends React.HTMLAttributes<HTMLAnchorEleme
 }
 
 export const TypeReference = (props: TypeReferenceProps) => (
-  <Link {...props} to={`/module/${props.module}#${props.name}`} data-arg-link>
+  <Link {...props} to={`/module/${props.module}#${props.name}`} className="type-name" data-arg-link>
     {props.name}
   </Link>
 )
