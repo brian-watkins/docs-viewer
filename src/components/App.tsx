@@ -6,7 +6,7 @@ import {
 import { ShowModule } from "./ShowModule"
 import { ModuleList } from "./ModuleList"
 import { ModuleDocumentation } from "../model/ModuleDocumentation"
-
+import "../styles/base"
 
 export interface AppProps { docs : Array<ModuleDocumentation> }
 

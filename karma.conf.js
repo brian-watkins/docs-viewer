@@ -33,7 +33,7 @@ module.exports = function(config) {
     webpack: {
       mode: "development",
       resolve: {
-        extensions: [".ts", ".tsx", ".js", ".json"]
+        extensions: [".ts", ".tsx", ".js", ".json", ".scss"]
       },
       module: {
         rules: [
@@ -43,6 +43,10 @@ module.exports = function(config) {
             use: [
               "awesome-typescript-loader" 
             ]
+          },
+          {
+            test: /\.scss$/,
+            use: [ "style-loader", "css-loader", "sass-loader" ]
           }
         ]
       },
