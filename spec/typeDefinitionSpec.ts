@@ -1,5 +1,17 @@
 import { renderApp } from "./helpers/renderApp";
-import { findAll, click, expectTypeDefinition, textOf, find, expectLink, findWithin, expectNotWithin, TypeExpectation, typeOf, complexTypeOf } from "./helpers/testHelpers";
+import { 
+  findAll,
+  click,
+  expectTypeDefinition,
+  textOf,
+  expectLink,
+  findWithin,
+  expectNotWithin,
+  TypeExpectation,
+  typeOf,
+  complexTypeOf,
+  tupleTypeOf
+} from "./helpers/testHelpers";
 import { ModuleDocumentation } from "../src/model/ModuleDocumentation";
 
 describe("type definitions", () => {
@@ -98,7 +110,41 @@ describe("type definitions", () => {
     })
   })
 
-  describe("when the type definition has a parenthesis", () => {
+  describe("when the type definition is a tuple", () => {
+    describe("when the types are all external", () => {
+      it("displays the type correctly", () => {
+        renderWithTypeDefinition("( String, Int )")
+        expectTypes([
+          tupleTypeOf(
+            typeOf("String"),
+            typeOf("Int")
+          )
+        ])
+      })  
+    })
+
+    describe("when the tuple contains an internal type", () => {
+      beforeEach(() => {
+        renderWithTypeDefinition("( Other.Module.SuperAlias model msg, Html.Html msg )")
+      })
+
+      it("displays the type correctly", () => {  
+        expectTypes([
+          tupleTypeOf(
+            typeOf("SuperAlias", "model msg"),
+            typeOf("Html", "msg")
+          )
+        ])
+      })
+
+      it("links to the internal type", () => {
+        var values = findAll("#documentation .value-block .definition")
+        expectLink(findWithin(values.item(0), "[data-arg-link]"), "/module/Other.Module#SuperAlias", "SuperAlias")
+      })
+    })
+  })
+
+  describe("when the type definition has a nested function", () => {
     it("displays the type correctly", () => {
       renderWithTypeDefinition("(String -> Int) -> String")
       expectTypes([

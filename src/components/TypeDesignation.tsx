@@ -1,8 +1,9 @@
 import * as React from "react"
 import { TypeReference } from "./TypeReference";
-import { TypeValue, InternalType, ExternalType, BatchType } from "../parser/TypeDefinitionParser";
+import { TypeValue, InternalType, ExternalType, BatchType, TupleType } from "../parser/TypeDefinitionParser";
 import { FunctionType } from "./FunctionType";
 import { TypeArgs } from "./TypeArgs";
+import { assertNever } from "../util/Never";
 
 export interface TypeDesignationProps {
   value: TypeValue
@@ -14,10 +15,14 @@ export const TypeDesignation = (props: TypeDesignationProps) => {
       return showInternalType(props.value)
     case "external":
       return showExternalType(props.value)
+    case "tuple":
+      return showTupleType(props.value)
     case "batch":
-      return showBatchType("type-designation", props.value)
+      return showBatchType(props.value)
     case "unknown":
       return null
+    default:
+      return assertNever(props.value)
   }
 }
 
@@ -35,8 +40,19 @@ const showExternalType = (value: ExternalType) => (
   </span>
 )
 
-const showBatchType = (className: string, value: BatchType) => (
-  <FunctionType className={className}>
+const showTupleType = (tuple: TupleType) => (
+  <span className="type-designation">
+    <span className="tuple-part">
+      <TypeDesignation value={tuple.left} />
+    </span>
+    <span className="tuple-part">
+      <TypeDesignation value={tuple.right} />
+    </span>
+  </span>
+)
+
+const showBatchType = (value: BatchType) => (
+  <FunctionType className="type-designation">
     { value.types.map((val, index) => <TypeDesignation key={`batch-${index}`} value={val}/>) }
   </FunctionType>
 )

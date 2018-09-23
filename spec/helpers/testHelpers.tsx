@@ -52,7 +52,7 @@ export const expectAttribute = (element: HTMLElement, name: string, expectedValu
   expect(element.getAttribute(name)).toEqual(expectedValue)
 }
 
-export type TypeExpectation = SingleTypeExpectation | ComplexTypeExpectation
+export type TypeExpectation = SingleTypeExpectation | ComplexTypeExpectation | TupleTypeExpectation
   
 export interface SingleTypeExpectation {
   kind: 'single',
@@ -65,8 +65,18 @@ export interface ComplexTypeExpectation {
   types: Array<TypeExpectation>
 }
 
+export interface TupleTypeExpectation {
+  kind: 'tuple',
+  left: TypeExpectation,
+  right: TypeExpectation
+}
+
 export const typeOf = (name: string, args?: string): TypeExpectation => {
   return { kind: 'single', name, args }
+}
+
+export const tupleTypeOf = (left: TypeExpectation, right: TypeExpectation): TypeExpectation => {
+  return { kind: 'tuple', left, right }
 }
 
 export const complexTypeOf = (types: Array<TypeExpectation>): TypeExpectation => {
@@ -87,10 +97,15 @@ export const expectTypeDefinition = (element: HTMLElement, expectedTypes: Array<
         }
         break;
 
+      case "tuple":
+        const tupleParts = findAllWithin(actualType, ".tuple-part")
+        expectTypeDefinition(tupleParts.item(0), [ expectedType.left ])
+        expectTypeDefinition(tupleParts.item(1), [ expectedType.right ])
+        break;
+
       case "complex":
         expectTypeDefinition(actualType, expectedType.types)
         break;
     }
-
   })
 }

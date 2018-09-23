@@ -14,6 +14,12 @@ export interface ExternalType {
   args: Array<string>
 }
 
+export interface TupleType {
+  kind: "tuple",
+  left: TypeValue,
+  right: TypeValue
+}
+
 export interface BatchType {
   kind: "batch",
   types: Array<TypeValue>
@@ -23,7 +29,7 @@ export interface UnknownType {
   kind: "unknown"
 }
 
-export type TypeValue = InternalType | ExternalType | BatchType | UnknownType
+export type TypeValue = InternalType | ExternalType | TupleType | BatchType | UnknownType
 
 
 export const parse = (allDocs: Array<ModuleDocumentation>, typeString: string) : TypeValue => {
@@ -54,11 +60,7 @@ const typeDefinitionLanguage = (allDocs: Array<ModuleDocumentation>) => (
 
     typeArgs: (p) => Pars.whitespace.then(p.word).many(),
 
-    nestedTypeDefinition: (p) => (
-      p.typeDefinition.wrap(Pars.string("("), Pars.string(")"))
-    ),
-
-    typeDesignation: (p) => (
+    namedType: (p) => (
       Pars.seqMap(p.typeName, p.typeArgs, (name, args) => {
         if (name.module && containsType(allDocs, name.module, name.name)) {
           return internalType(name.module, name.name, args)
@@ -69,14 +71,34 @@ const typeDefinitionLanguage = (allDocs: Array<ModuleDocumentation>) => (
 
     typeSeparator: () => Pars.seq(Pars.whitespace, Pars.string("->"), Pars.whitespace),
 
-    typeDefinition: (p) => Pars.sepBy(p.nestedTypeDefinition.or(p.typeDesignation), p.typeSeparator).map((types) => {
-      if (types.length == 1) return types[0]
+    batchType: (p) => (
+      Pars.seqMap(p.simpleType, p.typeSeparator.then(p.simpleType).atLeast(1), (r, rs) => {
+        return {
+          kind: "batch",
+          types: [r].concat(rs)
+        }
+      })
+    ),
 
-      return {
-        kind: "batch",
-        types
-      }
-    })
+    nestedBatchType: (p) => p.batchType.wrap(Pars.string("("), Pars.string(")")),
+
+    tupleType: (p) => (
+      Pars.seqMap(p.simpleType, Pars.string(", "), p.simpleType, (left, _, right) => {
+        return {
+          kind: "tuple",
+          left,
+          right
+        }
+      }).wrap(Pars.string("( "), Pars.string(" )"))
+    ),
+
+    simpleType: (p) => (
+      p.nestedBatchType.or(p.tupleType).or(p.namedType)
+    ),
+
+    typeDefinition: (p) => (
+      p.batchType.or(p.simpleType)
+    )
 
   })
 )

@@ -157,6 +157,15 @@ a:hover {
     content: ")"
   }
 
+  .type-designation>.tuple-part:first-child::before {
+    content: "("
+  }
+  .type-designation>.tuple-part:first-child::after {
+    content: ", "
+  }
+  .type-designation>.tuple-part:last-child::after {
+    content: ")"
+  }
 }
 
 #container {

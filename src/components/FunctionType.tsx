@@ -6,9 +6,11 @@ export interface FunctionTypeProps {
   className: string
 }
 
-export const FunctionType = (props: FunctionTypeProps) => {
-  return <span className={ props.className }>{ props.children.reduce(joinTypes, []) }</span>
-}
+export const FunctionType = (props: FunctionTypeProps) => (
+  <span className={ props.className }>
+    { props.children.reduce(joinTypes, []) }
+  </span>
+)
 
 const joinTypes = (elements : Array<JSX.Element>, element: JSX.Element, index: number) => {
   if (elements.length > 0) {
