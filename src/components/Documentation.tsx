@@ -8,12 +8,12 @@ import { TypeReference } from "./TypeReference";
 import { CodeBlock } from "./CodeBlock"
 import { TypeArgs } from "./TypeArgs";
 
-interface ShowModuleProps {
+interface DocumentationProps {
   allDocs: Array<ModuleDocumentation>,
   docs: ModuleDocumentation
 }
 
-export class ShowModule extends React.Component<ShowModuleProps> {
+export class Documentation extends React.Component<DocumentationProps> {
   render = () => (
     <div id="module">
       <h1>

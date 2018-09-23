@@ -3,7 +3,7 @@ import {
   Route,
   RouteComponentProps,
 } from 'react-router-dom'
-import { ShowModule } from "./ShowModule"
+import { Documentation } from "./Documentation"
 import { ModuleList } from "./ModuleList"
 import { ModuleDocumentation } from "../model/ModuleDocumentation"
 import "../styles/base"
@@ -43,7 +43,7 @@ export class App extends React.Component<AppProps, {}> {
   )
 
   showModule = (props: RouteComponentProps<MatchProps>) => (
-    <ShowModule allDocs={this.props.docs} docs={ this.docsFor(props.match.params.moduleName) } />
+    <Documentation allDocs={this.props.docs} docs={ this.docsFor(props.match.params.moduleName) } />
   )
 
   docsFor(moduleName: string) {
