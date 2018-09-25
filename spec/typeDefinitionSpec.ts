@@ -11,7 +11,7 @@ import {
   typeOf,
   complexTypeOf,
   tupleTypeOf,
-  saturatedTypeOf
+  typeVariableOf
 } from "./helpers/testHelpers";
 import { ModuleDocumentation } from "../src/model/ModuleDocumentation";
 
@@ -27,7 +27,7 @@ describe("type definitions", () => {
     describe("when the type definition has args", () => {
       it("displays the type correctly", () => {
         renderWithTypeDefinition("Elmer.TestState model msg")
-        expectTypes([typeOf("TestState", "model msg")])
+        expectTypes([typeOf("TestState", [typeVariableOf("model"), typeVariableOf("msg")])])
       })
     })
 
@@ -35,18 +35,52 @@ describe("type definitions", () => {
       it("displays the types correctly", () => {
         renderWithTypeDefinition("model")
         expectTypes([
-          typeOf(null, "model"),
+          typeOf(null, [typeVariableOf("model")]),
         ])
       })
     })
 
     describe("when the type designation has a type variable filled with a type", () => {
-      describe("when the type is saturated with a single type name", () => {
+      describe("when the type variable is filled with a single external type name", () => {
         it("displays the type correctly", () => {
           renderWithTypeDefinition("List.List String.String")
           expectTypes([
-            saturatedTypeOf("List", typeOf("String"))
+            typeOf("List", [typeOf("String")])
           ])
+        })
+      })
+
+      describe("when an internal type has a type variable filled with an external type", () => {
+        beforeEach(() => {
+          renderWithTypeDefinition("Other.Module.SuperAlias String.String")
+        })
+
+        it("displays the type correctly", () => {
+          expectTypes([
+            typeOf("SuperAlias", [
+              typeOf("String")
+            ])
+          ])
+        })
+
+        it("adds a link to the referenced type", () => {
+          expectTypeReference("/module/Other.Module#SuperAlias", "SuperAlias")
+        })
+      })
+
+      describe("when the type variable is filled with a single internal type name", () => {
+        beforeEach(() => {
+          renderWithTypeDefinition("List.List Other.Module.SuperAlias")
+        })
+
+        it("displays the type correctly", () => {
+          expectTypes([
+            typeOf("List", [typeOf("SuperAlias")])
+          ])
+        })
+
+        it("adds a link to the referenced type", () => {
+          expectTypeReference("/module/Other.Module#SuperAlias", "SuperAlias")
         })
       })
     })
@@ -58,12 +92,16 @@ describe("type definitions", () => {
     })
 
     it("displays the type correctly", () => {
-      expectTypes([typeOf("SuperType", "model msg")])
+      expectTypes([
+        typeOf("SuperType", [
+          typeVariableOf("model"),
+          typeVariableOf("msg")
+        ])
+      ])
     })
 
     it("does not contain a reference to the type", () => {
-      var values = findAll("#documentation .value-block .definition")
-      expectNotWithin(values.item(0), "[data-arg-link]")
+      expectNoTypeReference()
     })
   })
 
@@ -78,8 +116,7 @@ describe("type definitions", () => {
       })
   
       it("creates a reference to the other type", () => {
-        var values = findAll("#documentation .value-block .definition")
-        expectLink(findWithin(values.item(0), "[data-arg-link]"), "/module/Other.Module#SuperAlias", "SuperAlias")
+        expectTypeReference("/module/Other.Module#SuperAlias", "SuperAlias")
       })
     })
 
@@ -89,12 +126,16 @@ describe("type definitions", () => {
       })
   
       it("displays the type correctly", () => {  
-        expectTypes([typeOf("SuperAlias", "model msg")])
+        expectTypes([
+          typeOf("SuperAlias", [
+            typeVariableOf("model"),
+            typeVariableOf("msg")
+          ])
+        ])
       })
   
       it("creates a reference to the other type", () => {
-        var values = findAll("#documentation .value-block .definition")
-        expectLink(findWithin(values.item(0), "[data-arg-link]"), "/module/Other.Module#SuperAlias", "SuperAlias")
+        expectTypeReference("/module/Other.Module#SuperAlias", "SuperAlias")
       })
     })
   })
@@ -107,7 +148,10 @@ describe("type definitions", () => {
           typeOf("String"),
           typeOf("Int"),
           typeOf("String"),
-          typeOf("TestState", "model msg")
+          typeOf("TestState", [
+            typeVariableOf("model"),
+            typeVariableOf("msg")
+          ])
         ])
       })  
     })
@@ -121,14 +165,19 @@ describe("type definitions", () => {
         expectTypes([
           typeOf("String"),
           typeOf("Int"),
-          typeOf("SuperAlias", "model msg"),
-          typeOf("Html", "model msg")
+          typeOf("SuperAlias", [
+            typeVariableOf("model"),
+            typeVariableOf("msg")
+          ]),
+          typeOf("Html", [
+            typeVariableOf("model"),
+            typeVariableOf("msg")
+          ])
         ])
       })
 
       it("creates a reference to the other type", () => {
-        var values = findAll("#documentation .value-block .definition")
-        expectLink(findWithin(values.item(0), "[data-arg-link]"), "/module/Other.Module#SuperAlias", "SuperAlias")
+        expectTypeReference("/module/Other.Module#SuperAlias", "SuperAlias")
       })
     })
   })
@@ -154,15 +203,17 @@ describe("type definitions", () => {
       it("displays the type correctly", () => {  
         expectTypes([
           tupleTypeOf(
-            typeOf("SuperAlias", "model msg"),
-            typeOf("Html", "msg")
+            typeOf("SuperAlias", [
+              typeVariableOf("model"),
+              typeVariableOf("msg")
+            ]),
+            typeOf("Html", [typeVariableOf("msg")])
           )
         ])
       })
 
       it("links to the internal type", () => {
-        var values = findAll("#documentation .value-block .definition")
-        expectLink(findWithin(values.item(0), "[data-arg-link]"), "/module/Other.Module#SuperAlias", "SuperAlias")
+        expectTypeReference("/module/Other.Module#SuperAlias", "SuperAlias")
       })
     })
   })
@@ -193,6 +244,16 @@ describe("type definitions", () => {
 const expectTypes = (types: Array<TypeExpectation>) => {
   var values = findAll("#documentation .value-block .definition")
   expectTypeDefinition(values.item(0), types)
+}
+
+const expectTypeReference = (href: string, name: string) => {
+  var values = findAll("#documentation .value-block .definition")
+  expectLink(findWithin(values.item(0), "[data-arg-link]"), href, name)
+}
+
+const expectNoTypeReference = () => {
+  var values = findAll("#documentation .value-block .definition")
+  expectNotWithin(values.item(0), "[data-arg-link]")
 }
 
 const renderWithTypeDefinition = (defn: string) => {

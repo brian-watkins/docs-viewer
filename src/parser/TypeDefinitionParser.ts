@@ -5,19 +5,13 @@ export interface InternalType {
   kind: "internal",
   module: string,
   name: string,
-  args: Array<string>
+  args: Array<TypeValue>
 }
 
 export interface ExternalType {
   kind: "external",
   name: string,
-  args: Array<string>
-}
-
-export interface SaturatedType {
-  kind: "saturated",
-  parent: TypeValue,
-  types: Array<TypeValue>
+  args: Array<TypeValue>
 }
 
 export interface TypeVariable {
@@ -40,7 +34,7 @@ export interface UnknownType {
   kind: "unknown"
 }
 
-export type TypeValue = InternalType | ExternalType | TypeVariable | TupleType | BatchType | SaturatedType | UnknownType
+export type TypeValue = InternalType | ExternalType | TypeVariable | TupleType | BatchType | UnknownType
 
 
 export const parse = (allDocs: Array<ModuleDocumentation>, typeString: string) : TypeValue => {
@@ -101,30 +95,19 @@ const typeDefinitionLanguage = (allDocs: Array<ModuleDocumentation>) => (
       })
     ),
 
-    complexType: (p) => (
-      Pars.seqMap(p.typeName, Pars.whitespace.then(p.typeName).atLeast(1), (type, remaining) => {
-        return {
-          kind: "saturated",
-          parent: externalType(type.name, []),
-          types: remaining.map((t) => externalType(t.name, []))
+    typeLabel: (p) => (
+      Pars.seqMap(p.typeName, Pars.whitespace.then(p.typeLabel.or(p.typeVariable)).many(), (type, args) => {
+        if (type.module && containsType(allDocs, type.module, type.name)) {
+          return internalType(type.module, type.name, args)
         }
-      })
-    ),
-
-    simpleType: (p) => (
-      Pars.seqMap(p.typeName, Pars.whitespace.then(p.word).many(), (t, args) => {
-        if (t.module && containsType(allDocs, t.module, t.name)) {
-          return internalType(t.module, t.name, args)
-        }
-        return externalType(t.name, args)
+        return externalType(type.name, args)
       })
     ),
 
     type: (p) => (
       p.nestedBatchType
         .or(p.tupleType)
-        .or(Pars.lookahead(p.complexType).then(p.complexType))
-        .or(Pars.lookahead(p.simpleType).then(p.simpleType))
+        .or(p.typeLabel)
         .or(p.typeVariable)
     ),
 
@@ -135,7 +118,7 @@ const typeDefinitionLanguage = (allDocs: Array<ModuleDocumentation>) => (
   })
 )
 
-const externalType = (name: string, args: Array<string>) : ExternalType => (
+const externalType = (name: string, args: Array<TypeValue>) : ExternalType => (
   {
     kind: "external",
     name,
@@ -144,7 +127,7 @@ const externalType = (name: string, args: Array<string>) : ExternalType => (
 )
 
 
-const internalType = (moduleName: string, name: string, args: Array<string>) : InternalType => (
+const internalType = (moduleName: string, name: string, args: Array<TypeValue>) : InternalType => (
   {
     kind: "internal",
     module: moduleName,

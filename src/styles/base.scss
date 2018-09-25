@@ -170,6 +170,12 @@ a:hover {
   .type-designation>.tuple-part:last-child::after {
     content: ")"
   }
+
+  .type-name~[data-type-args] {
+    >.type-designation::before {
+      content: "\00a0"
+    }
+  }
 }
 
 #container {

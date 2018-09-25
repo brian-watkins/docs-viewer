@@ -52,12 +52,17 @@ export const expectAttribute = (element: HTMLElement, name: string, expectedValu
   expect(element.getAttribute(name)).toEqual(expectedValue)
 }
 
-export type TypeExpectation = SingleTypeExpectation | ComplexTypeExpectation | TupleTypeExpectation | SaturatedTypeExpectation
-  
+export type TypeExpectation = TypeVariableExpectation | SingleTypeExpectation | ComplexTypeExpectation | TupleTypeExpectation | SaturatedTypeExpectation
+
+export interface TypeVariableExpectation {
+  kind: "variable",
+  name: string
+}
+
 export interface SingleTypeExpectation {
   kind: 'single',
   name: string,
-  args: string
+  args: Array<TypeExpectation>
 }
 
 export interface ComplexTypeExpectation {
@@ -77,7 +82,7 @@ export interface SaturatedTypeExpectation {
   types: Array<TypeExpectation>
 }
 
-export const typeOf = (name: string, args?: string): TypeExpectation => {
+export const typeOf = (name: string, args?: Array<TypeExpectation>): TypeExpectation => {
   return { kind: 'single', name, args }
 }
 
@@ -85,12 +90,12 @@ export const tupleTypeOf = (left: TypeExpectation, right: TypeExpectation): Type
   return { kind: 'tuple', left, right }
 }
 
-export const saturatedTypeOf = (name: string, ...types: Array<TypeExpectation>): TypeExpectation => {
-  return { kind: "saturated", name, types }
-}
-
 export const complexTypeOf = (types: Array<TypeExpectation>): TypeExpectation => {
   return { kind: 'complex', types }
+}
+
+export const typeVariableOf = (name: string): TypeExpectation => {
+  return { kind: "variable", name }
 }
 
 export const expectTypeDefinition = (element: HTMLElement, expectedTypes: Array<TypeExpectation>) => {
@@ -103,21 +108,20 @@ export const expectTypeDefinition = (element: HTMLElement, expectedTypes: Array<
           expect(textOf(findWithin(actualType, ".type-name"))).toEqual(expectedType.name)
         }
         if (expectedType.args) {
-          expect(textOf(findWithin(actualType, ".type-args"))).toEqual(expectedType.args)
+          expectTypeDefinition(findWithin(actualType, "[data-type-args]"), expectedType.args)
         } else {
-          expectNotWithin(actualType, ".type-args")
+          expect(findWithin(actualType, "[data-type-args]").children.length).toEqual(0)
         }
+        break;
+
+      case "variable":
+        expect(textOf(actualType)).toEqual(expectedType.name)
         break;
 
       case "tuple":
         const tupleParts = findAllWithin(actualType, ".tuple-part")
         expectTypeDefinition(tupleParts.item(0), [ expectedType.left ])
         expectTypeDefinition(tupleParts.item(1), [ expectedType.right ])
-        break;
-
-      case "saturated":
-        expect(textOf(findWithin(actualType, ".type-name"))).toEqual(expectedType.name)
-        expectTypeDefinition(actualType, expectedType.types)
         break;
 
       case "complex":

@@ -7,6 +7,7 @@ import { TypeDefinition } from "./TypeDefinition"
 import { TypeReference } from "./TypeReference";
 import { CodeBlock } from "./CodeBlock"
 import { TypeArgs } from "./TypeArgs";
+import { TypeVariable } from "../parser/TypeDefinitionParser";
 
 interface DocumentationProps {
   allDocs: Array<ModuleDocumentation>,
@@ -52,7 +53,7 @@ export class Documentation extends React.Component<DocumentationProps> {
       <div className="title">
         <span className="type-qualifier">type alias</span>
         <TypeReference module={this.props.docs.name} name={block.name} data-type-name />
-        <TypeArgs args={ block.args } />
+        <TypeArgs args={ block.args.map((a) => ({ kind: "variable", name: a } as TypeVariable)) } />
         <span className="separator">=</span>
         <TypeDefinition docs={this.props.allDocs} definition={block.type} />
       </div>
