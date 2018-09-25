@@ -1,6 +1,6 @@
 import * as React from "react"
 import { TypeReference } from "./TypeReference";
-import { TypeValue, InternalType, ExternalType, BatchType, TupleType } from "../parser/TypeDefinitionParser";
+import { TypeValue, InternalType, ExternalType, BatchType, TupleType, SaturatedType, TypeVariable } from "../parser/TypeDefinitionParser";
 import { FunctionType } from "./FunctionType";
 import { TypeArgs } from "./TypeArgs";
 import { assertNever } from "../util/Never";
@@ -15,6 +15,10 @@ export const TypeDesignation = (props: TypeDesignationProps) => {
       return showInternalType(props.value)
     case "external":
       return showExternalType(props.value)
+    case "variable":
+      return showTypeVariable(props.value)
+    case "saturated":
+      return showSaturatedType(props.value)
     case "tuple":
       return showTupleType(props.value)
     case "batch":
@@ -40,6 +44,24 @@ const showExternalType = (value: ExternalType) => (
   </span>
 )
 
+const showTypeVariable = (value: TypeVariable) => (
+  <span className="type-designation">
+    <TypeArgs args={ [ value.name ] } />
+  </span>
+)
+
+const showSaturatedType = (value: SaturatedType) => {
+  switch (value.parent.kind) {
+    case "external":
+      return <span className="type-designation">
+        <span className="type-name">{ value.parent.name }</span>
+        { value.types.map((val, index) => <TypeDesignation key={`sat-${index}`} value={val} />) }
+      </span>
+    default:
+      null
+  }
+}
+
 const showTupleType = (tuple: TupleType) => (
   <span className="type-designation">
     <span className="tuple-part">
@@ -52,7 +74,7 @@ const showTupleType = (tuple: TupleType) => (
 )
 
 const showBatchType = (value: BatchType) => (
-  <FunctionType className="type-designation">
+  <FunctionType className="nested-function type-designation">
     { value.types.map((val, index) => <TypeDesignation key={`batch-${index}`} value={val}/>) }
   </FunctionType>
 )

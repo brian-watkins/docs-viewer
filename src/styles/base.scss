@@ -145,16 +145,20 @@ a:hover {
     display: inline-block;
   }
 
-  .type-args::before {
+  .type-name~.type-args::before {
     content: "\00a0";
   }
 
-  .type-designation>.type-designation:first-child::before {
+  .nested-function>.type-designation:first-child::before {
     content: "("
   }
 
-  .type-designation>.type-designation:last-child::after {
+  .nested-function>.type-designation:last-child::after {
     content: ")"
+  }
+
+  .type-name~.type-designation::before {
+    content: "\00a0"
   }
 
   .type-designation>.tuple-part:first-child::before {

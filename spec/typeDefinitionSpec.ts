@@ -10,22 +10,45 @@ import {
   TypeExpectation,
   typeOf,
   complexTypeOf,
-  tupleTypeOf
+  tupleTypeOf,
+  saturatedTypeOf
 } from "./helpers/testHelpers";
 import { ModuleDocumentation } from "../src/model/ModuleDocumentation";
 
 describe("type definitions", () => {
-  describe("when the type definition has one value", () => {
-    it("displays the type correctly", () => {
-      renderWithTypeDefinition("String")
-      expectTypes([typeOf("String")])
+  describe("when the definition is a single type", () => {
+    describe("when the type definition has no args", () => {
+      it("displays the type correctly", () => {
+        renderWithTypeDefinition("String.String")
+        expectTypes([typeOf("String")])
+      })
     })
-  })
+  
+    describe("when the type definition has args", () => {
+      it("displays the type correctly", () => {
+        renderWithTypeDefinition("Elmer.TestState model msg")
+        expectTypes([typeOf("TestState", "model msg")])
+      })
+    })
 
-  describe("when the type definition has one value with args", () => {
-    it("displays the type correctly", () => {
-      renderWithTypeDefinition("TestState model msg")
-      expectTypes([typeOf("TestState", "model msg")])
+    describe("when the type definition is simply a variable", () => {
+      it("displays the types correctly", () => {
+        renderWithTypeDefinition("model")
+        expectTypes([
+          typeOf(null, "model"),
+        ])
+      })
+    })
+
+    describe("when the type designation has a type variable filled with a type", () => {
+      describe("when the type is saturated with a single type name", () => {
+        it("displays the type correctly", () => {
+          renderWithTypeDefinition("List.List String.String")
+          expectTypes([
+            saturatedTypeOf("List", typeOf("String"))
+          ])
+        })
+      })
     })
   })
 
@@ -79,7 +102,7 @@ describe("type definitions", () => {
   describe("when the type definition has multiple type designations", () => {
     describe("when all the types are external", () => {
       it("displays the types correctly", () => {
-        renderWithTypeDefinition("String -> Int -> String -> TestState model msg")
+        renderWithTypeDefinition("String.String -> Basics.Int -> String.String -> Elmer.TestState model msg")
         expectTypes([
           typeOf("String"),
           typeOf("Int"),
@@ -91,7 +114,7 @@ describe("type definitions", () => {
 
     describe("when some types are internal", () => {
       beforeEach(() => {
-        renderWithTypeDefinition("String -> Int -> Other.Module.SuperAlias model msg -> Html.Html model msg")
+        renderWithTypeDefinition("String.String -> Basics.Int -> Other.Module.SuperAlias model msg -> Html.Html model msg")
       })
 
       it("displays the types correctly", () => {  
@@ -113,7 +136,7 @@ describe("type definitions", () => {
   describe("when the type definition is a tuple", () => {
     describe("when the types are all external", () => {
       it("displays the type correctly", () => {
-        renderWithTypeDefinition("( String, Int )")
+        renderWithTypeDefinition("( String.String, Basics.Int )")
         expectTypes([
           tupleTypeOf(
             typeOf("String"),
@@ -146,7 +169,7 @@ describe("type definitions", () => {
 
   describe("when the type definition has a nested function", () => {
     it("displays the type correctly", () => {
-      renderWithTypeDefinition("(String -> Int) -> String")
+      renderWithTypeDefinition("(String.String -> Basics.Int) -> String.String")
       expectTypes([
         complexTypeOf([
           typeOf("String"),

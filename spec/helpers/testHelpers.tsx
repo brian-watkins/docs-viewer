@@ -52,7 +52,7 @@ export const expectAttribute = (element: HTMLElement, name: string, expectedValu
   expect(element.getAttribute(name)).toEqual(expectedValue)
 }
 
-export type TypeExpectation = SingleTypeExpectation | ComplexTypeExpectation | TupleTypeExpectation
+export type TypeExpectation = SingleTypeExpectation | ComplexTypeExpectation | TupleTypeExpectation | SaturatedTypeExpectation
   
 export interface SingleTypeExpectation {
   kind: 'single',
@@ -71,12 +71,22 @@ export interface TupleTypeExpectation {
   right: TypeExpectation
 }
 
+export interface SaturatedTypeExpectation {
+  kind: 'saturated',
+  name: string,
+  types: Array<TypeExpectation>
+}
+
 export const typeOf = (name: string, args?: string): TypeExpectation => {
   return { kind: 'single', name, args }
 }
 
 export const tupleTypeOf = (left: TypeExpectation, right: TypeExpectation): TypeExpectation => {
   return { kind: 'tuple', left, right }
+}
+
+export const saturatedTypeOf = (name: string, ...types: Array<TypeExpectation>): TypeExpectation => {
+  return { kind: "saturated", name, types }
 }
 
 export const complexTypeOf = (types: Array<TypeExpectation>): TypeExpectation => {
@@ -89,7 +99,9 @@ export const expectTypeDefinition = (element: HTMLElement, expectedTypes: Array<
     const actualType = actualTypes.item(index)
     switch (expectedType.kind) {
       case "single":
-        expect(textOf(findWithin(actualType, ".type-name"))).toEqual(expectedType.name)
+        if (expectedType.name) {
+          expect(textOf(findWithin(actualType, ".type-name"))).toEqual(expectedType.name)
+        }
         if (expectedType.args) {
           expect(textOf(findWithin(actualType, ".type-args"))).toEqual(expectedType.args)
         } else {
@@ -101,6 +113,11 @@ export const expectTypeDefinition = (element: HTMLElement, expectedTypes: Array<
         const tupleParts = findAllWithin(actualType, ".tuple-part")
         expectTypeDefinition(tupleParts.item(0), [ expectedType.left ])
         expectTypeDefinition(tupleParts.item(1), [ expectedType.right ])
+        break;
+
+      case "saturated":
+        expect(textOf(findWithin(actualType, ".type-name"))).toEqual(expectedType.name)
+        expectTypeDefinition(actualType, expectedType.types)
         break;
 
       case "complex":

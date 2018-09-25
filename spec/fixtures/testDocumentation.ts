@@ -33,7 +33,7 @@ export const testDocs : Array<ModuleDocumentation> = [
       {
         name: "typeAliasThree",
         comment: "Links to another Type Alias",
-        type: "String -> Module1.Module3.AwesomeAlias",
+        type: "String.String -> Module1.Module3.AwesomeAlias",
         args: []
       }
     ],
@@ -41,17 +41,17 @@ export const testDocs : Array<ModuleDocumentation> = [
       { 
         name: "funcOne",
         comment: "Here is a comment about funcOne\n\n\ttarget \"selector1 selector2\"\n\ttarget \"selector3\"\n",
-        type: "Module1.FunAlias msg -> String"
+        type: "Module1.FunAlias msg -> String.String"
       },
       { 
         name: "funcTwo",
         comment: "Here is a comment about funcTwo",
-        type: "Int -> Module1.Module3.SomeFunction"
+        type: "Basics.Int -> Module1.Module3.SomeFunction"
       },
       {
         name: "funcThree",
         comment: "Here is a comment about funcThree",
-        type: "Some.Other.FunType -> Int"
+        type: "Some.Other.FunType -> Basics.Int"
       }
     ]
   },
@@ -61,7 +61,7 @@ export const testDocs : Array<ModuleDocumentation> = [
       {
         name: "AwesomeAlias",
         comment: "Represents something awesome",
-        type: "String",
+        type: "String.String",
         args: []
       }
     ],
@@ -69,7 +69,7 @@ export const testDocs : Array<ModuleDocumentation> = [
       {
         name: "SomeFunction",
         comment: "Here is some function",
-        type: "String -> Bool"
+        type: "String.String -> Basics.Bool"
       }
     ]
   }
