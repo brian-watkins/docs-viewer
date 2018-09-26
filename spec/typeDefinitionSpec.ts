@@ -23,6 +23,13 @@ const itHasTheTypeReference = () => {
 
 describe("type definitions", () => {
   describe("when the definition is a single type", () => {
+    describe("when the type definition is the unit type", () => {
+      it("displays the type correctly", () => {
+        renderWithTypeDefinition("()")
+        expectTypes([typeOf("()")])
+      })
+    })
+
     describe("when the type definition has no args", () => {
       it("displays the type correctly", () => {
         renderWithTypeDefinition("String.String")
@@ -103,6 +110,17 @@ describe("type definitions", () => {
         })
 
         itHasTheTypeReference()
+      })
+
+      describe("when a type variable is filled with the unit type", () => {
+        it("displays the type correctly", () => {
+          renderWithTypeDefinition("Some.Cool.FunModule ()")
+          expectTypes([
+            typeOf("FunModule", [
+              typeOf("()")
+            ])
+          ])
+        })
       })
 
       describe("when some type variables are filled but not all", () => {

@@ -105,7 +105,7 @@ const typeDefinitionLanguage = (allDocs: Array<ModuleDocumentation>) => (
     ),
 
     typeArgument: (p) => (
-      p.nestedTypeLabel.or(p.atomicTypeLabel).or(p.typeVariable)
+      p.nestedTypeLabel.or(p.atomicTypeLabel).or(p.typeVariable).or(p.unitType)
     ),
 
     typeLabel: (p) => (
@@ -116,11 +116,14 @@ const typeDefinitionLanguage = (allDocs: Array<ModuleDocumentation>) => (
 
     nestedTypeLabel: (p) => p.typeLabel.wrap(Pars.string("("), Pars.string(")")),
 
+    unitType: () => Pars.string("()").map(() => externalType("()", [])),
+
     type: (p) => (
       p.nestedBatchType
         .or(p.tupleType)
         .or(p.typeLabel)
         .or(p.typeVariable)
+        .or(p.unitType)
     ),
 
     typeDefinition: (p) => (
