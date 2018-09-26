@@ -36,6 +36,11 @@ export interface UnknownType {
 
 export type TypeValue = InternalType | ExternalType | TypeVariable | TupleType | BatchType | UnknownType
 
+interface TypeName {
+  module: string,
+  name: string
+}
+
 
 export const parse = (allDocs: Array<ModuleDocumentation>, typeString: string) : TypeValue => {
   const result = typeDefinitionLanguage(allDocs).typeDefinition.parse(typeString)
@@ -95,14 +100,21 @@ const typeDefinitionLanguage = (allDocs: Array<ModuleDocumentation>) => (
       })
     ),
 
+    atomicTypeLabel: (p) => (
+      p.typeName.map((type) => typeLabel(allDocs, type, []))
+    ),
+
+    typeArgument: (p) => (
+      p.nestedTypeLabel.or(p.atomicTypeLabel).or(p.typeVariable)
+    ),
+
     typeLabel: (p) => (
-      Pars.seqMap(p.typeName, Pars.whitespace.then(p.typeLabel.or(p.typeVariable)).many(), (type, args) => {
-        if (type.module && containsType(allDocs, type.module, type.name)) {
-          return internalType(type.module, type.name, args)
-        }
-        return externalType(type.name, args)
+      Pars.seqMap(p.typeName, Pars.whitespace.then(p.typeArgument).many(), (type, args) => {
+        return typeLabel(allDocs, type, args)
       })
     ),
+
+    nestedTypeLabel: (p) => p.typeLabel.wrap(Pars.string("("), Pars.string(")")),
 
     type: (p) => (
       p.nestedBatchType
@@ -117,6 +129,13 @@ const typeDefinitionLanguage = (allDocs: Array<ModuleDocumentation>) => (
 
   })
 )
+
+const typeLabel = (allDocs: Array<ModuleDocumentation>, type: TypeName, args: Array<TypeValue>): TypeValue => {
+  if (type.module && containsType(allDocs, type.module, type.name)) {
+    return internalType(type.module, type.name, args)
+  }
+  return externalType(type.name, args)
+}
 
 const externalType = (name: string, args: Array<TypeValue>) : ExternalType => (
   {

@@ -15,6 +15,12 @@ import {
 } from "./helpers/testHelpers";
 import { ModuleDocumentation } from "../src/model/ModuleDocumentation";
 
+const itHasTheTypeReference = () => {
+  it("provides a reference to the internal type", () => {
+    expectTypeReference("/module/Other.Module#SuperAlias", "SuperAlias")
+  })
+}
+
 describe("type definitions", () => {
   describe("when the definition is a single type", () => {
     describe("when the type definition has no args", () => {
@@ -63,9 +69,7 @@ describe("type definitions", () => {
           ])
         })
 
-        it("adds a link to the referenced type", () => {
-          expectTypeReference("/module/Other.Module#SuperAlias", "SuperAlias")
-        })
+        itHasTheTypeReference()
       })
 
       describe("when the type variable is filled with a single internal type name", () => {
@@ -79,8 +83,37 @@ describe("type definitions", () => {
           ])
         })
 
-        it("adds a link to the referenced type", () => {
-          expectTypeReference("/module/Other.Module#SuperAlias", "SuperAlias")
+        itHasTheTypeReference()
+      })
+
+      describe("when a type variable is filled with a type that has a variable", () => {
+        beforeEach(() => {
+          renderWithTypeDefinition("List.List (Other.Module.SuperAlias model msg)")
+        })
+
+        it("displays the type correctly", () => {
+          expectTypes([
+            typeOf("List", [
+              typeOf("SuperAlias", [
+                typeVariableOf("model"),
+                typeVariableOf("msg")
+              ])
+            ])
+          ])
+        })
+
+        itHasTheTypeReference()
+      })
+
+      describe("when some type variables are filled but not all", () => {
+        it("displays the type correctly", () => {
+          renderWithTypeDefinition("Dict.Dict String.String a")
+          expectTypes([
+            typeOf("Dict", [
+              typeOf("String"),
+              typeVariableOf("a")
+            ])
+          ])
         })
       })
     })
@@ -115,9 +148,7 @@ describe("type definitions", () => {
         expectTypes([typeOf("SuperAlias")])
       })
   
-      it("creates a reference to the other type", () => {
-        expectTypeReference("/module/Other.Module#SuperAlias", "SuperAlias")
-      })
+      itHasTheTypeReference()
     })
 
     describe("when the internal type has type args", () => {
@@ -134,9 +165,7 @@ describe("type definitions", () => {
         ])
       })
   
-      it("creates a reference to the other type", () => {
-        expectTypeReference("/module/Other.Module#SuperAlias", "SuperAlias")
-      })
+      itHasTheTypeReference()
     })
   })
 
@@ -176,9 +205,7 @@ describe("type definitions", () => {
         ])
       })
 
-      it("creates a reference to the other type", () => {
-        expectTypeReference("/module/Other.Module#SuperAlias", "SuperAlias")
-      })
+      itHasTheTypeReference()
     })
   })
 
@@ -212,9 +239,7 @@ describe("type definitions", () => {
         ])
       })
 
-      it("links to the internal type", () => {
-        expectTypeReference("/module/Other.Module#SuperAlias", "SuperAlias")
-      })
+      itHasTheTypeReference()
     })
   })
 

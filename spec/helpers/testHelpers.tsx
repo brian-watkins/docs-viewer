@@ -106,6 +106,7 @@ export const expectTypeDefinition = (element: HTMLElement, expectedTypes: Array<
       case "single":
         if (expectedType.name) {
           expect(textOf(findWithin(actualType, ".type-name"))).toEqual(expectedType.name)
+          expectAttribute(actualType, "data-has-args", expectedType.args ? "true" : "false")
         }
         if (expectedType.args) {
           expectTypeDefinition(findWithin(actualType, "[data-type-args]"), expectedType.args)

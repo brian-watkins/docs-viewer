@@ -29,14 +29,14 @@ export const TypeDesignation = (props: TypeDesignationProps) => {
 }
 
 const showInternalType = (value: InternalType) => (
-  <span className="type-designation">
+  <span className="type-designation" data-has-args={value.args.length > 0}>
     <TypeReference module={value.module} name={value.name} />
     <TypeArgs args={ value.args } />
   </span>
 )
 
 const showExternalType = (value: ExternalType) => (
-  <span className="type-designation">
+  <span className="type-designation" data-has-args={value.args.length > 0}>
     <span className="type-name">{ value.name }</span>
     <TypeArgs args={ value.args } />
   </span>

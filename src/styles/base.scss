@@ -176,6 +176,15 @@ a:hover {
       content: "\00a0"
     }
   }
+
+  [data-type-args]>.type-designation {
+    &[data-has-args='true']::before {
+      content: " ("
+    }
+    &[data-has-args='true']::after {
+      content: ")"
+    }
+  }
 }
 
 #container {
