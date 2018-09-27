@@ -259,6 +259,17 @@ describe("type definitions", () => {
 
       itHasTheTypeReference()
     })
+
+    describe("when the tuple is a type argument", () => {
+      it("displays the type correctly", () => {
+        renderWithTypeDefinition("List.List ( String.String, String.String )")
+        expectTypes([
+          typeOf("List", [
+            tupleTypeOf(typeOf("String"), typeOf("String"))
+          ])
+        ])
+      })
+    })
   })
 
   describe("when the type definition has a nested function", () => {
@@ -270,6 +281,20 @@ describe("type definitions", () => {
           typeOf("Int")
         ]),
         typeOf("String")
+      ])
+    })
+  })
+
+  describe("when the type definition has a nested function as a type argument", () => {
+    it("displays the type correctly", () => {
+      renderWithTypeDefinition("List.List (String.String -> Basics.Int)")
+      expectTypes([
+        typeOf("List", [
+          complexTypeOf([
+            typeOf("String"),
+            typeOf("Int")
+          ])
+        ])
       ])
     })
   })

@@ -105,7 +105,7 @@ const typeDefinitionLanguage = (allDocs: Array<ModuleDocumentation>) => (
     ),
 
     typeArgument: (p) => (
-      p.nestedTypeLabel.or(p.atomicTypeLabel).or(p.typeVariable).or(p.unitType)
+      p.nestedTypeLabel.or(p.nestedBatchType).or(p.tupleType).or(p.atomicTypeLabel).or(p.typeVariable).or(p.unitType)
     ),
 
     typeLabel: (p) => (
