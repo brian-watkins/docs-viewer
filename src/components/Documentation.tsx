@@ -29,7 +29,7 @@ export class Documentation extends React.Component<DocumentationProps> {
   printBlock = (block: DocumentationBlock, index: number) => {
     switch (block.kind) {
       case "comment": 
-        return <ReactMarkdown source={block.value} key={index} renderers={{code: CodeBlock}} />
+        return <ReactMarkdown className="overview-block" source={block.value} key={index} renderers={{code: CodeBlock}} />
       case "value": 
         return this.showValue(block)
       case "alias":

@@ -23,17 +23,14 @@ a:hover {
 }
 
 #banner {
-  width: 234px;
   padding: 0px;
-  margin: 56px 0px 56px 56px;
+  margin: 28px 56px 0px 56px;
 
   h1 {
+    font-weight: bolder;
+    padding: 7px 14px 7px 0px;
     margin: 0px;
-    border-width: 7px 0px 0px 0px;
-    border-color: #333333;
-    border-style: solid;
-    font-weight: bold;
-    padding: 7px 0px 0px 0px;  
+    font-size: 4em;
   }
 
   ul {
@@ -49,10 +46,14 @@ a:hover {
   }
 }
 
+#container {
+  display: flex;
+  margin: 56px 0px 112px 56px;
+}
+
 #module-list {
-  // background: #f5f5f5;
   width: 234px;
-  margin: 56px 0px 0px 56px;
+  margin: 0px;
 
   h1 {
     border-width: 7px 0px 0px 0px;
@@ -80,21 +81,22 @@ a:hover {
 }
 
 #module {
-  margin: 56px 56px 0px 56px;
-
+  margin: 0px 56px 0px 56px;
+  
   h1 {
     border-width: 7px 0px 0px 0px;
     border-color: #333333;
     border-style: solid;
     padding: 7px 0px 0px 0px;
     margin: 0px;
+    padding: 0px;
     font-weight: bold;
   }
 
 }
 
 #documentation {
-  width: 468px;
+  width: 524px;
   line-height: 1.4em;
 
   code {
@@ -102,18 +104,12 @@ a:hover {
   }
 
   pre code {
-    border-width: 0px 0px 0px 7px;
-    border-color: #e3f0fa;
-    border-style: solid;
-    padding: 21px 0px 25px 21px;
-    background: #fafafa;
-    overflow: visible;
+    padding: 21px;
+    background: #ffffff;
     font-size: 0.9em;
   }
 
   h1 {
-    border-width: 7px 0px 0px 0px;
-    border-color: #333333;
     border-style: none;
     padding: 7px 0px 0px 0px;
     font-weight: bold;
@@ -191,17 +187,19 @@ a:hover {
       white-space: pre;
     }
   }
-
-
 }
 
-#container {
-  display: flex;
+.overview-block p {
+  padding: 0px 28px 0px 28px;
 }
 
 .type-alias-block {
-  padding-bottom: 28px;
-
+  border-width: 0px 0px 0px 7px;
+  border-color: #e3f0fa;
+  border-style: solid;
+  margin-bottom: 28px;
+  background-color: #ffffff;
+  
   .definition {
     display: block;
     margin: 2px 0px 0px 28px;
@@ -215,13 +213,41 @@ a:hover {
   .type-qualifier::after {
     content: "\00a0";
   }
+
+  .title {
+    border-width: 0px 0px 3px 0px;
+    border-color: #e3f0fa;
+    border-style: dotted;
+
+    padding: 28px 0px 28px 0px;
+    margin: 0px 28px 0px 28px;
+  }
+
+  .comment {
+    padding: 7px 28px 21px 28px;
+  }
 }
 
 .value-block {
-  padding-bottom: 28px;
+  border-width: 0px 0px 0px 7px;
+  border-color: #e3f0fa;
+  border-style: solid;
+  margin-bottom: 28px;
+  background-color: #ffffff;
 
   .definition {
     display: inline-block;
   }
 
+  .title {
+    border-width: 0px 0px 3px 0px;
+    border-color: #e3f0fa;
+    border-style: dotted;
+    padding: 28px 0px 28px 0px;
+    margin: 0px 28px 0px 28px;
+  }
+
+  .comment {
+    padding: 7px 28px 21px 28px;
+  }
 }
