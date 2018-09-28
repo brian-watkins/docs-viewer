@@ -11,12 +11,10 @@ export interface TypeDefinitionProps {
 
 export const TypeDefinition = (props: TypeDefinitionProps) => {
   const value = TypeDefinitionParser.parse(props.docs, props.definition)
-  
+
   switch (value.kind) {
     case "batch":
-      return <FunctionType className="definition">
-        { value.types.map((value, index) => <TypeDesignation key={`func-${index}`} value={value} />) }
-      </FunctionType>
+      return <FunctionType className="definition" values={value.types} shouldBreak={props.definition.length > 60} />
     default:
       return <span className="definition">
         <TypeDesignation value={ value } />

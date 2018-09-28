@@ -26,22 +26,22 @@
       {
         "name": "atIndex",
         "comment": " Expect that the item at the given index satisfies the given matcher.\n",
-        "type": "Basics.Int -> Elmer.Matcher a -> List.List a -> Expect.Expectation"
+        "type": "Basics.Int -> Elmer.Matcher a -> Elmer.Matcher (List.List a)"
       },
       {
         "name": "each",
         "comment": " Expect that all items in a list satisfy the given matcher.\n",
-        "type": "Elmer.Matcher a -> List.List a -> Expect.Expectation"
+        "type": "Elmer.Matcher a -> Elmer.Matcher (List.List a)"
       },
       {
         "name": "exactly",
         "comment": " Expect that exactly some number of items in a list satisfy the given matcher.\n",
-        "type": "Basics.Int -> Elmer.Matcher a -> List.List a -> Expect.Expectation"
+        "type": "Basics.Int -> Elmer.Matcher a -> Elmer.Matcher (List.List a)"
       },
       {
         "name": "expectAll",
         "comment": " Expect that all matchers pass.\nIf one fails, then the conjoined matcher fails, otherwise it passes.\n\n    Elmer.given someModel view update\n      |> Elmer.Html.expect (\n        Elmer.Html.Matchers.element <|\n          Elmer.Html.expectAll\n            [ Elmer.Html.Matchers.hasText \"Awesome\"\n            , Elmer.Html.Matchers.hasClass \"cool\"\n            ]\n        )\n",
-        "type": "List.List (Elmer.Matcher a) -> a -> Expect.Expectation"
+        "type": "List.List (Elmer.Matcher a) -> Elmer.Matcher a"
       },
       {
         "name": "expectModel",
@@ -61,17 +61,17 @@
       {
         "name": "hasLength",
         "comment": " Expect that a list has the given length.\n",
-        "type": "Basics.Int -> List.List a -> Expect.Expectation"
+        "type": "Basics.Int -> Elmer.Matcher (List.List a)"
       },
       {
         "name": "last",
         "comment": " Expect that the last item in a list satisfies the given matcher.\n",
-        "type": "Elmer.Matcher a -> List.List a -> Expect.Expectation"
+        "type": "Elmer.Matcher a -> Elmer.Matcher (List.List a)"
       },
       {
         "name": "some",
         "comment": " Expect that at least one item in a list satisfies the given matcher.\n",
-        "type": "Elmer.Matcher a -> List.List a -> Expect.Expectation"
+        "type": "Elmer.Matcher a -> Elmer.Matcher (List.List a)"
       }
     ],
     "binops": []
@@ -347,52 +347,52 @@
       {
         "name": "element",
         "comment": " Make expectations about the selected element.\n\nThe matcher will fail if the selected element does not exist.\n\nIf the selector matches more than one element,\nthe given element matcher will only be applied to the first element selected.\n\n    Elmer.Html.target \"div\"\n      |> Elmer.Html.expect (element <| hasText \"Fun Stuff\")\n\n",
-        "type": "Elmer.Matcher (Elmer.Html.HtmlElement msg) -> Elmer.Html.HtmlTarget msg -> Expect.Expectation"
+        "type": "Elmer.Matcher (Elmer.Html.HtmlElement msg) -> Elmer.Matcher (Elmer.Html.HtmlTarget msg)"
       },
       {
         "name": "elementExists",
         "comment": " Expect that the selected element exists.\n\n    Elmer.Html.target \"#cool-element\" testState\n      |> Elmer.Html.expect elementExists\n",
-        "type": "Elmer.Html.HtmlTarget msg -> Expect.Expectation"
+        "type": "Elmer.Matcher (Elmer.Html.HtmlTarget msg)"
       },
       {
         "name": "elements",
         "comment": " Make expectations about the selected elements.\n\nIf the selector fails to match any elements, an empty list will\nbe passed to the given matcher.\n\n    Elmer.Html.target \"li\" testState\n      |> Elmer.Html.expect (elements <| Elmer.hasLength 4)\n\n",
-        "type": "Elmer.Matcher (List.List (Elmer.Html.HtmlElement msg)) -> Elmer.Html.HtmlTarget msg -> Expect.Expectation"
+        "type": "Elmer.Matcher (List.List (Elmer.Html.HtmlElement msg)) -> Elmer.Matcher (Elmer.Html.HtmlTarget msg)"
       },
       {
         "name": "hasAttribute",
         "comment": " Expect that an element has the specified attribute with the specified value.\n\n    hasAttribute ( \"src\", \"http://fun.com\" ) element\n\n",
-        "type": "( String.String, String.String ) -> Elmer.Html.HtmlElement msg -> Expect.Expectation"
+        "type": "( String.String, String.String ) -> Elmer.Matcher (Elmer.Html.HtmlElement msg)"
       },
       {
         "name": "hasClass",
         "comment": " Expect that an element has the specified class. No need to prepend the class name with a dot.\n",
-        "type": "String.String -> Elmer.Html.HtmlElement msg -> Expect.Expectation"
+        "type": "String.String -> Elmer.Matcher (Elmer.Html.HtmlElement msg)"
       },
       {
         "name": "hasId",
         "comment": " Expect that an element has the specified id. No need to prepend the id with a pound sign.\n",
-        "type": "String.String -> Elmer.Html.HtmlElement msg -> Expect.Expectation"
+        "type": "String.String -> Elmer.Matcher (Elmer.Html.HtmlElement msg)"
       },
       {
         "name": "hasProperty",
         "comment": " Expect that an element has the specified property with the specified value.\n\n    hasProperty ( \"innerHtml\", \"Fun <i>stuff</i>\" ) element\n\n",
-        "type": "( String.String, String.String ) -> Elmer.Html.HtmlElement msg -> Expect.Expectation"
+        "type": "( String.String, String.String ) -> Elmer.Matcher (Elmer.Html.HtmlElement msg)"
       },
       {
         "name": "hasStyle",
         "comment": " Expect that an element has the specified style.\n\n    hasStyle (\"left\", \"20px\") element\n\n",
-        "type": "( String.String, String.String ) -> Elmer.Html.HtmlElement msg -> Expect.Expectation"
+        "type": "( String.String, String.String ) -> Elmer.Matcher (Elmer.Html.HtmlElement msg)"
       },
       {
         "name": "hasText",
         "comment": " Expect that an element has some text. This matcher will pass only if the element\nor any of its descendents contains some `Html.text` with the specified text.\n",
-        "type": "String.String -> Elmer.Html.HtmlElement msg -> Expect.Expectation"
+        "type": "String.String -> Elmer.Matcher (Elmer.Html.HtmlElement msg)"
       },
       {
         "name": "listensForEvent",
         "comment": " Expect that an element listens for an event of the given type.\n\n    listensForEvent \"click\" element\n\nNote: This will not consider event handlers on the element's ancestors.\n\n",
-        "type": "String.String -> Elmer.Html.HtmlElement msg -> Expect.Expectation"
+        "type": "String.String -> Elmer.Matcher (Elmer.Html.HtmlElement msg)"
       }
     ],
     "binops": []
@@ -491,22 +491,22 @@
       {
         "name": "hasBody",
         "comment": " Match a request with the specified body.\n\n    Elmer.Http.expectThat (Elmer.Http.Route.post \"http://fake.com/fake\") (\n      Elmer.some <| hasBody \"{\\\"name\\\":\\\"Fun Person\\\"}\"\n    )\n\n",
-        "type": "String.String -> Elmer.Http.Request.HttpRequest -> Expect.Expectation"
+        "type": "String.String -> Elmer.Matcher Elmer.Http.Request.HttpRequest"
       },
       {
         "name": "hasHeader",
         "comment": " Match a request with the specified header name and value.\n\n    Elmer.Http.expectThat (Elmer.Http.Route.get \"http://fake.com/fake\") (\n      Elmer.some <| hasHeader ( \"x-auth-token\", \"xxxxx\" )\n    )\n\n",
-        "type": "( String.String, String.String ) -> Elmer.Http.Request.HttpRequest -> Expect.Expectation"
+        "type": "( String.String, String.String ) -> Elmer.Matcher Elmer.Http.Request.HttpRequest"
       },
       {
         "name": "hasQueryParam",
         "comment": " Match a request that has a query string containing the specified name and value.\n\nNote: You don't need to worry about url encoding the name or value.\n\n    Elmer.Http.expectThat (Elmer.Http.Route.get \"http://fake.com/fake\") (\n      Elmer.some <| hasQueryParam ( \"name\", \"Fun Person\" )\n    )\n\n",
-        "type": "( String.String, String.String ) -> Elmer.Http.Request.HttpRequest -> Expect.Expectation"
+        "type": "( String.String, String.String ) -> Elmer.Matcher Elmer.Http.Request.HttpRequest"
       },
       {
         "name": "wasRequested",
         "comment": " Expect that exactly some number of requests have been recorded.\n\n    Elmer.Http.expectThat (Elmer.Http.Route.get \"http://fun.com/fun.html\") (\n      wasRequested 3\n    )\n",
-        "type": "Basics.Int -> List.List Elmer.Http.Request.HttpRequest -> Expect.Expectation"
+        "type": "Basics.Int -> Elmer.Matcher (List.List Elmer.Http.Request.HttpRequest)"
       }
     ],
     "binops": []
@@ -905,7 +905,7 @@
       {
         "name": "calls",
         "comment": " Make expectations about the calls recorded by this spy.\n\nHere's how you would expect that exactly 2 of the calls had a certain argument.\n\n    Spy.expect \"my-spy\" (\n      calls <| exactly 2 <|\n        hasArgs\n        [ stringArg \"some argument\"\n        ]\n    )\n\n",
-        "type": "Elmer.Matcher (List.List Elmer.Spy.Matchers.Call) -> Elmer.Spy.Calls -> Expect.Expectation"
+        "type": "Elmer.Matcher (List.List Elmer.Spy.Matchers.Call) -> Elmer.Matcher Elmer.Spy.Calls"
       },
       {
         "name": "floatArg",
@@ -920,7 +920,7 @@
       {
         "name": "hasArgs",
         "comment": " Expect that a call has some arguments.\n\nUse `hasArgs` in conjunction with `calls` to make an expectation about the args\nof a specific call.\n\n    Spy.expect \"my-spy\" (\n      calls <| atIndex 2 <| hasArgs\n        [ stringArg \"Some String\"\n        , typedArg someTypedValue\n        ]\n    )\n\n",
-        "type": "List.List Elmer.Spy.Matchers.Arg -> Elmer.Spy.Matchers.Call -> Expect.Expectation"
+        "type": "List.List Elmer.Spy.Matchers.Arg -> Elmer.Matcher Elmer.Spy.Matchers.Call"
       },
       {
         "name": "intArg",
@@ -940,12 +940,12 @@
       {
         "name": "wasCalled",
         "comment": " Expect that a spy was called some number of times.\n\nThis is shorthand for:\n\n    Spy.expect \"my-spy\" (calls <| hasLength 2)\n\n",
-        "type": "Basics.Int -> Elmer.Spy.Calls -> Expect.Expectation"
+        "type": "Basics.Int -> Elmer.Matcher Elmer.Spy.Calls"
       },
       {
         "name": "wasCalledWith",
         "comment": " Expect that a spy was called at least once with the given arguments.\n\n    Spy.expect \"my-spy\" (\n      wasCalledWith\n        [ stringArg \"Some String\"\n        , typedArg someTypedValue\n        ]\n    )\n\nThis is shorthand for:\n\n    Spy.expect \"my-spy\" (\n      calls <| some <| hasArgs\n        [ stringArg \"Some String\"\n        , typedArg someTypedValue\n        ]\n    )\n\n",
-        "type": "List.List Elmer.Spy.Matchers.Arg -> Elmer.Spy.Calls -> Expect.Expectation"
+        "type": "List.List Elmer.Spy.Matchers.Arg -> Elmer.Matcher Elmer.Spy.Calls"
       }
     ],
     "binops": []

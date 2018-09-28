@@ -60,7 +60,5 @@ const showTupleType = (tuple: TupleType) => (
 )
 
 const showBatchType = (value: BatchType) => (
-  <FunctionType className="nested-function type-designation">
-    { value.types.map((val, index) => <TypeDesignation key={`batch-${index}`} value={val}/>) }
-  </FunctionType>
+  <FunctionType className="nested-function type-designation" values={value.types} shouldBreak={false} />
 )

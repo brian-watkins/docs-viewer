@@ -1,14 +1,16 @@
 import * as React from "react"
 import { TypeValue } from "../parser/TypeDefinitionParser";
+import { TypeDesignation } from "./TypeDesignation";
 
 export interface FunctionTypeProps {
-  children: Array<JSX.Element>,
-  className: string
+  values: Array<TypeValue>,
+  className: string,
+  shouldBreak: boolean
 }
 
 export const FunctionType = (props: FunctionTypeProps) => (
-  <span className={ props.className }>
-    { props.children.reduce(joinTypes, []) }
+  <span className={ props.className } data-should-break={props.shouldBreak}>
+    { props.values.map((val, index) => <TypeDesignation key={`batch-${index}`} value={val}/>).reduce(joinTypes, []) }
   </span>
 )
 

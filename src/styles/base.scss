@@ -125,14 +125,6 @@ a:hover {
     font: 100% $fixed-width-font-stack
   }
 
-  // .comment {
-  //   padding-left: 28px;
-  // }
-
-  .separator {
-    display: inline-block;
-  }
-
   .separator::before {
     content: "\00a0";
   }
@@ -185,6 +177,22 @@ a:hover {
       content: ")"
     }
   }
+
+  .definition {
+    display: block;
+    line-height: 1.4em;
+    margin: 2px 0px 0px 28px;
+    white-space: nowrap;
+  }
+
+  .definition[data-should-break='true']>.separator {
+    &::before {
+      content: "\a\00a0\00a0";
+      white-space: pre;
+    }
+  }
+
+
 }
 
 #container {
@@ -196,7 +204,7 @@ a:hover {
 
   .definition {
     display: block;
-    padding-left: 28px;
+    margin: 2px 0px 0px 28px;
   }
 
   .type-qualifier {
