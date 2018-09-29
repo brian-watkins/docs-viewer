@@ -43,18 +43,6 @@ h1 {
     margin: 0px;
     font-size: 4em;
   }
-
-  ul {
-    padding: 0px;
-    list-style: none;
-    li {
-      padding: 3px 0px 3px 0px;
-    }
-    li:hover {
-      background: #333333;
-      color: #fafafa;
-    }
-  }
 }
 
 #footer {
@@ -87,15 +75,24 @@ h1 {
     padding: 0px;
     list-style: none;
     li {
-      padding: 3px 0px 3px 0px;
+      padding: 3px 0px 3px 28px;
     }
-    li:hover {
-      background: #e3f0fa;
+    li:not(.selected):hover {
+      padding: 3px 0px 3px 21px;
+      background-color: #ffffff;
+      border-width: 0px 0px 0px 7px;
+      border-color: #f2f2f2;
+      border-style: solid;
     }
   }
 
   .selected {
-    background: #e3f0fa;
+    padding: 14px 0px 14px 21px;
+    margin: 7px 0px 7px 0px;
+    border-width: 0px 0px 0px 7px;
+    border-color: #e3f0fa;
+    border-style: solid;
+    background-color: #ffffff;
   }
 }
 
