@@ -4,10 +4,13 @@ import { BrowserRouter } from "react-router-dom"
 import { App } from "./components/App"
 
 import * as testDocs from "../elmer-docs.json"
+import ScrollToTop from "./util/ScrollToTop";
 
 ReactDOM.render(
   <BrowserRouter>
-    <App docs={testDocs} />
+    <ScrollToTop>
+      <App docs={testDocs} />
+    </ScrollToTop>
   </BrowserRouter>,
   document.getElementById("app")
 )
