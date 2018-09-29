@@ -23,6 +23,9 @@ export class App extends React.Component<AppProps, {}> {
         <Route path={"/module/:moduleName"} render={this.showModuleList} />
         <Route path={"/module/:moduleName"} render={this.showModule} />
       </div>
+      <div id="footer">
+        Source available at http://github.com/brian-watkins
+      </div>
     </div>
   )
 

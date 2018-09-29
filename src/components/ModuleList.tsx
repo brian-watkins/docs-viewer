@@ -12,10 +12,12 @@ export interface ModuleListProps {
 export class ModuleList extends React.Component<ModuleListProps, {}> {
   render = () => (
     <div id="module-list">
-      <h1>Modules</h1>
-      <ul>
-        { this.props.docs.map(this.moduleItem) }
-      </ul>
+      <div className="stick">
+        <h1>Modules</h1>
+        <ul>
+          { this.props.docs.map(this.moduleItem) }
+        </ul>
+      </div>
     </div>
   )
 

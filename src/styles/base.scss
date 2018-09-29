@@ -54,16 +54,32 @@ h1 {
   }
 }
 
+#footer {
+  margin-top: 56px;
+  background-color: #e3f0fa;
+  padding: 28px 56px 28px 56px;
+  color: #ffffff;
+  font-weight: bold;
+}
+
 #container {
   display: flex;
-  margin: 56px 0px 112px 56px;
+  margin: 56px 0px 35px 56px;
 }
 
 #module-list {
   width: 234px;
   margin: 0px;
 
-  ul {
+  .stick {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 56px;
+    overflow: auto;
+    height: calc( 100vh - 91px );
+  }
+
+  ul {  
     padding: 0px;
     list-style: none;
     li {
