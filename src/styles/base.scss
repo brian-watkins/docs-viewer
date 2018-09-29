@@ -56,10 +56,11 @@ h1 {
 
 #footer {
   margin-top: 56px;
-  background-color: #e3f0fa;
+  border-color: #e3f0fa;
+  border-width: 3px 0px 0px 0px;
+  border-style: dotted;
   padding: 28px 56px 28px 56px;
-  color: #ffffff;
-  font-weight: bold;
+  color: #999999;
 }
 
 #container {
