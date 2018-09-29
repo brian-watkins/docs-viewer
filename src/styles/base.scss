@@ -22,13 +22,21 @@ a:hover {
   color: $link-color;
 }
 
+h1 {
+  border-width: 7px 0px 0px 0px;
+  border-color: #333333;
+  border-style: solid;
+  padding: 7px 0px 0px 0px;
+  margin: 0px 0px 21px 0px;
+  font-weight: bold;
+}
+
 #banner {
   padding: 0px;
-  margin: 28px 56px 0px 56px;
+  margin: 35px 56px 0px 56px;
 
   h1 {
-    font-weight: bolder;
-    padding: 7px 14px 7px 0px;
+    border-style: none;
     margin: 0px;
     font-size: 4em;
   }
@@ -55,15 +63,6 @@ a:hover {
   width: 234px;
   margin: 0px;
 
-  h1 {
-    border-width: 7px 0px 0px 0px;
-    border-color: #333333;
-    border-style: solid;
-    padding: 7px 0px 0px 0px;
-    margin: 0px;
-    font-weight: bold;
-  }
-
   ul {
     padding: 0px;
     list-style: none;
@@ -82,17 +81,6 @@ a:hover {
 
 #module {
   margin: 0px 56px 0px 56px;
-  
-  h1 {
-    border-width: 7px 0px 0px 0px;
-    border-color: #333333;
-    border-style: solid;
-    padding: 7px 0px 0px 0px;
-    margin: 0px;
-    padding: 0px;
-    font-weight: bold;
-  }
-
 }
 
 #documentation {
@@ -107,14 +95,6 @@ a:hover {
     padding: 21px;
     background: #ffffff;
     font-size: 0.9em;
-  }
-
-  h1 {
-    border-style: none;
-    padding: 7px 0px 0px 0px;
-    font-weight: bold;
-    font-size: 1.5em;
-    margin: 28px 0px 28px 0px;
   }
 
   .title {
@@ -189,8 +169,28 @@ a:hover {
   }
 }
 
-.overview-block p {
-  padding: 0px 28px 0px 28px;
+.overview-block {
+  p {
+    background-color: #ffffff;
+    padding: 0px 28px 21px 28px;
+    margin: 0px;
+    border-width: 0px 0px 0px 7px;
+    border-color: #ebebeb;
+    border-style: solid;
+  }
+
+  &>p:first-of-type {
+    padding-top: 21px;
+  }
+
+  h1+p {
+    padding-top: 21px;
+  }
+
+  h1 {
+    margin: 56px 0px 35px 0px;
+    padding-top: 14px;
+  }
 }
 
 .type-alias-block {
@@ -232,7 +232,7 @@ a:hover {
   border-width: 0px 0px 0px 7px;
   border-color: #e3f0fa;
   border-style: solid;
-  margin-bottom: 28px;
+  margin-top: 28px;
   background-color: #ffffff;
 
   .definition {
