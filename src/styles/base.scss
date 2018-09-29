@@ -18,7 +18,10 @@ a:visited, a:link, a:active {
 }
 
 a:hover {
-  text-decoration: underline;
+  text-decoration: none;
+  border-color: #e3f0fa;
+  border-width: 0px 0px 7px 0px;
+  border-style: solid;
   color: $link-color;
 }
 
