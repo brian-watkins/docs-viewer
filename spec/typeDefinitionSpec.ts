@@ -353,7 +353,7 @@ const renderWithTypeDefinition = async (defn: string) => {
     }
   ]
 
-  await renderApp(docs)
+  await renderApp({ docs, readme: "" })
 
   const moduleItems = findAll("#module-list li")
   click(moduleItems.item(0))

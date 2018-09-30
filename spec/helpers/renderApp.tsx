@@ -7,7 +7,12 @@ import { DocService } from "../../src/services/DocService";
 import { FakeDocService } from "../fakes/FakeDocService";
 import { wait } from "./testHelpers";
 
-export const renderApp = (testDocumentation: Array<ModuleDocumentation>, readmeContent: string = "") => {
+export interface TestData {
+  docs: Array<ModuleDocumentation>,
+  readme: string
+}
+
+export const renderApp = (testData: TestData, route: string = "/") => {
   var div = document.querySelector("#react-test-app")
   if (div) {
     ReactDOM.unmountComponentAtNode(div);
@@ -19,16 +24,16 @@ export const renderApp = (testDocumentation: Array<ModuleDocumentation>, readmeC
   }
 
   const fakeDocService = new FakeDocService()
-  fakeDocService.readme = readmeContent
-  fakeDocService.docs = testDocumentation
+  fakeDocService.readme = testData.readme
+  fakeDocService.docs = testData.docs
 
-  ReactDOM.render(app(fakeDocService), div)
+  ReactDOM.render(app(fakeDocService, route), div)
 
   return wait()
 }
 
-const app = (fakeDocService: DocService) => (
-  <MemoryRouter>
+const app = (fakeDocService: DocService, route: string) => (
+  <MemoryRouter initialEntries={[route]}>
     <App docService={fakeDocService} />
   </MemoryRouter>
 )

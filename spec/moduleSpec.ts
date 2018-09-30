@@ -4,7 +4,7 @@ import { findAll, find, findWithin, textOf, click, expectLink, expectNotWithin, 
 
 describe("when a module is clicked", () => {
   beforeEach(async () => {
-    await renderApp(testDocs)
+    await renderApp({ docs: testDocs, readme: "" })
 
     const moduleItems = findAll("#module-list li")
     click(moduleItems.item(1))

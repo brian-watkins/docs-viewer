@@ -7,6 +7,7 @@ import { Documentation } from "./Documentation"
 import { ModuleList } from "./ModuleList"
 import { ModuleDocumentation } from "../model/ModuleDocumentation"
 import { ReadMe } from "./Readme"
+import { Show } from "../util/Show"
 import { DocService } from "../services/DocService";
 
 import "../styles/base"
@@ -48,8 +49,10 @@ export class App extends React.Component<AppProps, AppState> {
       <div id="container">
         <Route exact path={"/"} render={this.showModuleList} />
         <Route exact path={"/"} render={this.showReadme} />
-        <Route path={"/module/:moduleName"} render={this.showModuleList} />
-        <Route path={"/module/:moduleName"} render={this.showModule} />
+        <Show if={this.state.docs.length > 0}>
+          <Route path={"/module/:moduleName"} render={this.showModuleList} />
+          <Route path={"/module/:moduleName"} render={this.showModule} />
+        </Show>
       </div>
       <div id="footer">
         Source available at http://github.com/brian-watkins
