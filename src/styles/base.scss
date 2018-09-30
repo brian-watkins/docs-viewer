@@ -68,7 +68,7 @@ h1 {
     position: sticky;
     top: 56px;
     overflow: auto;
-    height: calc( 100vh - 91px );
+    height: calc( 100vh );
   }
 
   ul {  
@@ -104,7 +104,7 @@ h1 {
     }
 
     li[data-name='Elmer.Navigation'] {
-      break-before: column;
+      margin-top: 14px;
     }
 
     li[data-name='Elmer.Platform.Command'] {
@@ -251,13 +251,27 @@ h1 {
     margin: 56px 0px 35px 0px;
     padding-top: 14px;
   }
+
+  ol {
+    background-color: #ffffff;
+    padding: 0px 56px 21px 70px;
+    margin: 0px;
+    border-width: 0px 0px 0px 7px;
+    border-color: #f2f2f2;
+    border-style: solid;
+  }
+
+  li p {
+    padding: 0px 0px 7px 0px;
+    border-style: none;
+  }
 }
 
 .type-alias-block {
   border-width: 0px 0px 0px 7px;
   border-color: #e3f0fa;
   border-style: solid;
-  margin-bottom: 28px;
+  margin-top: 28px;
   background-color: #ffffff;
   
   .definition {
