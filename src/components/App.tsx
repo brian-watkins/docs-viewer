@@ -9,6 +9,7 @@ import { ModuleDocumentation } from "../model/ModuleDocumentation"
 import { ReadMe } from "./Readme"
 import { Show } from "../util/Show"
 import { DocService } from "../services/DocService";
+import { Link } from "react-router-dom";
 
 import "../styles/base"
 
@@ -44,7 +45,7 @@ export class App extends React.Component<AppProps, AppState> {
   render = () => (
     <div>
       <div id="banner">
-        <h1>/ Elmer / 4.0.0</h1>
+        <h1>/ Elmer / <Link to="/">4.0.0</Link></h1>
       </div>
       <div id="container">
         <Route exact path={"/"} render={this.showModuleList} />
