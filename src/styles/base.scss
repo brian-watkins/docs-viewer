@@ -61,22 +61,28 @@ h1 {
 
 #module-list {
   width: 234px;
-  margin: 0px;
+  margin: 0px 56px 0px 0px;
 
   .stick {
     position: -webkit-sticky;
     position: sticky;
-    top: 56px;
+    top: 28px;
     overflow: auto;
     height: calc( 100vh );
   }
 
-  ul {  
-    padding: 0px 0px 0px 0px;
+  ul {
+    background-color: #ffffff;
+    padding: 21px 0px 21px 28px;
+    border-width: 0px 0px 0px 7px;
+    border-color: #f2f2f2;
+    border-style: solid;
+
     list-style: none;
 
     li {
-      padding: 3px 0px 3px 21px;
+      cursor: pointer;
+      padding: 0px 0px 7px 0px;
     }
 
     li:not(.selected):hover {
@@ -128,7 +134,7 @@ h1 {
 #readme {
   width: 524px;
   line-height: 1.4em;
-  margin: 0px 56px;
+  margin: 0px;
 
   h1 {
     padding-top: 14px;
@@ -136,7 +142,7 @@ h1 {
 }
 
 #module {
-  margin: 0px 56px 0px 56px;
+  margin: 0px 56px 0px 0px;
 }
 
 #documentation {

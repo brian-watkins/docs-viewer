@@ -7,7 +7,10 @@ class ScrollToRoute extends React.Component<RouteComponentProps<{}>> {
       if (this.props.location.hash) {
         document.querySelector(this.props.location.hash).scrollIntoView()
       } else {
-        window.scrollTo(0, 0)
+        if (window.scrollY > document.querySelector("#module").getBoundingClientRect().top) {
+          document.querySelector("#module-list").scrollIntoView()
+          window.scrollBy({ left: 0, top: -28 })
+        }
       }
     }
   }
