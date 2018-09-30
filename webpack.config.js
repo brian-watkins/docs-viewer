@@ -1,5 +1,6 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = {
   mode: process.env.NODE_ENV === "production" ? "production" : "development",
@@ -56,7 +57,10 @@ module.exports = {
         // both options are optional
         filename: "[name].css",
         chunkFilename: "[id].css"
-    })
+    }),
+    new CopyWebpackPlugin([
+        { from: "./docs/**/*", to: "./" }
+    ])
   ],
 
   devServer: {

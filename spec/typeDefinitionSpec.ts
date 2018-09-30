@@ -24,29 +24,29 @@ const itHasTheTypeReference = () => {
 describe("type definitions", () => {
   describe("when the definition is a single type", () => {
     describe("when the type definition is the unit type", () => {
-      it("displays the type correctly", () => {
-        renderWithTypeDefinition("()")
+      it("displays the type correctly", async () => {
+        await renderWithTypeDefinition("()")
         expectTypes([typeOf("()")])
       })
     })
 
     describe("when the type definition has no args", () => {
-      it("displays the type correctly", () => {
-        renderWithTypeDefinition("String.String")
+      it("displays the type correctly", async () => {
+        await renderWithTypeDefinition("String.String")
         expectTypes([typeOf("String")])
       })
     })
   
     describe("when the type definition has args", () => {
-      it("displays the type correctly", () => {
-        renderWithTypeDefinition("Elmer.TestState model msg")
+      it("displays the type correctly", async () => {
+        await renderWithTypeDefinition("Elmer.TestState model msg")
         expectTypes([typeOf("TestState", [typeVariableOf("model"), typeVariableOf("msg")])])
       })
     })
 
     describe("when the type definition is simply a variable", () => {
-      it("displays the types correctly", () => {
-        renderWithTypeDefinition("model")
+      it("displays the types correctly", async () => {
+        await renderWithTypeDefinition("model")
         expectTypes([
           typeOf(null, [typeVariableOf("model")]),
         ])
@@ -55,8 +55,8 @@ describe("type definitions", () => {
 
     describe("when the type designation has a type variable filled with a type", () => {
       describe("when the type variable is filled with a single external type name", () => {
-        it("displays the type correctly", () => {
-          renderWithTypeDefinition("List.List String.String")
+        it("displays the type correctly", async () => {
+          await renderWithTypeDefinition("List.List String.String")
           expectTypes([
             typeOf("List", [typeOf("String")])
           ])
@@ -64,8 +64,8 @@ describe("type definitions", () => {
       })
 
       describe("when an internal type has a type variable filled with an external type", () => {
-        beforeEach(() => {
-          renderWithTypeDefinition("Other.Module.SuperAlias String.String")
+        beforeEach(async () => {
+          await renderWithTypeDefinition("Other.Module.SuperAlias String.String")
         })
 
         it("displays the type correctly", () => {
@@ -80,8 +80,8 @@ describe("type definitions", () => {
       })
 
       describe("when the type variable is filled with a single internal type name", () => {
-        beforeEach(() => {
-          renderWithTypeDefinition("List.List Other.Module.SuperAlias")
+        beforeEach(async () => {
+          await renderWithTypeDefinition("List.List Other.Module.SuperAlias")
         })
 
         it("displays the type correctly", () => {
@@ -94,8 +94,8 @@ describe("type definitions", () => {
       })
 
       describe("when a type variable is filled with a type that has a variable", () => {
-        beforeEach(() => {
-          renderWithTypeDefinition("List.List (Other.Module.SuperAlias model msg)")
+        beforeEach(async () => {
+          await renderWithTypeDefinition("List.List (Other.Module.SuperAlias model msg)")
         })
 
         it("displays the type correctly", () => {
@@ -113,8 +113,8 @@ describe("type definitions", () => {
       })
 
       describe("when a type variable is filled with the unit type", () => {
-        it("displays the type correctly", () => {
-          renderWithTypeDefinition("Some.Cool.FunModule ()")
+        it("displays the type correctly", async () => {
+          await renderWithTypeDefinition("Some.Cool.FunModule ()")
           expectTypes([
             typeOf("FunModule", [
               typeOf("()")
@@ -124,8 +124,8 @@ describe("type definitions", () => {
       })
 
       describe("when some type variables are filled but not all", () => {
-        it("displays the type correctly", () => {
-          renderWithTypeDefinition("Dict.Dict String.String a")
+        it("displays the type correctly", async () => {
+          await renderWithTypeDefinition("Dict.Dict String.String a")
           expectTypes([
             typeOf("Dict", [
               typeOf("String"),
@@ -138,8 +138,8 @@ describe("type definitions", () => {
   })
 
   describe("when the type definition references a type from an external module", () => {
-    beforeEach(() => {
-      renderWithTypeDefinition("External.Module.SuperType model msg")
+    beforeEach(async () => {
+      await renderWithTypeDefinition("External.Module.SuperType model msg")
     })
 
     it("displays the type correctly", () => {
@@ -158,8 +158,8 @@ describe("type definitions", () => {
 
   describe("when the type definition references an internal type", () => {
     describe("when the internal type has no type args", () => {
-      beforeEach(() => {
-        renderWithTypeDefinition("Other.Module.SuperAlias")
+      beforeEach(async () => {
+        await renderWithTypeDefinition("Other.Module.SuperAlias")
       })
   
       it("displays the type correctly", () => {  
@@ -170,8 +170,8 @@ describe("type definitions", () => {
     })
 
     describe("when the internal type has type args", () => {
-      beforeEach(() => {
-        renderWithTypeDefinition("Other.Module.SuperAlias model msg")
+      beforeEach(async () => {
+        await renderWithTypeDefinition("Other.Module.SuperAlias model msg")
       })
   
       it("displays the type correctly", () => {  
@@ -189,8 +189,8 @@ describe("type definitions", () => {
 
   describe("when the type definition has multiple type designations", () => {
     describe("when all the types are external", () => {
-      it("displays the types correctly", () => {
-        renderWithTypeDefinition("String.String -> Basics.Int -> String.String -> Elmer.TestState model msg")
+      it("displays the types correctly", async () => {
+        await renderWithTypeDefinition("String.String -> Basics.Int -> String.String -> Elmer.TestState model msg")
         expectTypes([
           typeOf("String"),
           typeOf("Int"),
@@ -204,8 +204,8 @@ describe("type definitions", () => {
     })
 
     describe("when some types are internal", () => {
-      beforeEach(() => {
-        renderWithTypeDefinition("String.String -> Basics.Int -> Other.Module.SuperAlias model msg -> Html.Html model msg")
+      beforeEach(async () => {
+        await renderWithTypeDefinition("String.String -> Basics.Int -> Other.Module.SuperAlias model msg -> Html.Html model msg")
       })
 
       it("displays the types correctly", () => {  
@@ -229,8 +229,8 @@ describe("type definitions", () => {
 
   describe("when the type definition is a tuple", () => {
     describe("when the types are all external", () => {
-      it("displays the type correctly", () => {
-        renderWithTypeDefinition("( String.String, Basics.Int )")
+      it("displays the type correctly", async () => {
+        await renderWithTypeDefinition("( String.String, Basics.Int )")
         expectTypes([
           tupleTypeOf(
             typeOf("String"),
@@ -241,8 +241,8 @@ describe("type definitions", () => {
     })
 
     describe("when the tuple contains an internal type", () => {
-      beforeEach(() => {
-        renderWithTypeDefinition("( Other.Module.SuperAlias model msg, Html.Html msg )")
+      beforeEach(async () => {
+        await renderWithTypeDefinition("( Other.Module.SuperAlias model msg, Html.Html msg )")
       })
 
       it("displays the type correctly", () => {  
@@ -261,8 +261,8 @@ describe("type definitions", () => {
     })
 
     describe("when the tuple is a type argument", () => {
-      it("displays the type correctly", () => {
-        renderWithTypeDefinition("List.List ( String.String, String.String )")
+      it("displays the type correctly", async () => {
+        await renderWithTypeDefinition("List.List ( String.String, String.String )")
         expectTypes([
           typeOf("List", [
             tupleTypeOf(typeOf("String"), typeOf("String"))
@@ -273,8 +273,8 @@ describe("type definitions", () => {
   })
 
   describe("when the type definition has a nested function", () => {
-    it("displays the type correctly", () => {
-      renderWithTypeDefinition("(String.String -> Basics.Int) -> String.String")
+    it("displays the type correctly", async () => {
+      await renderWithTypeDefinition("(String.String -> Basics.Int) -> String.String")
       expectTypes([
         complexTypeOf([
           typeOf("String"),
@@ -286,8 +286,8 @@ describe("type definitions", () => {
   })
 
   describe("when the type definition has a nested function as a type argument", () => {
-    it("displays the type correctly", () => {
-      renderWithTypeDefinition("List.List (String.String -> Basics.Int)")
+    it("displays the type correctly", async () => {
+      await renderWithTypeDefinition("List.List (String.String -> Basics.Int)")
       expectTypes([
         typeOf("List", [
           complexTypeOf([
@@ -300,8 +300,8 @@ describe("type definitions", () => {
   })
 
   describe("when the type definition cannot be parsed", () => {
-    it("displays nothing", () => {
-      renderWithTypeDefinition("-> ->")
+    it("displays nothing", async () => {
+      await renderWithTypeDefinition("-> ->")
       var values = findAll("#documentation .value-block .definition")
       expect(textOf(values.item(0))).toEqual("")
     })
@@ -324,7 +324,7 @@ const expectNoTypeReference = () => {
   expectNotWithin(values.item(0), "[data-arg-link]")
 }
 
-const renderWithTypeDefinition = (defn: string) => {
+const renderWithTypeDefinition = async (defn: string) => {
   const docs: Array<ModuleDocumentation> = [
     { 
       name: "Main.Module",
@@ -353,7 +353,7 @@ const renderWithTypeDefinition = (defn: string) => {
     }
   ]
 
-  renderApp(docs)
+  await renderApp(docs)
 
   const moduleItems = findAll("#module-list li")
   click(moduleItems.item(0))

@@ -1,4 +1,12 @@
 
+export const wait = (timeout: number = 1) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve()
+    }, timeout)
+  })
+}
+
 export const findAll = (selector : string): NodeListOf<HTMLElement> => {
   return document.querySelectorAll(selector)
 }

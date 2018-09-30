@@ -2,17 +2,9 @@ import { renderApp } from "./helpers/renderApp";
 import { testDocs } from "./fixtures/testDocumentation"
 import { findAll, find, findWithin, textOf, click, expectLink, expectNotWithin, expectAttribute, typeOf, expectTypeDefinition, typeVariableOf, findAllWithin } from "./helpers/testHelpers"
 
-var wait = () => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve()
-    }, 1)
-  })
-}
-
 describe("when a module is clicked", () => {
-  beforeEach(() => {
-    renderApp(testDocs)
+  beforeEach(async () => {
+    await renderApp(testDocs)
 
     const moduleItems = findAll("#module-list li")
     click(moduleItems.item(1))
