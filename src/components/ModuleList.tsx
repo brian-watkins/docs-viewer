@@ -23,11 +23,12 @@ export class ModuleList extends React.Component<ModuleListProps, {}> {
 
   moduleItem = (moduleDoc: ModuleDocumentation) => (
     <li 
-      key={moduleDoc.name} 
+      key={moduleDoc.name}
+      data-name={moduleDoc.name}
       className={ this.isModuleSelected(moduleDoc.name) ? "selected" : "" } 
       onClick={ () => this.goToPage(`/module/${moduleDoc.name}`) } 
     >
-      {moduleDoc.name}
+      <span>{moduleDoc.name}</span>
     </li>
   )
   

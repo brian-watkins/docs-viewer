@@ -72,27 +72,56 @@ h1 {
   }
 
   ul {  
-    padding: 0px;
+    padding: 0px 0px 0px 0px;
     list-style: none;
+
     li {
-      padding: 3px 0px 3px 28px;
-    }
-    li:not(.selected):hover {
       padding: 3px 0px 3px 21px;
-      background-color: #ffffff;
-      border-width: 0px 0px 0px 7px;
-      border-color: #f2f2f2;
-      border-style: solid;
+    }
+
+    li:not(.selected):hover {
+      span {
+        border-width: 0px 0px 7px 0px;
+        border-color: #f2f2f2;
+        border-style: solid;  
+      }
+    }
+
+    li[data-name='Elmer.Browser'] {
+      margin-top: 14px;
+    }
+
+    li[data-name='Elmer.Headless'] {
+      margin-top: 14px;
+    }
+
+    li[data-name='Elmer.Html'] {
+      margin-top: 14px;
+    }
+
+    li[data-name='Elmer.Http'] {
+      margin-top: 14px;
+    }
+
+    li[data-name='Elmer.Navigation'] {
+      break-before: column;
+    }
+
+    li[data-name='Elmer.Platform.Command'] {
+      margin-top: 14px;
+    }
+
+    li[data-name='Elmer.Spy'] {
+      margin-top: 14px;
     }
   }
 
   .selected {
-    padding: 14px 0px 14px 21px;
-    margin: 7px 0px 7px 0px;
-    border-width: 0px 0px 0px 7px;
-    border-color: #e3f0fa;
-    border-style: solid;
-    background-color: #ffffff;
+    span {
+      border-width: 0px 0px 7px 0px;
+      border-color: #e3f0fa;
+      border-style: solid;  
+    }
   }
 }
 
