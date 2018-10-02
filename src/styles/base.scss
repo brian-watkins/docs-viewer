@@ -2,7 +2,7 @@ $link-color: #2196F3;
 $text-color: #333333;
 $light-text-color: #666666;
 $font-stack: 'Source Sans Pro', sans-serif;
-$fixed-width-font-stack: 'Roboto Mono', sans-serif;
+$fixed-width-font-stack: 'Source Code Pro', sans-serif;
 
 body {
   font: 100% $font-stack;
@@ -64,23 +64,32 @@ h1 {
 }
 
 #module-list {
-  width: 234px;
+  width: 504px;
   margin: 0px 56px 0px 0px;
+  background-color: #ffffff;
+  border-style: solid;
+  border-width: 0px 0px 0px 7px;
+  border-color: #f2f2f2;
+
+  h1 {
+    background-color: #ffffff;
+    margin: 56px 0px 0px 56px;
+    display: table;
+  }
 
   .stick {
     position: -webkit-sticky;
     position: sticky;
-    top: 28px;
+    top: 0px;
     overflow: auto;
     height: calc( 100vh );
   }
 
   ul {
     background-color: #ffffff;
-    padding: 21px 0px 21px 28px;
-    border-width: 0px 0px 0px 7px;
-    border-color: #f2f2f2;
-    border-style: solid;
+    padding: 21px 56px 21px 56px;
+    column-count: 2;
+    column-gap: 28px;
 
     list-style: none;
 
@@ -110,7 +119,7 @@ h1 {
     }
 
     li[data-name='Elmer.Http'] {
-      margin-top: 14px;
+      break-before: column;
     }
 
     li[data-name='Elmer.Navigation'] {
@@ -135,60 +144,72 @@ h1 {
   }
 }
 
+
 #readme {
-  width: 468px;
+  width: 448px;
   line-height: 1.4em;
-  margin: 0px;
+  margin: 0px 56px 0px 0px;
   background-color: #ffffff;
-  padding: 112px;
+  padding: 56px 112px;
   border-width: 0px 0px 0px 7px;
   border-color: #f2f2f2;
   border-style: solid;
 
-  code {
-    font: 100% $fixed-width-font-stack;
-    font-size: 0.9em;
-    padding: 1px 3px 1px 3px;
-    border-radius: 2px;
-    background-color: #f2f2f2;
-  }
 
   h1 {
-    padding: 14px 0px 14px 0px;
+    padding: 17x 0px 14px 0px;
     display: table;
+    line-height: normal;
   }
 
   h3 {
     padding: 14px 0px 0px 0px;
   }
 
+  code {
+    font: 100% $fixed-width-font-stack;
+    margin: 0px 0px;
+    color: #000000;
+    background-color: #fcffff;
+  }
+
   pre code {
-    padding: 21px;
-    background: #ffffff;
-    font-size: 0.9em;
+    padding: 21px 0px 21px 21px;
+    border-style: none;
+    background-color: #fcffff;
   }
 }
 
 #module {
+  width: 448px;
   margin: 0px 56px 0px 0px;
+  background-color: #ffffff;
+  padding: 56px 112px;
+  border-width: 0px 0px 0px 7px;
+  border-color: #f2f2f2;
+  border-style: solid;
+
+  h1 {
+    display: table;
+    padding-top: 7px;
+    margin-bottom: 0px;
+  }
 }
 
 #documentation {
-  width: 524px;
   line-height: 1.4em;
 
   code {
     font: 100% $fixed-width-font-stack;
-    font-size: 0.9em;
-    padding: 1px 3px 1px 3px;
-    border-radius: 2px;
-    background-color: #f2f2f2;
+    margin: 0px 0px;
+    color: #000000;
+    background-color: #fcffff;
   }
 
   pre code {
-    padding: 21px;
-    background: #ffffff;
-    font-size: 0.9em;
+    padding: 21px 0px 21px 21px;
+    border-style: none;
+    background-color: #fcffff;
   }
 
   .title {
@@ -266,11 +287,8 @@ h1 {
 .overview-block {
   p {
     background-color: #ffffff;
-    padding: 0px 28px 21px 28px;
+    padding: 0px 0px 21px 0px;
     margin: 0px;
-    border-width: 0px 0px 0px 7px;
-    border-color: #f2f2f2;
-    border-style: solid;
   }
 
   &>p:first-of-type {
@@ -283,28 +301,23 @@ h1 {
 
   h1 {
     margin: 56px 0px 35px 0px;
-    padding-top: 14px;
+    padding-top: 7px;
+    line-height: normal;
   }
 
   ol {
     background-color: #ffffff;
-    padding: 0px 56px 21px 70px;
+    padding: 0px 28px 21px 56px;
     margin: 0px;
-    border-width: 0px 0px 0px 7px;
-    border-color: #f2f2f2;
-    border-style: solid;
   }
 
   li p {
-    padding: 0px 0px 7px 0px;
+    padding: 0px 0px 14px 0px;
     border-style: none;
   }
 }
 
 .type-alias-block {
-  border-width: 0px 0px 0px 7px;
-  border-color: #e3f0fa;
-  border-style: solid;
   margin-top: 28px;
   background-color: #ffffff;
   
@@ -323,24 +336,25 @@ h1 {
   }
 
   .title {
-    border-width: 0px 0px 3px 0px;
+    background: linear-gradient(to right, #fcffff, #ffffff);
+    padding: 28px 0px 28px 21px;
+    margin: 56px 0px 0px 0px;
+    border-width: 0px 0px 0px 7px;
     border-color: #e3f0fa;
-    border-style: dotted;
-
-    padding: 28px 0px 28px 0px;
-    margin: 0px 28px 0px 28px;
+    border-style: solid;
   }
 
   .comment {
-    padding: 7px 28px 21px 28px;
+    padding: 14px 0px 21px 21px;
+
+    p {
+      margin: 0px 0px 14px 0px;
+      padding: 0px;
+    }
   }
 }
 
 .value-block {
-  border-width: 0px 0px 0px 7px;
-  border-color: #e3f0fa;
-  border-style: solid;
-  margin-top: 28px;
   background-color: #ffffff;
 
   .definition {
@@ -348,14 +362,20 @@ h1 {
   }
 
   .title {
-    border-width: 0px 0px 3px 0px;
+    background: linear-gradient(to right, #fcffff, #ffffff);
+    padding: 28px 0px 28px 21px;
+    margin: 56px 0px 0px 0px;
+    border-width: 0px 0px 0px 7px;
     border-color: #e3f0fa;
-    border-style: dotted;
-    padding: 28px 0px 28px 0px;
-    margin: 0px 28px 0px 28px;
+    border-style: solid;
   }
 
   .comment {
-    padding: 7px 28px 21px 28px;
+    padding: 14px 0px 14px 21px;
+
+    p {
+      margin: 0px 0px 14px 0px;
+      padding: 0px;
+    }
   }
 }
