@@ -7,10 +7,15 @@ import ScrollToTop from "./util/ScrollToTop";
 
 const httpDocService = new HttpDocService()
 
+const elmerVersions = [
+  { major: 4, minor: 0, patch: 0 },
+  { major: 3, minor: 3, patch: 1 }
+]
+
 ReactDOM.render(
   <BrowserRouter>
     <ScrollToTop>
-      <App docService={httpDocService} />
+      <App docService={httpDocService} versions={elmerVersions} />
     </ScrollToTop>
   </BrowserRouter>,
   document.getElementById("app")

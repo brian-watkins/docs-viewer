@@ -18,20 +18,22 @@ describe("Http Doc Service", () => {
   })
 
   describe("When both requests are successful", () => {
+    const version = {major: 9, minor: 2, patch: 1}
+    
     beforeEach(() => {
-      mock.onGet('/docs/4.0.0/README.md').reply(200, testReadme)
-      mock.onGet('/docs/4.0.0/docs.json').reply(200, fakeDocumentation())  
+      mock.onGet('/docs/9.2.1/README.md').reply(200, testReadme)
+      mock.onGet('/docs/9.2.1/docs.json').reply(200, fakeDocumentation())  
     })
 
     it("fetches the docs", (done) => {
-      subject.fetch().then(response => {
+      subject.fetch(version).then(response => {
         expect(response.docs).toEqual(fakeDocumentation())
         done()
       })
     })
   
     it("fetches the readme", (done) => {
-      subject.fetch().then(response => {
+      subject.fetch(version).then(response => {
         expect(response.readme).toEqual(testReadme)
         done()
       })
