@@ -7,12 +7,10 @@ import { ReadMe } from "./Readme";
 import { Documentation } from "./Documentation";
 import { ModuleDocumentation } from "../model/ModuleDocumentation";
 import { DocService } from "../services/DocService";
-import { History } from "history";
 import { linkFor } from "../services/LinkProducer";
 
 export interface VersionPageProps {
   docService: DocService,
-  history: History,
   version: Version,
   moduleName?: string,
 }
@@ -51,7 +49,6 @@ export class VersionPage extends React.Component<VersionPageProps, VersionPageSt
           <ReadMe content={this.state.readme} />
           <ModuleList
             docs={this.state.docs}
-            history={this.props.history}
             version={this.props.version}
             currentModule={this.props.moduleName}
           />
@@ -60,7 +57,6 @@ export class VersionPage extends React.Component<VersionPageProps, VersionPageSt
           <Documentation version={this.props.version} allDocs={this.state.docs} docs={ this.docsFor(this.props.moduleName) } />
           <ModuleList
             docs={this.state.docs}
-            history={this.props.history}
             version={this.props.version}
             currentModule={this.props.moduleName}
           />

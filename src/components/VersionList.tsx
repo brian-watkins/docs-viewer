@@ -1,11 +1,10 @@
 import * as React from "react"
 import { Version } from "../model/Version"
-import { History } from "history";
 import { linkFor } from "../services/LinkProducer";
+import { ListItemLink } from "./ListItemLink"
 
 export interface VersionListProps {
-  versions: Array<Version>,
-  history: History
+  versions: Array<Version>
 }
 
 export class VersionList extends React.Component<VersionListProps> {
@@ -18,13 +17,11 @@ export class VersionList extends React.Component<VersionListProps> {
   )
   
   showVersion = (version: Version) => (
-    <li key={this.printVersion(version)} onClick={() => this.gotoVersionDoc(version)}>/ Elmer / { this.printVersion(version) }</li>
+    <ListItemLink key={this.printVersion(version)} to={linkFor(version)}>
+      / Elmer / { this.printVersion(version) }
+    </ListItemLink>
   )
 
-  gotoVersionDoc = (version: Version) => {
-    this.props.history.push(linkFor(version))
-  }
-  
   printVersion = (version: Version) => (
     `${version.major}.${version.minor}.${version.patch}`
   )

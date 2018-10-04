@@ -65,13 +65,12 @@ export class App extends React.Component<AppProps> {
   )
 
   showVersions = (props: RouteComponentProps<{}>) => (
-    <VersionList versions={this.props.versions} history={props.history} />
+    <VersionList versions={this.props.versions} />
   )
 
   showVersionPage = (props: RouteComponentProps<MatchProps>) => (
     <VersionPage
       docService={this.props.docService}
-      history={props.history}
       version={this.parseVersion(props.match.params.version)}
       moduleName={props.match.params.moduleName}
     />
