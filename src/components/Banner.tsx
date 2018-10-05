@@ -10,8 +10,7 @@ export const Banner = () => (
     {version => (
       <div id="banner">
         <h1>
-          / <Link to="/versions" data-versions-link>Elmer</Link>
-          / <Link to={linkFor(version)} data-readme-link>
+          / <Link to="/versions" data-versions-link>Elmer</Link> / <Link to={linkFor(version)} data-readme-link>
               { VersionHelper.toString(version) }
             </Link>
         </h1>

@@ -11,6 +11,7 @@ export interface VersionListProps {
 export class VersionList extends React.Component<VersionListProps> {
   render = () => (
     <div id="versions">
+      <h1>/ Elmer / Versions</h1>
       <ul>
         { this.props.versions.map(this.showVersion) }
       </ul>
@@ -19,7 +20,7 @@ export class VersionList extends React.Component<VersionListProps> {
   
   showVersion = (version: Version) => (
     <ListItemLink key={ VersionHelper.toString(version) } to={ linkFor(version) }>
-      / Elmer / { VersionHelper.toString(version) }
+      <h1>{ VersionHelper.toString(version) }</h1>
     </ListItemLink>
   )
 }

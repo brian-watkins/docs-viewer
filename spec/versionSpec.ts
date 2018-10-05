@@ -1,5 +1,4 @@
 import { renderApp, defaultFakes, FakeDependencies } from "./helpers/renderApp"
-import { testDocs } from "./fixtures/testDocumentation";
 import { click, find, findAll, textOf, wait, expectAttribute, expectLink, findWithin } from "./helpers/testHelpers";
 
 describe("when I click to see the versions", () => {

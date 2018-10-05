@@ -34,6 +34,49 @@ h1 {
   font-weight: bold;
 }
 
+#versions {
+  margin: 35px 0px 0px 56px;
+  padding: 0px;
+
+  h1 {
+    display: table;
+    border-style: none;
+    margin: 0px;
+    font-size: 4em;
+  }
+
+  ul {
+    width: 504px;
+    margin: 56px 56px 0px 0px;
+    padding: 56px 0px 49px 0px;
+    background-color: #ffffff;
+    border-style: solid;
+    border-width: 0px 0px 0px 7px;
+    border-color: #f2f2f2;
+
+    list-style: none;
+
+    h1 {
+      border-width: 0px 0px 7px 0px;
+      border-color: #ffffff;
+      border-style: solid;
+    }
+
+    li {
+      cursor: pointer;
+      padding: 0px 0px 28px 112px;
+    }
+
+    li:hover {
+      h1 {
+        border-width: 0px 0px 7px 0px;
+        border-color: #e3f0fa;
+        border-style: solid;
+      }
+    }
+  }
+}
+
 #banner {
   padding: 0px;
   margin: 35px 56px 0px 56px;
