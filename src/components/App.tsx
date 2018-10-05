@@ -8,7 +8,7 @@ import {
 import { VersionList } from "./VersionList"
 import { DocService } from "../services/DocService";
 import { Version } from "../model/Version";
-import { VersionPage } from "./VersionPage"
+import { DocumentationPage } from "./DocumentationPage"
 import * as VersionHelper from "../parser/VersionParser"
 
 import "../styles/base"
@@ -29,8 +29,8 @@ export class App extends React.Component<AppProps> {
     <div>
       <Switch>
         <Route exact path="/versions" render={this.showVersions} />
-        <Route path="/versions/:version/module/:moduleName" render={this.showVersionPage} />
-        <Route path="/versions/:version" render={this.showVersionPage} />
+        <Route path="/versions/:version/module/:moduleName" render={this.showDocumentationPage} />
+        <Route path="/versions/:version" render={this.showDocumentationPage} />
         <Redirect to="/versions/4.0.0" />
       </Switch>
       <Footer />
@@ -41,8 +41,8 @@ export class App extends React.Component<AppProps> {
     <VersionList versions={this.props.versions} />
   )
 
-  showVersionPage = (props: RouteComponentProps<MatchProps>) => (
-    <VersionPage
+  showDocumentationPage = (props: RouteComponentProps<MatchProps>) => (
+    <DocumentationPage
       docService={this.props.docService}
       version={VersionHelper.parse(props.match.params.version)}
       moduleName={props.match.params.moduleName}

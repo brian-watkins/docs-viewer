@@ -8,10 +8,9 @@ import { TypeReference } from "./TypeReference";
 import { CodeBlock } from "./CodeBlock"
 import { TypeArgs } from "./TypeArgs";
 import { TypeVariable } from "../parser/TypeDefinitionParser";
-import { Version } from "../model/Version";
+
 
 interface DocumentationProps {
-  version: Version,
   allDocs: Array<ModuleDocumentation>,
   docs: ModuleDocumentation
 }
@@ -42,9 +41,9 @@ export class Documentation extends React.Component<DocumentationProps> {
   showValue = (block: ValueBlock) => (
     <div key={block.name} id={block.name} className="value-block">
       <div className="title">
-        <TypeReference version={this.props.version} module={this.props.docs.name} name={block.name} data-type-name />
+        <TypeReference module={this.props.docs.name} name={block.name} data-type-name />
         <span className="separator">:</span>
-        <TypeDefinition version={this.props.version} docs={this.props.allDocs} definition={block.type} />
+        <TypeDefinition docs={this.props.allDocs} definition={block.type} />
       </div>
       <ReactMarkdown className="comment" source={block.comment} renderers={{code: CodeBlock}} />
     </div>
@@ -54,10 +53,10 @@ export class Documentation extends React.Component<DocumentationProps> {
     <div key={block.name} id={block.name} className="type-alias-block">
       <div className="title">
         <span className="type-qualifier">type alias</span>
-        <TypeReference version={this.props.version} module={this.props.docs.name} name={block.name} data-type-name />
-        <TypeArgs version={this.props.version} args={ block.args.map((a) => ({ kind: "variable", name: a } as TypeVariable)) } />
+        <TypeReference module={this.props.docs.name} name={block.name} data-type-name />
+        <TypeArgs args={ block.args.map((a) => ({ kind: "variable", name: a } as TypeVariable)) } />
         <span className="separator">=</span>
-        <TypeDefinition version={this.props.version} docs={this.props.allDocs} definition={block.type} />
+        <TypeDefinition docs={this.props.allDocs} definition={block.type} />
       </div>
       <ReactMarkdown className="comment" source={block.comment} renderers={{code: CodeBlock}} />
     </div>
