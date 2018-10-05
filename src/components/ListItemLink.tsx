@@ -2,12 +2,7 @@ import * as React from "react"
 import { withRouter, RouteComponentProps } from "react-router";
 
 
-interface MatchProps {
-  version: string,
-  moduleName: string
-}
-
-export interface ListItemLinkProps extends RouteComponentProps<MatchProps>, React.HTMLProps<HTMLLIElement> {
+export interface ListItemLinkProps extends RouteComponentProps<{}>, React.HTMLProps<HTMLLIElement> {
   to: string
 }
 

@@ -1,14 +1,13 @@
 import * as React from "react"
 import { Version } from "../model/Version";
-import { Link } from "react-router-dom";
 import { Show } from "../util/Show";
 import { ModuleList } from "./ModuleList";
 import { ReadMe } from "./Readme";
 import { Documentation } from "./Documentation";
 import { ModuleDocumentation } from "../model/ModuleDocumentation";
 import { DocService } from "../services/DocService";
-import { linkFor } from "../services/LinkProducer";
-import * as VersionHelper from "../parser/VersionParser"
+import { Banner } from "./Banner";
+
 
 export interface VersionPageProps {
   docService: DocService,
@@ -42,14 +41,7 @@ export class VersionPage extends React.Component<VersionPageProps, VersionPageSt
 
   render = () => (
     <div>
-      <div id="banner">
-        <h1>
-          / <Link to="/versions" data-versions-link>Elmer</Link>
-          / <Link to={linkFor(this.props.version)} data-readme-link>
-              { VersionHelper.toString(this.props.version) }
-            </Link>
-        </h1>
-      </div>
+      <Banner version={this.props.version} />
       <div id="container">
         <Show if={this.props.moduleName === undefined}>
           <ReadMe content={this.state.readme} />
@@ -68,27 +60,8 @@ export class VersionPage extends React.Component<VersionPageProps, VersionPageSt
           />
         </Show>
       </div>
-      <div id="footer">
-        Source available at http://github.com/brian-watkins
-      </div>
     </div>
   )
-
-  // showModuleList = (props: RouteComponentProps<MatchProps>) => (
-  //   <ModuleList
-  //     docs={this.state.docs}
-  //     history={props.history}
-  //     currentModule={this.props.moduleName}
-  //   />
-  // )
-
-  // showReadme = () => (
-  //   <ReadMe content={this.state.readme} />
-  // )
-
-  // showModule = (props: RouteComponentProps<MatchProps>) => (
-  //   <Documentation allDocs={this.state.docs} docs={ this.docsFor(props.match.params.moduleName) } />
-  // )
 
   docsFor(moduleName: string) {
     return this.state.docs.find((doc) => doc.name == moduleName)
