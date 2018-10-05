@@ -2,6 +2,7 @@ import * as React from "react"
 import { Version } from "../model/Version"
 import { linkFor } from "../services/LinkProducer";
 import { ListItemLink } from "./ListItemLink"
+import * as VersionHelper from "../parser/VersionParser"
 
 export interface VersionListProps {
   versions: Array<Version>
@@ -17,13 +18,9 @@ export class VersionList extends React.Component<VersionListProps> {
   )
   
   showVersion = (version: Version) => (
-    <ListItemLink key={this.printVersion(version)} to={linkFor(version)}>
-      / Elmer / { this.printVersion(version) }
+    <ListItemLink key={ VersionHelper.toString(version) } to={ linkFor(version) }>
+      / Elmer / { VersionHelper.toString(version) }
     </ListItemLink>
-  )
-
-  printVersion = (version: Version) => (
-    `${version.major}.${version.minor}.${version.patch}`
   )
 }
 

@@ -35,7 +35,7 @@ describe("when I click to see the versions", () => {
     })
 
     it("shows the home page for that version", () => {
-      expect(textOf(find("#banner"))).toEqual("/ Elmer / 2.1.6")
+      expect(textOf(find("#banner"))).toContain("2.1.6")
     })
 
     it("fetches the docs for that version", () => {
@@ -49,7 +49,7 @@ describe("when I click to see the versions", () => {
       })
 
       it("links to a module at the right version", () => {
-        expect(textOf(find("#banner"))).toEqual("/ Elmer / 2.1.6")
+        expect(textOf(find("#banner"))).toContain("2.1.6")
       })
   
       it("refers to types at the right version", () => {
@@ -64,7 +64,7 @@ describe("when I click to see the versions", () => {
       describe("when I click the version number", () => {
         it("returns to the readme", () => {
           click(find("[data-readme-link]"))
-          expect(textOf(find("#banner"))).toEqual("/ Elmer / 2.1.6")
+          expect(textOf(find("#banner"))).toContain("2.1.6")
           expect(textOf(find("#readme"))).toEqual("Here is the Readme content.")
         })
       })  

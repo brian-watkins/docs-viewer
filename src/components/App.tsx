@@ -15,6 +15,7 @@ import { DocService } from "../services/DocService";
 import { Link } from "react-router-dom";
 import { Version } from "../model/Version";
 import { VersionPage } from "./VersionPage"
+import * as VersionHelper from "../parser/VersionParser"
 
 import "../styles/base"
 
@@ -71,19 +72,11 @@ export class App extends React.Component<AppProps> {
   showVersionPage = (props: RouteComponentProps<MatchProps>) => (
     <VersionPage
       docService={this.props.docService}
-      version={this.parseVersion(props.match.params.version)}
+      version={VersionHelper.parse(props.match.params.version)}
       moduleName={props.match.params.moduleName}
     />
   )
 
-  parseVersion = (versionString: string) => {
-    const parts = versionString.split(".")
-    return {
-      major: Number(parts[0]),
-      minor: Number(parts[1]),
-      patch: Number(parts[2])
-    }
-  }
 
   //basically this function knows what version and so it needs to fetch the docs for that version
   //probably should make module home a component that does the fetching and stores in its internal state I guess

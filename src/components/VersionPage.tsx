@@ -8,6 +8,7 @@ import { Documentation } from "./Documentation";
 import { ModuleDocumentation } from "../model/ModuleDocumentation";
 import { DocService } from "../services/DocService";
 import { linkFor } from "../services/LinkProducer";
+import * as VersionHelper from "../parser/VersionParser"
 
 export interface VersionPageProps {
   docService: DocService,
@@ -42,7 +43,12 @@ export class VersionPage extends React.Component<VersionPageProps, VersionPageSt
   render = () => (
     <div>
       <div id="banner">
-        <h1>/ <Link to="/versions" data-versions-link>Elmer</Link> / <Link to={linkFor(this.props.version)} data-readme-link>{this.printVersion(this.props.version)}</Link></h1>
+        <h1>
+          / <Link to="/versions" data-versions-link>Elmer</Link>
+          / <Link to={linkFor(this.props.version)} data-readme-link>
+              { VersionHelper.toString(this.props.version) }
+            </Link>
+        </h1>
       </div>
       <div id="container">
         <Show if={this.props.moduleName === undefined}>
@@ -87,8 +93,4 @@ export class VersionPage extends React.Component<VersionPageProps, VersionPageSt
   docsFor(moduleName: string) {
     return this.state.docs.find((doc) => doc.name == moduleName)
   }
-
-  printVersion = (version: Version) => (
-    `${version.major}.${version.minor}.${version.patch}`
-  )
 }
