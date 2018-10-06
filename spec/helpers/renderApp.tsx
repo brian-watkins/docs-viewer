@@ -4,15 +4,45 @@ import { MemoryRouter } from "react-router-dom"
 import { App } from "../../src/components/App"
 import { ModuleDocumentation } from "../../src/model/ModuleDocumentation"
 import { DocService } from "../../src/services/DocService";
-import { FakeDocService } from "../fakes/FakeDocService";
 import { wait } from "./testHelpers";
+import { Version } from "../../src/model/Version";
+import { testDocs } from "../fixtures/testDocumentation";
 
 export interface TestData {
   docs: Array<ModuleDocumentation>,
-  readme: string
+  readme: string,
+  versions?: Array<Version>
 }
 
-export const renderApp = (testData: TestData, route: string = "/") => {
+export interface FakeDependencies {
+  fakeDocService: DocService,
+  versions: Array<Version>
+}
+
+export const defaultFakes = () : FakeDependencies => {
+  return fakeDependencies({
+    docs: testDocs,
+    readme: "Here is the Readme content.",
+    versions: [
+      { major: 1, minor: 1, patch: 2 }
+    ] 
+  })
+}
+
+export type Spied<T> = {  
+  [Method in keyof T]: jasmine.Spy;
+};
+
+export const fakeDependencies = (testData: TestData) : FakeDependencies => {
+  const fakeDocService : Spied<DocService> = jasmine.createSpyObj("docService", [ "fetch" ])
+  fakeDocService.fetch.and.returnValue(Promise.resolve({ readme: testData.readme, docs: testData.docs }))
+
+  const versions = testData.versions || [{ major: 1, minor: 0, patch: 0 }]
+
+  return { fakeDocService, versions }
+}
+
+export const renderApp = (fakes: FakeDependencies, route: string = "/") => {
   var div = document.querySelector("#react-test-app")
   if (div) {
     ReactDOM.unmountComponentAtNode(div);
@@ -23,17 +53,13 @@ export const renderApp = (testData: TestData, route: string = "/") => {
     document.querySelector("body").appendChild(div)  
   }
 
-  const fakeDocService = new FakeDocService()
-  fakeDocService.readme = testData.readme
-  fakeDocService.docs = testData.docs
-
-  ReactDOM.render(app(fakeDocService, route), div)
+  ReactDOM.render(app(fakes, route), div)
 
   return wait()
 }
 
-const app = (fakeDocService: DocService, route: string) => (
+const app = (fakes: FakeDependencies, route: string) => (
   <MemoryRouter initialEntries={[route]}>
-    <App docService={fakeDocService} />
+    <App docService={fakes.fakeDocService} versions={fakes.versions} />
   </MemoryRouter>
 )

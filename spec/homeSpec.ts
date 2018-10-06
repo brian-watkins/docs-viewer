@@ -1,11 +1,10 @@
-import { renderApp } from "./helpers/renderApp"
-import { testDocs } from "./fixtures/testDocumentation"
+import { renderApp, defaultFakes } from "./helpers/renderApp"
 import { findAll, textOf, find } from "./helpers/testHelpers";
 
 describe("initial page", () => {
   describe("when the app is accessed at the root page", () => {
     beforeEach(async () => {
-      await renderApp({ docs: testDocs, readme: "Here is the Readme content." })
+      await renderApp(defaultFakes())
     })
   
     it("shows a list of modules", () => {
@@ -22,7 +21,7 @@ describe("initial page", () => {
 
   describe("when a module page is accessed directly", () => {
     beforeEach(async () => {
-      await renderApp({ docs: testDocs, readme: "Here is the Readme content." }, "/module/Module1.Module2")
+      await renderApp(defaultFakes(), "/versions/9.0.0/module/Module1.Module2")
     })
     
     it("renders the module documentation", () => {

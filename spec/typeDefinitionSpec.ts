@@ -1,4 +1,4 @@
-import { renderApp } from "./helpers/renderApp";
+import { renderApp, fakeDependencies } from "./helpers/renderApp";
 import { 
   findAll,
   click,
@@ -17,7 +17,7 @@ import { ModuleDocumentation } from "../src/model/ModuleDocumentation";
 
 const itHasTheTypeReference = () => {
   it("provides a reference to the internal type", () => {
-    expectTypeReference("/module/Other.Module#SuperAlias", "SuperAlias")
+    expectTypeReference("/versions/4.0.0/module/Other.Module#SuperAlias", "SuperAlias")
   })
 }
 
@@ -353,7 +353,7 @@ const renderWithTypeDefinition = async (defn: string) => {
     }
   ]
 
-  await renderApp({ docs, readme: "" })
+  await renderApp(fakeDependencies({ docs, readme: "" }))
 
   const moduleItems = findAll("#module-list li")
   click(moduleItems.item(0))

@@ -5,6 +5,7 @@ import { FunctionType } from "./FunctionType";
 import { TypeArgs } from "./TypeArgs";
 import { assertNever } from "../util/Never";
 
+
 export interface TypeDesignationProps {
   value: TypeValue
 }

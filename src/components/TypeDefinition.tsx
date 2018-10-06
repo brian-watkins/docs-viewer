@@ -4,6 +4,7 @@ import * as TypeDefinitionParser from "../parser/TypeDefinitionParser"
 import { TypeDesignation } from "./TypeDesignation";
 import { FunctionType } from "./FunctionType";
 
+
 export interface TypeDefinitionProps {
   docs : Array<ModuleDocumentation>,
   definition : string

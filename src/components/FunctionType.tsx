@@ -2,6 +2,7 @@ import * as React from "react"
 import { TypeValue } from "../parser/TypeDefinitionParser";
 import { TypeDesignation } from "./TypeDesignation";
 
+
 export interface FunctionTypeProps {
   values: Array<TypeValue>,
   className: string,

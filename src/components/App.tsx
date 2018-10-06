@@ -1,83 +1,51 @@
 import * as React from "react"
 import {
   Route,
+  Switch,
   RouteComponentProps,
+  Redirect,
 } from 'react-router-dom'
-import { Documentation } from "./Documentation"
-import { ModuleList } from "./ModuleList"
-import { ModuleDocumentation } from "../model/ModuleDocumentation"
-import { ReadMe } from "./Readme"
-import { Show } from "../util/Show"
+import { VersionList } from "./VersionList"
 import { DocService } from "../services/DocService";
-import { Link } from "react-router-dom";
+import { Version } from "../model/Version";
+import { DocumentationPage } from "./DocumentationPage"
+import * as VersionHelper from "../parser/VersionParser"
 
 import "../styles/base"
+import { Footer } from "./Footer";
 
 export interface AppProps {
-  docService: DocService
+  docService: DocService,
+  versions: Array<Version>
 }
 
-export interface AppState {
-  readme: string,
-  docs: Array<ModuleDocumentation>
+interface MatchProps {
+  version: string,
+  moduleName: string
 }
 
-interface MatchProps { moduleName: string }
-
-export class App extends React.Component<AppProps, AppState> {
-  constructor(props: AppProps) {
-    super(props)
-    this.state = {
-      readme: "",
-      docs: []
-    }
-  }
-  
-  componentDidMount() {
-    this.props.docService.fetch().then(response => {
-      this.setState(() => ({
-        readme: response.readme,
-        docs: response.docs
-      }))
-    })
-  }
-
+export class App extends React.Component<AppProps> {
   render = () => (
     <div>
-      <div id="banner">
-        <h1>/ Elmer / <Link to="/">4.0.0</Link></h1>
-      </div>
-      <div id="container">
-        <Route exact path={"/"} render={this.showReadme} />
-        <Route exact path={"/"} render={this.showModuleList} />
-        <Show if={this.state.docs.length > 0}>
-          <Route path={"/module/:moduleName"} render={this.showModule} />
-          <Route path={"/module/:moduleName"} render={this.showModuleList} />
-        </Show>
-      </div>
-      <div id="footer">
-        Source available at http://github.com/brian-watkins
-      </div>
+      <Switch>
+        <Route exact path="/versions" render={this.showVersions} />
+        <Route path="/versions/:version/module/:moduleName" render={this.showDocumentationPage} />
+        <Route path="/versions/:version" render={this.showDocumentationPage} />
+        <Redirect to="/versions/4.0.0" />
+      </Switch>
+      <Footer />
     </div>
   )
 
-  showModuleList = (props: RouteComponentProps<MatchProps>) => (
-    <ModuleList
-      docs={this.state.docs}
-      history={props.history}
-      currentModule={props.match.params.moduleName}
+  showVersions = (props: RouteComponentProps<{}>) => (
+    <VersionList versions={this.props.versions} />
+  )
+
+  showDocumentationPage = (props: RouteComponentProps<MatchProps>) => (
+    <DocumentationPage
+      docService={this.props.docService}
+      version={VersionHelper.parse(props.match.params.version)}
+      moduleName={props.match.params.moduleName}
     />
   )
-
-  showReadme = () => (
-    <ReadMe content={this.state.readme} />
-  )
-
-  showModule = (props: RouteComponentProps<MatchProps>) => (
-    <Documentation allDocs={this.state.docs} docs={ this.docsFor(props.match.params.moduleName) } />
-  )
-
-  docsFor(moduleName: string) {
-    return this.state.docs.find((doc) => doc.name == moduleName)
-  }
 }
