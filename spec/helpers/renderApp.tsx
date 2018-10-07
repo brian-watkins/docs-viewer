@@ -4,6 +4,7 @@ import { MemoryRouter } from "react-router-dom"
 import { App } from "../../src/components/App"
 import { ModuleDocumentation } from "../../src/model/ModuleDocumentation"
 import { DocService } from "../../src/services/DocService";
+import { AnalyticsService } from "../../src/services/AnalyticsService"
 import { wait } from "./testHelpers";
 import { Version } from "../../src/model/Version";
 import { testDocs } from "../fixtures/testDocumentation";
@@ -16,6 +17,7 @@ export interface TestData {
 
 export interface FakeDependencies {
   fakeDocService: DocService,
+  fakeAnalyticsService: AnalyticsService,
   versions: Array<Version>
 }
 
@@ -37,9 +39,11 @@ export const fakeDependencies = (testData: TestData) : FakeDependencies => {
   const fakeDocService : Spied<DocService> = jasmine.createSpyObj("docService", [ "fetch" ])
   fakeDocService.fetch.and.returnValue(Promise.resolve({ readme: testData.readme, docs: testData.docs }))
 
+  const fakeAnalyticsService : Spied<AnalyticsService> = jasmine.createSpyObj("analyticsService", [ "sendPageView" ])
+
   const versions = testData.versions || [{ major: 1, minor: 0, patch: 0 }]
 
-  return { fakeDocService, versions }
+  return { fakeDocService, fakeAnalyticsService, versions }
 }
 
 export const renderApp = (fakes: FakeDependencies, route: string = "/") => {
@@ -60,6 +64,10 @@ export const renderApp = (fakes: FakeDependencies, route: string = "/") => {
 
 const app = (fakes: FakeDependencies, route: string) => (
   <MemoryRouter initialEntries={[route]}>
-    <App docService={fakes.fakeDocService} versions={fakes.versions} />
+    <App
+      docService={fakes.fakeDocService}
+      analyticsService={fakes.fakeAnalyticsService}
+      versions={fakes.versions} 
+    />
   </MemoryRouter>
 )

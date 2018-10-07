@@ -11,11 +11,14 @@ import { DocumentationPage } from "./DocumentationPage"
 import * as VersionHelper from "../parser/VersionParser"
 import { Footer } from "./Footer";
 import { LatestVersion } from "./LatestVersion"
+import { AnalyticsService } from "../services/AnalyticsService";
 import "../styles/base"
+import { PageViewAnalytics } from "./PageViewAnalytics";
 
 export interface AppProps {
   docService: DocService,
-  versions: Array<Version>
+  versions: Array<Version>,
+  analyticsService: AnalyticsService
 }
 
 interface MatchProps {
@@ -26,13 +29,15 @@ interface MatchProps {
 export class App extends React.Component<AppProps> {
   render = () => (
     <div>
-      <Switch>
-        <Route exact path="/versions" render={this.showVersions} />
-        <Route path="/versions/:version(\d+\.\d+\.\d+)/module/:moduleName" render={this.showDocumentationPage} />
-        <Route path="/versions/:version(\d+\.\d+\.\d+)" render={this.showDocumentationPage} />
-        <LatestVersion versions={this.props.versions} />
-      </Switch>
-      <Footer />
+      <PageViewAnalytics analyticsService={this.props.analyticsService}>
+        <Switch>
+          <Route exact path="/versions" render={this.showVersions} />
+          <Route path="/versions/:version(\d+\.\d+\.\d+)/module/:moduleName" render={this.showDocumentationPage} />
+          <Route path="/versions/:version(\d+\.\d+\.\d+)" render={this.showDocumentationPage} />
+          <LatestVersion versions={this.props.versions} />
+        </Switch>
+        <Footer />
+      </PageViewAnalytics>
     </div>
   )
 

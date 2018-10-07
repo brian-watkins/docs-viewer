@@ -1,4 +1,4 @@
-import { HttpDocService } from "../src/services/DocService";
+import { HttpDocService } from "../src/adapters/HttpDocService";
 import { ModuleDocumentation } from "../src/model/ModuleDocumentation";
 import Axios from "axios"
 import MockAdapter from "axios-mock-adapter"
