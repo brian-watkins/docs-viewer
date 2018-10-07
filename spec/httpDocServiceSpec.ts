@@ -25,9 +25,9 @@ describe("Http Doc Service", () => {
       mock.onGet('/docs/9.2.1/docs.json').reply(200, fakeDocumentation())
     })
 
-    it("fetches the docs", (done) => {
+    it("fetches the docs in sorted ordered by name", (done) => {
       subject.fetch(version).then(response => {
-        expect(response.docs).toEqual(fakeDocumentation())
+        expect(response.docs).toEqual(orderedFakeDocumentation())
         done()
       })
     })
@@ -43,24 +43,51 @@ describe("Http Doc Service", () => {
 
 const fakeDocumentation = (): Array<ModuleDocumentation> => (
   [
-    { 
-      name: "Main.Module",
-      comment: "@docs FunFunction",
-      values: [
-        { 
-          name: "FunFunction",
-          comment: "Represents something fun",
-          type: "String.String"
-        }
-      ],
-      aliases: [
-        {
-          name: "SuperAlias",
-          comment: "Results in something super",
-          type: "SuperArg",
-          args: [ "msg" ]
-        }
-      ]
-    }
+    mainFunModule(),
+    mainModule()
   ]
+)
+
+const orderedFakeDocumentation = (): Array<ModuleDocumentation> => (
+  [
+    mainModule(),
+    mainFunModule()
+  ]
+)
+
+const mainFunModule = (): ModuleDocumentation => (
+  {
+    name: "Main.Fun",
+    comment: "@docs FunFunction",
+    values: [
+      {
+        name: "FunFunction",
+        comment: "Represents something fun",
+        type: "String.String"
+      }
+    ],
+    aliases: [
+      {
+        name: "SuperAlias",
+        comment: "Results in something super",
+        type: "SuperArg",
+        args: [ "msg" ]
+      }
+    ]
+  }
+)
+
+const mainModule = (): ModuleDocumentation => (
+  {
+    name: "Main",
+    comment: "@docs AwesomeAlias",
+    values: [],
+    aliases: [
+      { name: "AwesomeAlias",
+        comment: "Something awesome",
+        type: "AwesomeArg",
+        args: []
+      }
+    ]
+  }
 )

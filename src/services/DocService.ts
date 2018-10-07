@@ -16,9 +16,15 @@ export class HttpDocService implements DocService {
       Axios.get(`${base}/README.md`)
     ]).then(results => {
       return {
-        docs: results[0].data,
+        docs: sorted(results[0].data),
         readme: results[1].data
       }
     })
   }
+}
+
+const sorted = (docs: Array<ModuleDocumentation>) => {
+  return docs.sort((a, b) => {
+    return a.name.localeCompare(b.name)
+  })
 }
