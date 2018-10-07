@@ -3,13 +3,13 @@ import { TypeValue } from "../parser/TypeDefinitionParser";
 import { TypeDesignation } from "./TypeDesignation";
 
 
-export interface FunctionTypeProps {
+export interface FunctionDefinitionProps {
   values: Array<TypeValue>,
   className: string,
   shouldBreak: boolean
 }
 
-export const FunctionType = (props: FunctionTypeProps) => (
+export const FunctionDefinition = (props: FunctionDefinitionProps) => (
   <span className={ props.className } data-should-break={props.shouldBreak}>
     { props.values.map((val, index) => <TypeDesignation key={`batch-${index}`} value={val}/>).reduce(joinTypes, []) }
   </span>

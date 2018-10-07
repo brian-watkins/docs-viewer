@@ -25,8 +25,8 @@ export interface TupleType {
   right: TypeValue
 }
 
-export interface BatchType {
-  kind: "batch",
+export interface FunctionType {
+  kind: "function",
   types: Array<TypeValue>
 }
 
@@ -34,7 +34,7 @@ export interface UnknownType {
   kind: "unknown"
 }
 
-export type TypeValue = InternalType | ExternalType | TypeVariable | TupleType | BatchType | UnknownType
+export type TypeValue = InternalType | ExternalType | TypeVariable | TupleType | FunctionType | UnknownType
 
 interface TypeName {
   module: string,
@@ -58,21 +58,21 @@ const typeDefinitionLanguage = (allDocs: Array<ModuleDocumentation>) => (
   Pars.createLanguage({
     word: () => Pars.regexp(/\w+/),
 
-    typeSeparator: () => Pars.seq(Pars.whitespace, Pars.string("->"), Pars.whitespace),
+    functionTypeSeparator: () => Pars.seq(Pars.whitespace, Pars.string("->"), Pars.whitespace),
 
-    batchType: (p) => (
-      Pars.seqMap(p.type, p.typeSeparator.then(p.type).atLeast(1), (r, rs) => {
+    functionType: (p) => (
+      Pars.seqMap(p.typeValue, p.functionTypeSeparator.then(p.typeValue).atLeast(1), (r, rs) => {
         return {
-          kind: "batch",
+          kind: "function",
           types: [r].concat(rs)
         }
       })
     ),
 
-    nestedBatchType: (p) => p.batchType.wrap(Pars.string("("), Pars.string(")")),
+    nestedFunctionType: (p) => p.functionType.wrap(Pars.string("("), Pars.string(")")),
 
     tupleType: (p) => (
-      Pars.seqMap(p.type, Pars.string(", "), p.type, (left, _, right) => {
+      Pars.seqMap(p.typeValue, Pars.string(", "), p.typeValue, (left, _, right) => {
         return {
           kind: "tuple",
           left,
@@ -105,7 +105,7 @@ const typeDefinitionLanguage = (allDocs: Array<ModuleDocumentation>) => (
     ),
 
     typeArgument: (p) => (
-      p.nestedTypeLabel.or(p.nestedBatchType).or(p.tupleType).or(p.atomicTypeLabel).or(p.typeVariable).or(p.unitType)
+      p.nestedTypeLabel.or(p.nestedFunctionType).or(p.tupleType).or(p.atomicTypeLabel).or(p.typeVariable).or(p.unitType)
     ),
 
     typeLabel: (p) => (
@@ -118,8 +118,8 @@ const typeDefinitionLanguage = (allDocs: Array<ModuleDocumentation>) => (
 
     unitType: () => Pars.string("()").map(() => externalType("()", [])),
 
-    type: (p) => (
-      p.nestedBatchType
+    typeValue: (p) => (
+      p.nestedFunctionType
         .or(p.tupleType)
         .or(p.typeLabel)
         .or(p.typeVariable)
@@ -127,7 +127,7 @@ const typeDefinitionLanguage = (allDocs: Array<ModuleDocumentation>) => (
     ),
 
     typeDefinition: (p) => (
-      p.batchType.or(p.type)
+      p.functionType.or(p.typeValue)
     )
 
   })

@@ -1,7 +1,7 @@
 import * as React from "react"
 import { TypeReference } from "./TypeReference";
-import { TypeValue, InternalType, ExternalType, BatchType, TupleType, TypeVariable } from "../parser/TypeDefinitionParser";
-import { FunctionType } from "./FunctionType";
+import { TypeValue, InternalType, ExternalType, FunctionType, TupleType, TypeVariable } from "../parser/TypeDefinitionParser";
+import { FunctionDefinition } from "./FunctionDefinition";
 import { TypeArgs } from "./TypeArgs";
 import { assertNever } from "../util/Never";
 
@@ -20,8 +20,8 @@ export const TypeDesignation = (props: TypeDesignationProps) => {
       return showTypeVariable(props.value)
     case "tuple":
       return showTupleType(props.value)
-    case "batch":
-      return showBatchType(props.value)
+    case "function":
+      return showFunctionType(props.value)
     case "unknown":
       return null
     default:
@@ -60,6 +60,6 @@ const showTupleType = (tuple: TupleType) => (
   </span>
 )
 
-const showBatchType = (value: BatchType) => (
-  <FunctionType className="nested-function type-designation" values={value.types} shouldBreak={false} />
+const showFunctionType = (value: FunctionType) => (
+  <FunctionDefinition className="nested-function type-designation" values={value.types} shouldBreak={false} />
 )
