@@ -1,6 +1,8 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
   mode: process.env.NODE_ENV === "production" ? "production" : "development",
@@ -47,6 +49,19 @@ module.exports = {
       "react-dom": "ReactDOM"
   },
 
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        commons: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          filename: 'vendor-bundle.js',
+          chunks: 'all'
+        }
+      }
+    }
+  },
+
   plugins: [
     new HtmlWebpackPlugin({
         title: "Elmer Documentation",
@@ -59,8 +74,13 @@ module.exports = {
         chunkFilename: "[id].css"
     }),
     new CopyWebpackPlugin([
-        { from: "./docs/**/*", to: "./" }
-    ])
+        { from: "./docs/**/*", to: "./" },
+        { from: "./Staticfile", to: "./" }
+    ]),
+    new CleanWebpackPlugin(['dist']),
+    new BundleAnalyzerPlugin({
+        analyzerMode: process.env.ANALYZE_BUILD ? 'server' : 'disabled'
+    })
   ],
 
   devServer: {
