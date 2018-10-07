@@ -3,17 +3,15 @@ import {
   Route,
   Switch,
   RouteComponentProps,
-  Redirect,
 } from 'react-router-dom'
 import { VersionList } from "./VersionList"
 import { DocService } from "../services/DocService";
 import { Version } from "../model/Version";
 import { DocumentationPage } from "./DocumentationPage"
 import * as VersionHelper from "../parser/VersionParser"
-
-import "../styles/base"
 import { Footer } from "./Footer";
 import { LatestVersion } from "./LatestVersion"
+import "../styles/base"
 
 export interface AppProps {
   docService: DocService,

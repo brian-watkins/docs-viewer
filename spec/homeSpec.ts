@@ -1,4 +1,4 @@
-import { renderApp, defaultFakes } from "./helpers/renderApp"
+import { renderApp, defaultFakes, FakeDependencies } from "./helpers/renderApp"
 import { findAll, textOf, find } from "./helpers/testHelpers";
 
 describe("initial page", () => {
@@ -31,6 +31,24 @@ describe("initial page", () => {
     it("renders the module documentation", () => {
       var title = find("#module h1")
       expect(textOf(title)).toEqual("Module1.Module2")
+    })
+  })
+
+  describe("when an unknown module page is accessed directly", () => {
+    let fakes: FakeDependencies
+
+    beforeEach(async () => {
+      fakes = defaultFakes()
+      fakes.versions = [
+        { major: 20, minor: 10, patch: 0 },
+        { major: 9, minor: 0, patch: 0 }
+      ]
+      await renderApp(fakes, "/versions/9.0.0/module/Unknown.Module")
+    })
+
+    it("renders the readme page for this version", () => {
+      expect(textOf(find("#banner"))).toContain("9.0.0")
+      expect(textOf(find("#readme"))).toEqual("Here is the Readme content.")
     })
   })
 })

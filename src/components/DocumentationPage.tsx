@@ -56,7 +56,12 @@ export class DocumentationPage extends React.Component<DocumentationPageProps, D
     }
 
     if (this.state.docs.length > 0) {
-      return this.documentationPage()
+      const moduleDocs = this.docsFor(this.props.moduleName)
+      if (moduleDocs) {
+        return this.documentationPage(moduleDocs)
+      } else {
+        return this.readmePage()
+      }
     }
     
     return null
@@ -69,12 +74,12 @@ export class DocumentationPage extends React.Component<DocumentationPageProps, D
     ]
   )
 
-  documentationPage = () => (
+  documentationPage = (moduleDocs: ModuleDocumentation) => (
     [
       <Documentation 
         key="readme" 
         allDocs={this.state.docs} 
-        docs={ this.docsFor(this.props.moduleName) }
+        docs={ moduleDocs }
       />,
       this.moduleList()
     ]
