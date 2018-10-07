@@ -70,3 +70,52 @@ describe("when I click to see the versions", () => {
     })
   })
 })
+
+describe("when the version is not found", () => {
+  let fakes: FakeDependencies
+
+  beforeEach(async () => {
+    fakes = defaultFakes()
+    fakes.versions = [
+      { major: 19, minor: 8, patch: 47 },
+      { major: 4, minor: 0, patch: 0 },
+      { major: 3, minor: 0, patch: 0 },
+      { major: 2, minor: 1, patch: 6 },
+      { major: 1, minor: 0, patch: 0 }
+    ]
+  })
+
+  const expectLatestVersion = () => {
+    expect(textOf(find("#banner"))).toContain("19.8.47")
+    expect(textOf(find("#readme"))).toEqual("Here is the Readme content.")
+    expect(fakes.fakeDocService.fetch).toHaveBeenCalledWith({major: 19, minor: 8, patch: 47})
+  }
+
+  describe("when the version is unpareasble", () => {
+    it("fetches the home page for the latest version", async () => {
+      await renderApp(fakes, "/versions/19.x.32a")
+      expectLatestVersion()
+    })
+  })
+
+  describe("when the version is unparseable for a module", () => {
+    it("fetches the home page for the latest version", async () => {
+      await renderApp(fakes, "/versions/19.x.32a/module/Blah.Blah")
+      expectLatestVersion()
+    })
+  })
+
+  describe("when the version is not found", () => {
+    it("fetches the home page for the latest version", async () => {
+      await renderApp(fakes, "/versions/4.4.32")
+      expectLatestVersion()
+    })
+  })
+
+  describe("when the version is not found for a module", () => {
+    it("fetches the home page for the latest version", async () => {
+      await renderApp(fakes, "/versions/4.8.22/module/Blah.Blah")
+      expectLatestVersion()
+    })
+  })
+})

@@ -17,7 +17,7 @@ import { ModuleDocumentation } from "../src/model/ModuleDocumentation";
 
 const itHasTheTypeReference = () => {
   it("provides a reference to the internal type", () => {
-    expectTypeReference("/versions/4.0.0/module/Other.Module#SuperAlias", "SuperAlias")
+    expectTypeReference("/versions/14.3.0/module/Other.Module#SuperAlias", "SuperAlias")
   })
 }
 
@@ -353,7 +353,11 @@ const renderWithTypeDefinition = async (defn: string) => {
     }
   ]
 
-  await renderApp(fakeDependencies({ docs, readme: "" }))
+  const versions = [
+    { major: 14, minor: 3, patch: 0 }
+  ]
+
+  await renderApp(fakeDependencies({ docs, readme: "", versions }))
 
   const moduleItems = findAll("#module-list li")
   click(moduleItems.item(0))

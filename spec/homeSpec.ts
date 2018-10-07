@@ -21,7 +21,11 @@ describe("initial page", () => {
 
   describe("when a module page is accessed directly", () => {
     beforeEach(async () => {
-      await renderApp(defaultFakes(), "/versions/9.0.0/module/Module1.Module2")
+      var fakes = defaultFakes()
+      fakes.versions = [
+        { major: 9, minor: 0, patch: 0 }
+      ]
+      await renderApp(fakes, "/versions/9.0.0/module/Module1.Module2")
     })
     
     it("renders the module documentation", () => {

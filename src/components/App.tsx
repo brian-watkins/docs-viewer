@@ -13,6 +13,7 @@ import * as VersionHelper from "../parser/VersionParser"
 
 import "../styles/base"
 import { Footer } from "./Footer";
+import { LatestVersion } from "./LatestVersion"
 
 export interface AppProps {
   docService: DocService,
@@ -29,9 +30,9 @@ export class App extends React.Component<AppProps> {
     <div>
       <Switch>
         <Route exact path="/versions" render={this.showVersions} />
-        <Route path="/versions/:version/module/:moduleName" render={this.showDocumentationPage} />
-        <Route path="/versions/:version" render={this.showDocumentationPage} />
-        <Redirect to="/versions/4.0.0" />
+        <Route path="/versions/:version(\d+\.\d+\.\d+)/module/:moduleName" render={this.showDocumentationPage} />
+        <Route path="/versions/:version(\d+\.\d+\.\d+)" render={this.showDocumentationPage} />
+        <LatestVersion versions={this.props.versions} />
       </Switch>
       <Footer />
     </div>
@@ -41,11 +42,19 @@ export class App extends React.Component<AppProps> {
     <VersionList versions={this.props.versions} />
   )
 
-  showDocumentationPage = (props: RouteComponentProps<MatchProps>) => (
-    <DocumentationPage
-      docService={this.props.docService}
-      version={VersionHelper.parse(props.match.params.version)}
-      moduleName={props.match.params.moduleName}
-    />
+  showDocumentationPage = (props: RouteComponentProps<MatchProps>) => {
+    if (!this.hasVersion(props.match.params.version)) {
+      return <LatestVersion versions={this.props.versions} />
+    }
+
+    return <DocumentationPage
+        docService={this.props.docService}
+        version={VersionHelper.parse(props.match.params.version)}
+        moduleName={props.match.params.moduleName}
+      />
+  }
+
+  hasVersion = (version: string): boolean => (
+    this.props.versions.find((v) => VersionHelper.toString(v) === version) !== undefined
   )
 }
