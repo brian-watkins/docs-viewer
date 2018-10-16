@@ -162,14 +162,26 @@ h1 {
     }
 
     li[data-name='Elmer.Http'] {
-      break-before: column;
-    }
-
-    li[data-name='Elmer.Navigation'] {
       margin-top: 14px;
     }
 
+    li[data-name='Elmer.Navigation'] {
+      break-before: column;
+    }
+
     li[data-name='Elmer.Platform.Command'] {
+      margin-top: 14px;
+    }
+
+    li[data-name='Elmer.Command'] {
+      margin-top: 14px;
+    }
+
+    li[data-name='Elmer.Program'] {
+      margin-top: 14px;
+    }
+
+    li[data-name='Elmer.Subscription'] {
       margin-top: 14px;
     }
 
