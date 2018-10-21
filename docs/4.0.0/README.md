@@ -41,8 +41,8 @@ for the elm test package that works with Elm 0.19 (`elm-test@elm0.19.0`)
 
 I recommend installing these dependencies locally in your project directory so you can track versions carefully. Here's the command to install all these at once:
 
-```
-$ npm install -D elm elm-test@elm0.19.0 elmer-test
+```bash
+$ npm install --save-dev elm elm-test@elm0.19.0 elmer-test
 ```
 
 Now install the elm test library:
