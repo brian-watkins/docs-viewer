@@ -1,0 +1,22 @@
+#readme {
+  width: 448px;
+  line-height: 1.4em;
+  margin: 0px 56px 0px 0px;
+  background-color: #ffffff;
+  padding: 56px 112px;
+  border-width: 0px 0px 0px 7px;
+  border-color: $background-emphasis;
+  border-style: solid;
+
+  @include code-block;
+
+  h1 {
+    padding: 17x 0px 14px 0px;
+    display: table;
+    line-height: normal;
+  }
+
+  h3 {
+    padding: 14px 0px 0px 0px;
+  }
+}

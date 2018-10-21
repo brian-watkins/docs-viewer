@@ -1,13 +1,17 @@
 $link-color: #2196F3;
 $text-color: #333333;
 $light-text-color: #666666;
+$offset-background-color: #fcffff;
+$background-color: #fafafa;
+$emphasis-color: #e3f0fa;
+$background-emphasis: #f2f2f2;
 $font-stack: 'Source Sans Pro', sans-serif;
 $fixed-width-font-stack: 'Source Code Pro', sans-serif;
 
 body {
   font: 100% $font-stack;
   color: $text-color;
-  background-color: #fafafa;
+  background-color: $background-color;
   padding: 0px;
   margin: 0px;
 }
@@ -19,7 +23,7 @@ a:visited, a:link, a:active {
 
 a:hover {
   text-decoration: none;
-  border-color: #e3f0fa;
+  border-color: $emphasis-color;
   border-width: 0px 0px 7px 0px;
   border-style: solid;
   color: $link-color;
@@ -27,78 +31,11 @@ a:hover {
 
 h1 {
   border-width: 7px 0px 0px 0px;
-  border-color: #333333;
+  border-color: $text-color;
   border-style: solid;
   padding: 7px 0px 0px 0px;
   margin: 0px 0px 21px 0px;
   font-weight: bold;
-}
-
-#versions {
-  margin: 35px 0px 0px 56px;
-  padding: 0px;
-
-  h1 {
-    display: table;
-    border-style: none;
-    margin: 0px;
-    font-size: 4em;
-  }
-
-  ul {
-    width: 504px;
-    margin: 56px 56px 0px 0px;
-    padding: 56px 0px 49px 0px;
-    background-color: #ffffff;
-    border-style: solid;
-    border-width: 0px 0px 0px 7px;
-    border-color: #f2f2f2;
-
-    list-style: none;
-
-    h1 {
-      border-width: 0px 0px 7px 0px;
-      border-color: #ffffff;
-      border-style: solid;
-    }
-
-    li {
-      cursor: pointer;
-      padding: 0px 0px 28px 112px;
-    }
-
-    li:hover {
-      h1 {
-        border-width: 0px 0px 7px 0px;
-        border-color: #e3f0fa;
-        border-style: solid;
-      }
-    }
-  }
-}
-
-#banner {
-  padding: 0px;
-  margin: 35px 56px 0px 56px;
-
-  h1 {
-    border-style: none;
-    margin: 0px;
-    font-size: 4em;
-  }
-
-  a {
-    color: #333333;
-  }
-}
-
-#footer {
-  margin-top: 56px;
-  border-color: #e3f0fa;
-  border-width: 3px 0px 0px 0px;
-  border-style: dotted;
-  padding: 28px 56px 28px 56px;
-  color: #999999;
 }
 
 #container {
@@ -106,354 +43,20 @@ h1 {
   margin: 56px 0px 35px 56px;
 }
 
-#module-list {
-  width: 504px;
-  margin: 0px 56px 0px 0px;
-  background-color: #ffffff;
-  border-style: solid;
-  border-width: 0px 0px 0px 7px;
-  border-color: #f2f2f2;
-
-  h1 {
-    background-color: #ffffff;
-    margin: 56px 0px 0px 56px;
-    display: table;
-  }
-
-  .stick {
-    position: -webkit-sticky;
-    position: sticky;
-    top: 0px;
-    overflow: auto;
-    height: calc( 100vh );
-  }
-
-  ul {
-    background-color: #ffffff;
-    padding: 21px 56px 21px 56px;
-    column-count: 2;
-    column-gap: 28px;
-
-    list-style: none;
-
-    li {
-      cursor: pointer;
-      padding: 0px 0px 7px 0px;
-    }
-
-    li:not(.selected):hover {
-      span {
-        border-width: 0px 0px 7px 0px;
-        border-color: #f2f2f2;
-        border-style: solid;  
-      }
-    }
-
-    li[data-name='Elmer.Browser'] {
-      margin-top: 14px;
-    }
-
-    li[data-name='Elmer.Headless'] {
-      margin-top: 14px;
-    }
-
-    li[data-name='Elmer.Html'] {
-      margin-top: 14px;
-    }
-
-    li[data-name='Elmer.Http'] {
-      margin-top: 14px;
-    }
-
-    li[data-name='Elmer.Navigation'] {
-      break-before: column;
-    }
-
-    li[data-name='Elmer.Platform.Command'] {
-      margin-top: 14px;
-    }
-
-    li[data-name='Elmer.Command'] {
-      margin-top: 14px;
-    }
-
-    li[data-name='Elmer.Program'] {
-      margin-top: 14px;
-    }
-
-    li[data-name='Elmer.Subscription'] {
-      margin-top: 14px;
-    }
-
-    li[data-name='Elmer.Spy'] {
-      margin-top: 14px;
-    }
-  }
-
-  .selected {
-    span {
-      border-width: 0px 0px 7px 0px;
-      border-color: #e3f0fa;
-      border-style: solid;  
-    }
-  }
-}
-
-
-#readme {
-  width: 448px;
-  line-height: 1.4em;
-  margin: 0px 56px 0px 0px;
-  background-color: #ffffff;
-  padding: 56px 112px;
-  border-width: 0px 0px 0px 7px;
-  border-color: #f2f2f2;
-  border-style: solid;
-
-
-  h1 {
-    padding: 17x 0px 14px 0px;
-    display: table;
-    line-height: normal;
-  }
-
-  h3 {
-    padding: 14px 0px 0px 0px;
-  }
-
+@mixin code-block {
   code {
     font: 100% $fixed-width-font-stack;
     margin: 0px 0px;
     color: #000000;
-    background-color: #fcffff;
+    font-size: .9em;
+    background-color: $offset-background-color;
   }
 
   pre code {
-    padding: 21px 0px 21px 21px;
-    border-style: none;
-    background-color: #fcffff;
-  }
-}
-
-#module {
-  width: 448px;
-  margin: 0px 56px 0px 0px;
-  background-color: #ffffff;
-  padding: 56px 112px;
-  border-width: 0px 0px 0px 7px;
-  border-color: #f2f2f2;
-  border-style: solid;
-
-  h1 {
-    display: table;
-    padding-top: 7px;
-    margin-bottom: 0px;
-  }
-}
-
-#documentation {
-  line-height: 1.4em;
-
-  code {
-    font: 100% $fixed-width-font-stack;
-    margin: 0px 0px;
-    color: #000000;
-    background-color: #fcffff;
-  }
-
-  pre code {
-    padding: 21px 0px 21px 21px;
-    border-style: none;
-    background-color: #fcffff;
-  }
-
-  .title {
-    font: 100% $fixed-width-font-stack
-  }
-
-  .separator::before {
-    content: "\00a0";
-  }
-
-  .separator::after {
-    content: "\00a0";
-  }
-
-  .type-args {
-    display: inline-block;
-  }
-
-  .type-name~.type-args::before {
-    content: "\00a0";
-  }
-
-  .nested-function>.type-designation:first-child::before {
-    content: "("
-  }
-
-  .nested-function>.type-designation:last-child::after {
-    content: ")"
-  }
-
-  .type-name~.type-designation::before {
-    content: "\00a0"
-  }
-
-  .type-designation>.tuple-part:first-child::before {
-    content: "("
-  }
-  .type-designation>.tuple-part:first-child::after {
-    content: ", "
-  }
-  .type-designation>.tuple-part:last-child::after {
-    content: ")"
-  }
-
-  .type-name~[data-type-args] {
-    >.type-designation::before {
-      content: "\00a0"
-    }
-  }
-
-  [data-type-args]>.type-designation {
-    &[data-has-args='true']::before {
-      content: " (";
-    }
-    &[data-has-args='true']::after {
-      content: ")";
-    }
-  }
-
-  .record-part {
-    &:not(:first-child) {
-      display: block;
-
-      &>.name:before {
-        content: ", ";
-      }
-    }
-
-    &:first-child:before {
-      content: "{ ";
-    }
-
-    &>.name:after {
-      content: ": ";
-    }
-
-    &:last-child:after {
-      content: "\A}";
-      white-space: pre;
-    }
-  }
-
-  .definition {
-    display: block;
-    line-height: 1.4em;
-    margin: 2px 0px 0px 28px;
-    white-space: nowrap;
-  }
-
-  .definition[data-should-break='true']>.separator {
-    &::before {
-      content: "\a\00a0\00a0";
-      white-space: pre;
-    }
-  }
-}
-
-.overview-block {
-  p {
-    background-color: #ffffff;
-    padding: 0px 0px 21px 0px;
-    margin: 0px;
-  }
-
-  &>p:first-of-type {
-    padding-top: 21px;
-  }
-
-  h1+p {
-    padding-top: 21px;
-  }
-
-  h1 {
-    margin: 56px 0px 35px 0px;
-    padding-top: 7px;
-    line-height: normal;
-  }
-
-  ol {
-    background-color: #ffffff;
-    padding: 0px 28px 21px 56px;
-    margin: 0px;
-  }
-
-  li p {
-    padding: 0px 0px 14px 0px;
-    border-style: none;
-  }
-}
-
-.type-alias-block {
-  margin-top: 28px;
-  background-color: #ffffff;
-  
-  .definition {
-    display: block;
-    margin: 2px 0px 0px 28px;
-  }
-
-  .type-qualifier {
-    color: $light-text-color;
-    display: inline-block;
-  }
-
-  .type-qualifier::after {
-    content: "\00a0";
-  }
-
-  .title {
-    background: linear-gradient(to right, #fcffff, #ffffff);
-    padding: 28px 0px 28px 21px;
-    margin: 56px 0px 0px 0px;
-    border-width: 0px 0px 0px 7px;
-    border-color: #e3f0fa;
+    padding: 21px;
+    border-width: 7px;
+    border-color: $background-color;
     border-style: solid;
-  }
-
-  .comment {
-    padding: 14px 0px 21px 21px;
-
-    p {
-      margin: 0px 0px 14px 0px;
-      padding: 0px;
-    }
-  }
-}
-
-.value-block {
-  background-color: #ffffff;
-
-  .definition {
-    display: inline-block;
-  }
-
-  .title {
-    background: linear-gradient(to right, #fcffff, #ffffff);
-    padding: 28px 0px 28px 21px;
-    margin: 56px 0px 0px 0px;
-    border-width: 0px 0px 0px 7px;
-    border-color: #e3f0fa;
-    border-style: solid;
-  }
-
-  .comment {
-    padding: 14px 0px 14px 14px;
-
-    p {
-      margin: 0px 0px 14px 0px;
-      padding: 0px;
-    }
+    background-color: #ffffff;
   }
 }

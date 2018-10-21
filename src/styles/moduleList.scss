@@ -1,0 +1,93 @@
+#module-list {
+  width: 504px;
+  margin: 0px 56px 0px 0px;
+  background-color: #ffffff;
+  border-style: solid;
+  border-width: 0px 0px 0px 7px;
+  border-color: $background-emphasis;
+
+  h1 {
+    background-color: #ffffff;
+    margin: 56px 0px 0px 56px;
+    display: table;
+  }
+
+  .stick {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0px;
+    overflow: auto;
+    height: calc( 100vh );
+  }
+
+  ul {
+    background-color: #ffffff;
+    padding: 21px 56px 21px 56px;
+    column-count: 2;
+    column-gap: 28px;
+
+    list-style: none;
+
+    li {
+      cursor: pointer;
+      padding: 0px 0px 7px 0px;
+    }
+
+    li:not(.selected):hover {
+      span {
+        border-width: 0px 0px 7px 0px;
+        border-color: $background-emphasis;
+        border-style: solid;  
+      }
+    }
+
+    li[data-name='Elmer.Browser'] {
+      margin-top: 14px;
+    }
+
+    li[data-name='Elmer.Headless'] {
+      margin-top: 14px;
+    }
+
+    li[data-name='Elmer.Html'] {
+      margin-top: 14px;
+    }
+
+    li[data-name='Elmer.Http'] {
+      margin-top: 14px;
+    }
+
+    li[data-name='Elmer.Navigation'] {
+      break-before: column;
+    }
+
+    li[data-name='Elmer.Platform.Command'] {
+      margin-top: 14px;
+    }
+
+    li[data-name='Elmer.Command'] {
+      margin-top: 14px;
+    }
+
+    li[data-name='Elmer.Program'] {
+      margin-top: 14px;
+    }
+
+    li[data-name='Elmer.Subscription'] {
+      margin-top: 14px;
+    }
+
+    li[data-name='Elmer.Spy'] {
+      margin-top: 14px;
+    }
+  }
+
+  .selected {
+    span {
+      border-width: 0px 0px 7px 0px;
+      border-color: $emphasis-color;
+      border-style: solid;  
+    }
+  }
+}
+

@@ -12,7 +12,7 @@ import * as VersionHelper from "../parser/VersionParser"
 import { Footer } from "./Footer";
 import { LatestVersion } from "./LatestVersion"
 import { AnalyticsService } from "../services/AnalyticsService";
-import "../styles/base"
+import "../styles/style"
 import { PageViewAnalytics } from "./PageViewAnalytics";
 
 export interface AppProps {
