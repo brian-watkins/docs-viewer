@@ -9,7 +9,7 @@ module.exports = {
   entry: "./src/index.tsx",
   output: {
       publicPath: "/",
-      filename: "bundle.js",
+      filename: "bundle.[contenthash].js",
       path: __dirname + "/dist"
   },
 
@@ -55,7 +55,7 @@ module.exports = {
         commons: {
           test: /[\\/]node_modules[\\/]/,
           name: 'vendors',
-          filename: 'vendor-bundle.js',
+          filename: 'vendor-bundle.[contenthash].js',
           chunks: 'all'
         }
       }
