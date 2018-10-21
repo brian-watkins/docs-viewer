@@ -11,7 +11,9 @@ import {
   typeOf,
   complexTypeOf,
   tupleTypeOf,
-  typeVariableOf
+  typeVariableOf,
+  recordTypeOf,
+  recordPart
 } from "./helpers/testHelpers";
 import { ModuleDocumentation } from "../src/model/ModuleDocumentation";
 
@@ -269,6 +271,21 @@ describe("type definitions", () => {
           ])
         ])
       })
+    })
+  })
+
+  describe("when the type definition is a record", () => {
+    it("displays the type correctly", async () => {
+      await renderWithTypeDefinition("{ description : String.String, predicate : Elmer.Html.HtmlElement msg -> Basics.Bool }")
+      expectTypes([
+        recordTypeOf([
+          recordPart("description", typeOf("String")),
+          recordPart("predicate", complexTypeOf([
+            typeOf("HtmlElement", [ typeVariableOf("msg") ]),
+            typeOf("Bool")
+          ]))
+        ])
+      ])
     })
   })
 

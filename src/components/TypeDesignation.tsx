@@ -1,9 +1,10 @@
 import * as React from "react"
 import { TypeReference } from "./TypeReference";
-import { TypeValue, InternalType, ExternalType, FunctionType, TupleType, TypeVariable } from "../parser/TypeDefinitionParser";
+import { TypeValue, InternalType, ExternalType, FunctionType, TupleType, TypeVariable, RecordType } from "../parser/TypeDefinitionParser";
 import { FunctionDefinition } from "./FunctionDefinition";
 import { TypeArgs } from "./TypeArgs";
 import { assertNever } from "../util/Never";
+import { RecordDefinition } from "./RecordDefinition";
 
 
 export interface TypeDesignationProps {
@@ -20,6 +21,8 @@ export const TypeDesignation = (props: TypeDesignationProps) => {
       return showTypeVariable(props.value)
     case "tuple":
       return showTupleType(props.value)
+    case "record":
+      return showRecordType(props.value)
     case "function":
       return showFunctionType(props.value)
     case "unknown":
@@ -58,6 +61,10 @@ const showTupleType = (tuple: TupleType) => (
       <TypeDesignation value={tuple.right} />
     </span>
   </span>
+)
+
+const showRecordType = (record: RecordType) => (
+  <RecordDefinition className="type-designation" value={record} />
 )
 
 const showFunctionType = (value: FunctionType) => (

@@ -60,7 +60,13 @@ export const expectAttribute = (element: HTMLElement, name: string, expectedValu
   expect(element.getAttribute(name)).toEqual(expectedValue)
 }
 
-export type TypeExpectation = TypeVariableExpectation | SingleTypeExpectation | ComplexTypeExpectation | TupleTypeExpectation | SaturatedTypeExpectation
+export type TypeExpectation = 
+  TypeVariableExpectation |
+  SingleTypeExpectation |
+  ComplexTypeExpectation |
+  TupleTypeExpectation |
+  SaturatedTypeExpectation |
+  RecordTypeExpectation
 
 export interface TypeVariableExpectation {
   kind: "variable",
@@ -84,6 +90,16 @@ export interface TupleTypeExpectation {
   right: TypeExpectation
 }
 
+export interface RecordPartExpectation {
+  name: string,
+  valueType: TypeExpectation
+}
+
+export interface RecordTypeExpectation {
+  kind: 'record',
+  parts: Array<RecordPartExpectation>
+}
+
 export interface SaturatedTypeExpectation {
   kind: 'saturated',
   name: string,
@@ -96,6 +112,14 @@ export const typeOf = (name: string, args?: Array<TypeExpectation>): TypeExpecta
 
 export const tupleTypeOf = (left: TypeExpectation, right: TypeExpectation): TypeExpectation => {
   return { kind: 'tuple', left, right }
+}
+
+export const recordPart = (name: string, valueType: TypeExpectation): RecordPartExpectation => {
+  return { name, valueType }
+}
+
+export const recordTypeOf = (parts: Array<RecordPartExpectation>): TypeExpectation => {
+  return { kind: 'record', parts }
 }
 
 export const complexTypeOf = (types: Array<TypeExpectation>): TypeExpectation => {
@@ -131,6 +155,15 @@ export const expectTypeDefinition = (element: HTMLElement, expectedTypes: Array<
         const tupleParts = findAllWithin(actualType, ".tuple-part")
         expectTypeDefinition(tupleParts.item(0), [ expectedType.left ])
         expectTypeDefinition(tupleParts.item(1), [ expectedType.right ])
+        break;
+
+      case "record":
+        const actualRecordParts = findAllWithin(actualType, ".record-part")
+        expectedType.parts.forEach((expectedPart, index) => {
+          const nameElement = findWithin(actualRecordParts[index], ".name")
+          expect(textOf(nameElement)).toEqual(expectedPart.name)
+          expectTypeDefinition(actualRecordParts[index], [ expectedPart.valueType ])
+        })
         break;
 
       case "complex":

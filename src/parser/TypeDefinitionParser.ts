@@ -30,11 +30,28 @@ export interface FunctionType {
   types: Array<TypeValue>
 }
 
+export interface RecordTypePart {
+  name: string
+  valueType: TypeValue
+}
+
+export interface RecordType {
+  kind: "record",
+  parts: Array<RecordTypePart>
+}
+
 export interface UnknownType {
   kind: "unknown"
 }
 
-export type TypeValue = InternalType | ExternalType | TypeVariable | TupleType | FunctionType | UnknownType
+export type TypeValue =
+  InternalType |
+  ExternalType |
+  TypeVariable |
+  TupleType |
+  FunctionType |
+  RecordType |
+  UnknownType
 
 interface TypeName {
   module: string,
@@ -81,6 +98,24 @@ const typeDefinitionLanguage = (allDocs: Array<ModuleDocumentation>) => (
       }).wrap(Pars.string("( "), Pars.string(" )"))
     ),
 
+    recordTypePart: (p) => (
+      Pars.seqMap(p.word, Pars.string(" : "), p.typeDefinition, (name, _, valueType) => {
+        return {
+          name,
+          valueType
+        }
+      })
+    ),
+
+    recordType: (p) => (
+      Pars.seqMap(p.recordTypePart, Pars.string(", ").then(p.recordTypePart).atLeast(1), (p, ps) => {
+        return {
+          kind: "record",
+          parts: [p].concat(ps)
+        }
+      }).wrap(Pars.string("{ "), Pars.string(" }"))
+    ),
+
     typeVariable: (p) => (
       Pars.regexp(/\w+/).map((name) => {
         return {
@@ -121,6 +156,7 @@ const typeDefinitionLanguage = (allDocs: Array<ModuleDocumentation>) => (
     typeValue: (p) => (
       p.nestedFunctionType
         .or(p.tupleType)
+        .or(p.recordType)
         .or(p.typeLabel)
         .or(p.typeVariable)
         .or(p.unitType)
