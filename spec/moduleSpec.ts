@@ -87,14 +87,14 @@ describe("when a module is clicked", () => {
 
     it("shows the args for the type alias", () => {
       var typeAliases = findAll("#documentation .type-alias-block")
-      const typeArgs1 = findAllWithin(findWithin(typeAliases.item(0), "[data-type-args"), ".type-designation")
+      const typeArgs1 = findAllWithin(findWithin(typeAliases.item(0), "[data-type-args]"), ".type-designation")
       expect(textOf(typeArgs1.item(0))).toEqual("msgA")
       expect(textOf(typeArgs1.item(1))).toEqual("msgB")
 
-      const typeArgs2 = findAllWithin(findWithin(typeAliases.item(1), "[data-type-args"), ".type-designation")
+      const typeArgs2 = findAllWithin(findWithin(typeAliases.item(1), "[data-type-args]"), ".type-designation")
       expect(typeArgs2.length).toEqual(0)
 
-      const typeArgs3 = findAllWithin(findWithin(typeAliases.item(2), "[data-type-args"), ".type-designation")
+      const typeArgs3 = findAllWithin(findWithin(typeAliases.item(2), "[data-type-args]"), ".type-designation")
       expect(textOf(typeArgs3.item(0))).toEqual("msg")
     })
 
@@ -125,6 +125,34 @@ describe("when a module is clicked", () => {
         var typeAliases = findAll("#documentation .type-alias-block .definition")
         expectLink(findWithin(typeAliases.item(1), "[data-arg-link]"), "/versions/14.2.3/module/Module1.Module3#AwesomeAlias", "AwesomeAlias")
       })
+    })
+  })
+
+  describe("when there are union types", () => {
+    it("shows a link to the type name", () => {
+      var unionTypes = findAll("#documentation .union-type-block")
+
+      expectAttribute(unionTypes.item(0), "id", "FirstType")
+      expectLink(findWithin(unionTypes.item(0), "[data-type-name]"), "/versions/14.2.3/module/Module1.Module2#FirstType", "FirstType")
+
+      expectAttribute(unionTypes.item(1), "id", "SecondType")
+      expectLink(findWithin(unionTypes.item(1), "[data-type-name]"), "/versions/14.2.3/module/Module1.Module2#SecondType", "SecondType")
+    })
+
+    it("shows the args for the union types", () => {
+      var unionTypes = findAll("#documentation .union-type-block")
+      const typeArgs1 = findAllWithin(findWithin(unionTypes.item(0), "[data-type-args]"), ".type-designation")
+      expect(textOf(typeArgs1.item(0))).toEqual("argA")
+      expect(textOf(typeArgs1.item(1))).toEqual("argB")
+
+      const typeArgs2 = findAllWithin(findWithin(unionTypes.item(1), "[data-type-args]"), ".type-designation")
+      expect(typeArgs2.length).toEqual(0)
+    })
+
+    it("shows the comment for the documented union type", () => {
+      var unionTypes = findAll("#documentation .union-type-block .comment")
+      expect(textOf(unionTypes.item(0))).toContain("This is a description of the first type")
+      expect(textOf(unionTypes.item(1))).toContain("This is a description of the second type")
     })
   })
 })

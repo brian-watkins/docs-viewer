@@ -1,5 +1,6 @@
 import { ValueDocumentation } from "./ValueDocumentation";
 import { AliasDocumentation } from "./AliasDocumentation";
+import { UnionDocumentation } from "./UnionDocumentation";
 
 export interface CommentBlock {
   kind: "comment",
@@ -14,4 +15,8 @@ export interface AliasBlock extends AliasDocumentation {
   kind: "alias"
 }
 
-export type DocumentationBlock = CommentBlock | ValueBlock | AliasBlock
+export interface UnionBlock extends UnionDocumentation {
+  kind: "union"
+}
+
+export type DocumentationBlock = CommentBlock | ValueBlock | AliasBlock | UnionBlock

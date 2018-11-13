@@ -184,6 +184,43 @@
   }
 }
 
+.union-type-block {
+  margin-top: 28px;
+  background-color: #ffffff;
+
+  .definition {
+    display: block;
+    margin: 2px 0px 0px 28px;
+  }
+
+  .type-qualifier {
+    color: $light-text-color;
+    display: inline-block;
+  }
+
+  .type-qualifier::after {
+    content: "\00a0";
+  }
+
+  .title {
+    background: linear-gradient(to right, $offset-background-color, #ffffff);
+    padding: 28px 0px 28px 21px;
+    margin: 56px 0px 0px 0px;
+    border-width: 0px 0px 0px 7px;
+    border-color: #e3f0fa;
+    border-style: solid;
+  }
+
+  .comment {
+    padding: 14px 0px 21px 21px;
+
+    p {
+      margin: 0px 0px 14px 0px;
+      padding: 0px;
+    }
+  }
+}
+
 .value-block {
   background-color: #ffffff;
 

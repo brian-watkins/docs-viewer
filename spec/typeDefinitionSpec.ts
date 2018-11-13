@@ -23,6 +23,12 @@ const itHasTheTypeReference = () => {
   })
 }
 
+const itHasTheUnionTypeReference = () => {
+  it("provides a reference to the internal union type", () => {
+    expectTypeReference("/versions/14.3.0/module/Other.Module#FunType", "FunType")
+  })
+}
+
 describe("type definitions", () => {
   describe("when the definition is a single type", () => {
     describe("when the type definition is the unit type", () => {
@@ -186,6 +192,33 @@ describe("type definitions", () => {
       })
   
       itHasTheTypeReference()
+    })
+
+    describe("when the internal type is a union type", () => {
+      beforeEach(async () => {
+        await renderWithTypeDefinition("Other.Module.FunType")
+      })
+
+      it("displays the type correctly", () => {
+        expectTypes([typeOf("FunType")])
+      })
+
+      itHasTheUnionTypeReference()
+    })
+
+    describe("when the internal type is a union type with type args", () => {
+      beforeEach(async () => {
+        await renderWithTypeDefinition("Other.Module.FunType argA argB")
+      })
+
+      it("displays the type correctly", () => {
+        expectTypes([typeOf("FunType", [
+          typeVariableOf("argA"),
+          typeVariableOf("argB")
+        ])])
+      })
+
+      itHasTheUnionTypeReference()
     })
   })
 
@@ -353,7 +386,8 @@ const renderWithTypeDefinition = async (defn: string) => {
           type: defn
         }
       ],
-      aliases: []
+      aliases: [],
+      unions: []
     },
     { 
       name: "Other.Module",
@@ -366,7 +400,15 @@ const renderWithTypeDefinition = async (defn: string) => {
           args: []
         }
       ],
-      values: []
+      values: [],
+      unions: [
+        { 
+          name: "FunType",
+          comment: "Some Fun type",
+          args: [],
+          cases: []  
+        }
+      ]
     }
   ]
 

@@ -201,7 +201,7 @@ const containsType = (allDocs: Array<ModuleDocumentation>, moduleName: string, t
     return false
   }
   
-  return hasName(module.values, typeName) || hasName(module.aliases, typeName)
+  return hasName(module.values, typeName) || hasName(module.aliases, typeName) || hasName(module.unions, typeName)
 }
 
 

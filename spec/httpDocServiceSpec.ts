@@ -73,7 +73,8 @@ const mainFunModule = (): ModuleDocumentation => (
         type: "SuperArg",
         args: [ "msg" ]
       }
-    ]
+    ],
+    unions: []
   }
 )
 
@@ -88,6 +89,7 @@ const mainModule = (): ModuleDocumentation => (
         type: "AwesomeArg",
         args: []
       }
-    ]
+    ],
+    unions: []
   }
 )

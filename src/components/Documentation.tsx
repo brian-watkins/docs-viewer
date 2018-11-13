@@ -1,13 +1,15 @@
 import * as React from "react"
 import * as ReactMarkdown from 'react-markdown'
 import { ModuleDocumentation } from "../model/ModuleDocumentation";
-import { DocumentationBlock, ValueBlock, AliasBlock } from "../model/DocumentationBlock"
+import { DocumentationBlock, ValueBlock, AliasBlock, UnionBlock } from "../model/DocumentationBlock"
 import * as DocumentationParser from "../parser/DocumentationParser"
 import { TypeDefinition } from "./TypeDefinition"
 import { TypeReference } from "./TypeReference";
 import { CodeBlock } from "./CodeBlock"
 import { TypeArgs } from "./TypeArgs";
 import { TypeVariable } from "../parser/TypeDefinitionParser";
+import { assertNever } from "../util/Never";
+import { nominalTypeHack } from "prop-types";
 
 
 interface DocumentationProps {
@@ -35,6 +37,10 @@ export class Documentation extends React.Component<DocumentationProps> {
         return this.showValue(block)
       case "alias":
         return this.showTypeAlias(block)
+      case "union":
+        return this.showUnionType(block)
+      default:
+        return assertNever(block)
     }
   }
   
@@ -60,7 +66,18 @@ export class Documentation extends React.Component<DocumentationProps> {
       </div>
       <ReactMarkdown className="comment" source={block.comment} renderers={{code: CodeBlock}} />
     </div>
-  )  
+  )
+
+  showUnionType = (block: UnionBlock) => (
+    <div key={block.name} id={block.name} className="union-type-block">
+      <div className="title">
+        <span className="type-qualifier">type</span>
+        <TypeReference module={this.props.docs.name} name={block.name} data-type-name />
+        <TypeArgs args={ block.args.map((a) => ({ kind: "variable", name: a } as TypeVariable)) } />
+      </div>
+      <ReactMarkdown className="comment" source={block.comment} renderers={{code: CodeBlock}} />
+    </div>
+  )
 }
 
 

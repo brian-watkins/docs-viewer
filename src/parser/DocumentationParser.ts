@@ -46,7 +46,8 @@ const parseDocsLine = (doc: ModuleDocumentation, line: string): Array<Documentat
 
 const findBlock = (doc: ModuleDocumentation, name: string): DocumentationBlock => 
   findDocBlock("value", doc.values, name) || 
-  findDocBlock("alias", doc.aliases, name)
+  findDocBlock("alias", doc.aliases, name) ||
+  findDocBlock("union", doc.unions, name)
 
 
 const findDocBlock = (kind: string, docList: Array<{name: string}>, name: string): DocumentationBlock => {

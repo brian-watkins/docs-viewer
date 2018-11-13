@@ -12,11 +12,12 @@ export const testDocs : Array<ModuleDocumentation> = [
         args: [ "msg" ]
       }
     ],
-    values: []
+    values: [],
+    unions: []
   },
   { 
     name: "Module1.Module2",
-    comment: "Comment about Module1.Module2\n\n# Type Alias\n@docs typeAliasOne, typeAliasThree\n\n# First Functions\n@docs funcOne, funcTwo\n\n# More Stuff\n@docs typeAliasTwo, funcThree",
+    comment: "Comment about Module1.Module2\n\n# Type Alias\n@docs typeAliasOne, typeAliasThree\n\n# Union Types\n\n@docs FirstType, SecondType\n\n# First Functions\n@docs funcOne, funcTwo\n\n# More Stuff\n@docs typeAliasTwo, funcThree",
     aliases: [
       { 
         name: "typeAliasOne",
@@ -53,6 +54,23 @@ export const testDocs : Array<ModuleDocumentation> = [
         comment: "Here is a comment about funcThree",
         type: "Some.Other.FunType -> Basics.Int"
       }
+    ],
+    unions: [
+      {
+        "name": "FirstType",
+        "comment": "This is a description of the first type",
+        "args": [
+          "argA",
+          "argB"
+        ],
+        "cases": []
+      },
+      {
+        "name": "SecondType",
+        "comment": "This is a description of the second type",
+        "args": [],
+        "cases": []
+      },
     ]
   },
   { name: "Module1.Module3",
@@ -71,6 +89,7 @@ export const testDocs : Array<ModuleDocumentation> = [
         comment: "Here is some function",
         type: "String.String -> Basics.Bool"
       }
-    ]
+    ],
+    unions: []
   }
 ]
