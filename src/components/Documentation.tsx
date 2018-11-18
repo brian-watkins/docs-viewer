@@ -9,7 +9,6 @@ import { CodeBlock } from "./CodeBlock"
 import { TypeArgs } from "./TypeArgs";
 import { TypeVariable } from "../parser/TypeDefinitionParser";
 import { assertNever } from "../util/Never";
-import { nominalTypeHack } from "prop-types";
 
 
 interface DocumentationProps {
