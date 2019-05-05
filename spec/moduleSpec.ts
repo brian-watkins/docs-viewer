@@ -1,5 +1,5 @@
 import { renderApp, defaultFakes } from "./helpers/renderApp";
-import { findAll, find, findWithin, textOf, click, expectLink, expectNotWithin, expectAttribute, typeOf, expectTypeDefinition, typeVariableOf, findAllWithin } from "./helpers/testHelpers"
+import { findAll, find, findWithin, textOf, click, expectLink, expectNotWithin, expectAttribute, typeOf, expectTypeDefinition, typeVariableOf, findAllWithin, expectLinkOpensInNewTab } from "./helpers/testHelpers"
 
 describe("when a module is clicked", () => {
   beforeEach(async () => {
@@ -28,6 +28,14 @@ describe("when a module is clicked", () => {
     expect(textOf(doc)).toContain("Comment about Module1.Module2")
   })
 
+  describe("when there is a link in the description", () => {
+    it("opens the link in a new tab", () => {
+      var overview = find("#documentation .overview-block")
+      const link = findWithin(overview, "a")
+      expectLinkOpensInNewTab(link)
+    })
+  })
+
   describe("when there are values", () => {
     it("adds a link to the value", () => {
       var values = findAll("#documentation .value-block")
@@ -54,6 +62,14 @@ describe("when a module is clicked", () => {
       expect(textOf(values.item(0))).toContain("Here is a comment about funcOne")
       expect(textOf(values.item(1))).toContain("Here is a comment about funcTwo")
       expect(textOf(values.item(2))).toContain("Here is a comment about funcThree")
+    })
+
+    describe("when there is a link in the comment", () => {
+      it("opens the link in a new tab", () => {
+        var values = findAll("#documentation .value-block .comment")
+        const link = findWithin(values.item(1), "a")
+        expectLinkOpensInNewTab(link)
+      })
     })
 
     describe("when the referenced type is known", () => {
@@ -105,6 +121,14 @@ describe("when a module is clicked", () => {
       expect(textOf(typeAliases.item(2))).toContain("Represents something awesome")
     })
 
+    describe("when there is a link in the comment", () => {
+      it("opens the link in a new tab", () => {
+        var typeAliases = findAll("#documentation .type-alias-block .comment")
+        const link = findWithin(typeAliases.item(2), "a")
+        expectLinkOpensInNewTab(link)
+      })
+    })
+
     it("shows the definition for the documented type alias", () => {
       var typeAliases = findAll("#documentation .type-alias-block .definition")
       expectTypeDefinition(typeAliases.item(0), [ typeOf("Blah", [typeVariableOf("msgA"), typeVariableOf("msgB")]) ])
@@ -153,6 +177,14 @@ describe("when a module is clicked", () => {
       var unionTypes = findAll("#documentation .union-type-block .comment")
       expect(textOf(unionTypes.item(0))).toContain("This is a description of the first type")
       expect(textOf(unionTypes.item(1))).toContain("This is a description of the second type")
+    })
+
+    describe("when there is a link in the comment", () => {
+      it("opens the link in a new tab", () => {
+        var unionTypes = findAll("#documentation .union-type-block .comment")
+        const link = findWithin(unionTypes.item(1), "a")
+        expectLinkOpensInNewTab(link)
+      })
     })
   })
 })

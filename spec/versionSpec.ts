@@ -64,7 +64,7 @@ describe("when I click to see the versions", () => {
         it("returns to the readme", () => {
           click(find("[data-readme-link]"))
           expect(textOf(find("#banner"))).toContain("2.1.6")
-          expect(textOf(find("#readme"))).toEqual("Here is the Readme content.")
+          expect(textOf(find("#readme"))).toContain("Here is the Readme content.")
         })
       })  
     })
@@ -87,7 +87,7 @@ describe("when the version is not found", () => {
 
   const expectLatestVersion = () => {
     expect(textOf(find("#banner"))).toContain("19.8.47")
-    expect(textOf(find("#readme"))).toEqual("Here is the Readme content.")
+    expect(textOf(find("#readme"))).toContain("Here is the Readme content.")
     expect(fakes.fakeDocService.fetch).toHaveBeenCalledWith({major: 19, minor: 8, patch: 47})
   }
 

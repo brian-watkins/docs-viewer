@@ -52,6 +52,10 @@ export const expectLink = (element: HTMLElement, expectedHref: string, expectedT
   expect(textOf(element)).toContain(expectedText)
 }
 
+export const expectLinkOpensInNewTab = (element: HTMLElement) => {
+  expect(element.getAttribute("target")).toEqual("_blank")
+}
+
 export const expectNotWithin = (element: HTMLElement, selector: string) => {
   expect(element.querySelector(selector)).toBeNull()
 }

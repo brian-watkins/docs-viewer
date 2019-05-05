@@ -17,7 +17,7 @@ export const testDocs : Array<ModuleDocumentation> = [
   },
   { 
     name: "Module1.Module2",
-    comment: "Comment about Module1.Module2\n\n# Type Alias\n@docs typeAliasOne, typeAliasThree\n\n# Union Types\n\n@docs FirstType, SecondType\n\n# First Functions\n@docs funcOne, funcTwo\n\n# More Stuff\n@docs typeAliasTwo, funcThree",
+    comment: "Comment about Module1.Module2. And a [link](http://www.yahoo.com).\n\n# Type Alias\n@docs typeAliasOne, typeAliasThree\n\n# Union Types\n\n@docs FirstType, SecondType\n\n# First Functions\n@docs funcOne, funcTwo\n\n# More Stuff\n@docs typeAliasTwo, funcThree",
     aliases: [
       { 
         name: "typeAliasOne",
@@ -27,7 +27,7 @@ export const testDocs : Array<ModuleDocumentation> = [
       },
       { 
         name: "typeAliasTwo",
-        comment: "Represents something awesome",
+        comment: "Represents something awesome. And a [link](http://www.yahoo.com).",
         type: "Some.Type.Model msg",
         args: [ "msg" ]
       },
@@ -46,7 +46,7 @@ export const testDocs : Array<ModuleDocumentation> = [
       },
       { 
         name: "funcTwo",
-        comment: "Here is a comment about funcTwo",
+        comment: "Here is a comment about funcTwo. And a [link](http://www.yahoo.com).",
         type: "Basics.Int -> Module1.Module3.SomeFunction"
       },
       {
@@ -67,7 +67,7 @@ export const testDocs : Array<ModuleDocumentation> = [
       },
       {
         "name": "SecondType",
-        "comment": "This is a description of the second type",
+        "comment": "This is a description of the second type. And a [link](http://www.yahoo.com).",
         "args": [],
         "cases": []
       },

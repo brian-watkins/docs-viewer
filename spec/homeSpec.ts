@@ -1,5 +1,5 @@
 import { renderApp, defaultFakes, FakeDependencies } from "./helpers/renderApp"
-import { findAll, textOf, find } from "./helpers/testHelpers";
+import { findAll, textOf, find, expectLinkOpensInNewTab } from "./helpers/testHelpers";
 
 describe("initial page", () => {
   describe("when the app is accessed at the root page", () => {
@@ -15,7 +15,13 @@ describe("initial page", () => {
     })
   
     it("shows the readme", () => {
-      expect(textOf(find("#readme"))).toEqual("Here is the Readme content.")
+      expect(textOf(find("#readme"))).toContain("Here is the Readme content.")
+    })
+
+    describe("when there is a link in the readme", () => {
+      it("opens the link in a new tab", () => {
+        expectLinkOpensInNewTab(find("#readme a"))
+      })
     })
   })
 
@@ -48,7 +54,7 @@ describe("initial page", () => {
 
     it("renders the readme page for this version", () => {
       expect(textOf(find("#banner"))).toContain("9.0.0")
-      expect(textOf(find("#readme"))).toEqual("Here is the Readme content.")
+      expect(textOf(find("#readme"))).toContain("Here is the Readme content.")
     })
   })
 })

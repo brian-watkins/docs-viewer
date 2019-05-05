@@ -1,6 +1,5 @@
 import * as React from "react"
-import * as ReactMarkdown from "react-markdown"
-import { CodeBlock } from "./CodeBlock";
+import { Comment } from "./Comment"
 
 export interface ReadmeProps {
   content: string
@@ -8,6 +7,6 @@ export interface ReadmeProps {
 
 export const ReadMe = (props: ReadmeProps) => (
   <div id="readme">
-    <ReactMarkdown source={props.content} renderers={{code: CodeBlock}} />
+    <Comment source={props.content} />
   </div>
 )

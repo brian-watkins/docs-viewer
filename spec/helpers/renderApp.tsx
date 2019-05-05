@@ -24,7 +24,7 @@ export interface FakeDependencies {
 export const defaultFakes = () : FakeDependencies => {
   return fakeDependencies({
     docs: testDocs,
-    readme: "Here is the Readme content.",
+    readme: "Here is the Readme content. And a [link](http://www.yahoo.com).",
     versions: [
       { major: 1, minor: 1, patch: 2 }
     ] 

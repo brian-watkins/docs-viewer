@@ -1,14 +1,13 @@
 import * as React from "react"
-import * as ReactMarkdown from 'react-markdown'
 import { ModuleDocumentation } from "../model/ModuleDocumentation";
 import { DocumentationBlock, ValueBlock, AliasBlock, UnionBlock } from "../model/DocumentationBlock"
 import * as DocumentationParser from "../parser/DocumentationParser"
 import { TypeDefinition } from "./TypeDefinition"
 import { TypeReference } from "./TypeReference";
-import { CodeBlock } from "./CodeBlock"
 import { TypeArgs } from "./TypeArgs";
 import { TypeVariable } from "../parser/TypeDefinitionParser";
 import { assertNever } from "../util/Never";
+import { Comment } from "./Comment";
 
 
 interface DocumentationProps {
@@ -31,7 +30,7 @@ export class Documentation extends React.Component<DocumentationProps> {
   printBlock = (block: DocumentationBlock, index: number) => {
     switch (block.kind) {
       case "comment": 
-        return <ReactMarkdown className="overview-block" source={block.value} key={index} renderers={{code: CodeBlock}} />
+        return <Comment className="overview-block" source={block.value} key={index} />
       case "value": 
         return this.showValue(block)
       case "alias":
@@ -50,7 +49,7 @@ export class Documentation extends React.Component<DocumentationProps> {
         <span className="separator">:</span>
         <TypeDefinition docs={this.props.allDocs} definition={block.type} />
       </div>
-      <ReactMarkdown className="comment" source={block.comment} renderers={{code: CodeBlock}} />
+      <Comment className="comment" source={block.comment} />
     </div>
   )
   
@@ -63,7 +62,7 @@ export class Documentation extends React.Component<DocumentationProps> {
         <span className="separator">=</span>
         <TypeDefinition docs={this.props.allDocs} definition={block.type} />
       </div>
-      <ReactMarkdown className="comment" source={block.comment} renderers={{code: CodeBlock}} />
+      <Comment className="comment" source={block.comment} />
     </div>
   )
 
@@ -74,7 +73,7 @@ export class Documentation extends React.Component<DocumentationProps> {
         <TypeReference module={this.props.docs.name} name={block.name} data-type-name />
         <TypeArgs args={ block.args.map((a) => ({ kind: "variable", name: a } as TypeVariable)) } />
       </div>
-      <ReactMarkdown className="comment" source={block.comment} renderers={{code: CodeBlock}} />
+      <Comment className="comment" source={block.comment} />
     </div>
   )
 }
