@@ -20,11 +20,15 @@
     height: calc( 100vh );
   }
 
+  [data-module-list] {
+    padding: 21px 56px 21px 56px;
+    display: flex;
+  }
+
   ul {
     background-color: #ffffff;
-    padding: 21px 56px 21px 56px;
-    column-count: 2;
-    column-gap: 28px;
+    padding: 0px;
+    margin: 0px 84px 14px 0px;
 
     list-style: none;
 
@@ -39,54 +43,6 @@
         border-color: $background-emphasis;
         border-style: solid;  
       }
-    }
-
-    li[data-name='Elmer.Browser'] {
-      margin-top: 14px;
-    }
-
-    li[data-name='Elmer.Command'] {
-      margin-top: 14px;
-    }
-
-    li[data-name='Elmer.Effects'] {
-      margin-top: 14px;
-    }
-
-    li[data-name='Elmer.Html'] {
-      margin-top: 14px;
-    }
-
-    li[data-name='Elmer.Message'] {
-      margin-top: 14px;
-    }
-
-    li[data-name='Elmer.Navigation'] {
-      break-before: column;
-    }
-
-    li[data-name='Elmer.Http.Route'] {
-      break-before: column;
-    }
-
-    li[data-name='Elmer.Program'] {
-      margin-top: 14px;
-    }
-
-    li[data-name='Elmer.Subscription'] {
-      margin-top: 14px;
-    }
-
-    li[data-name='Elmer.Spy'] {
-      margin-top: 14px;
-    }
-
-    li[data-name='Elmer.Task'] {
-      margin-top: 14px;
-    }
-
-    li[data-name='Elmer.Value'] {
-      margin-top: 14px;
     }
   }
 
