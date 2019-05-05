@@ -12,6 +12,7 @@ declare var gtag: GTag
 const googleAnalyticsService = new GoogleAnalyticsService(gtag, 'UA-92414229-1')
 
 const elmerVersions = [
+  { major: 6, minor: 0, patch: 0 },
   { major: 5, minor: 0, patch: 1 },
   { major: 5, minor: 0, patch: 0 },
   { major: 4, minor: 0, patch: 0 },

@@ -45,7 +45,11 @@
       margin-top: 14px;
     }
 
-    li[data-name='Elmer.Headless'] {
+    li[data-name='Elmer.Command'] {
+      margin-top: 14px;
+    }
+
+    li[data-name='Elmer.Effects'] {
       margin-top: 14px;
     }
 
@@ -57,16 +61,12 @@
       margin-top: 14px;
     }
 
+    li[data-name='Elmer.Message'] {
+      margin-top: 14px;
+    }
+
     li[data-name='Elmer.Navigation'] {
       break-before: column;
-    }
-
-    li[data-name='Elmer.Platform.Command'] {
-      margin-top: 14px;
-    }
-
-    li[data-name='Elmer.Command'] {
-      margin-top: 14px;
     }
 
     li[data-name='Elmer.Program'] {
@@ -78,6 +78,14 @@
     }
 
     li[data-name='Elmer.Spy'] {
+      margin-top: 14px;
+    }
+
+    li[data-name='Elmer.Task'] {
+      margin-top: 14px;
+    }
+
+    li[data-name='Elmer.Value'] {
       margin-top: 14px;
     }
   }
