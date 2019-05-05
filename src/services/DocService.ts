@@ -1,7 +1,7 @@
 import { ModuleDocumentation } from "../model/ModuleDocumentation";
-import { Version } from "../model/Version";
+import { PackageVersion } from "../model/PackageVersion";
 
 
 export interface DocService {
-  fetch(version: Version): Promise<{ docs: Array<ModuleDocumentation>, readme: string }>
+  fetch(packageVersion: PackageVersion): Promise<{ docs: Array<ModuleDocumentation>, readme: string }>
 }

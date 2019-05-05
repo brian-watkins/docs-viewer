@@ -1,21 +1,28 @@
 import { renderApp, defaultFakes, FakeDependencies } from "./helpers/renderApp"
 import { click, find, findAll, textOf, wait, expectAttribute, expectLink, findWithin } from "./helpers/testHelpers";
+import { Package } from "../src/model/Package";
 
 describe("when I click to see the versions", () => {
   let fakes: FakeDependencies
 
   beforeEach(async () => {
     fakes = defaultFakes()
-    fakes.versions = [
-      { major: 4, minor: 0, patch: 0 },
-      { major: 3, minor: 0, patch: 0 },
-      { major: 2, minor: 1, patch: 6 },
-      { major: 1, minor: 0, patch: 0 }
+    fakes.packages = [
+      new Package('super-package', [
+        { major: 4, minor: 0, patch: 0 },
+        { major: 3, minor: 0, patch: 0 },
+        { major: 2, minor: 1, patch: 6 },
+        { major: 1, minor: 0, patch: 0 }
+      ])
     ]
 
-    await renderApp(fakes)
+    await renderApp(fakes, '/super-package/versions/4.0.0')
 
     click(find("[data-versions-link]"))
+  })
+
+  it("shows the package name", () => {
+    expect(textOf(find("#versions"))).toContain("super-package")
   })
 
   it("shows a list of versions", () => {
@@ -38,7 +45,7 @@ describe("when I click to see the versions", () => {
     })
 
     it("fetches the docs for that version", () => {
-      expect(fakes.fakeDocService.fetch).toHaveBeenCalledWith({major: 2, minor: 1, patch: 6})
+      expect(fakes.fakeDocService.fetch).toHaveBeenCalledWith({name: "super-package", version: {major: 2, minor: 1, patch: 6}})
     })
 
     describe("when I click a module", () => {
@@ -54,10 +61,10 @@ describe("when I click to see the versions", () => {
       it("refers to types at the right version", () => {
         var values = findAll("#documentation .value-block")
         expectAttribute(values.item(0), "id", "funcOne")
-        expectLink(findWithin(values.item(0), "[data-type-name]"), "/versions/2.1.6/module/Module1.Module2#funcOne", "funcOne")
+        expectLink(findWithin(values.item(0), "[data-type-name]"), "/super-package/versions/2.1.6/module/Module1.Module2#funcOne", "funcOne")
   
         expectAttribute(values.item(1), "id", "funcTwo")
-        expectLink(findWithin(values.item(1), "[data-type-name]"), "/versions/2.1.6/module/Module1.Module2#funcTwo", "funcTwo")
+        expectLink(findWithin(values.item(1), "[data-type-name]"), "/super-package/versions/2.1.6/module/Module1.Module2#funcTwo", "funcTwo")
       })
 
       describe("when I click the version number", () => {
@@ -76,46 +83,101 @@ describe("when the version is not found", () => {
 
   beforeEach(async () => {
     fakes = defaultFakes()
-    fakes.versions = [
-      { major: 19, minor: 8, patch: 47 },
-      { major: 4, minor: 0, patch: 0 },
-      { major: 3, minor: 0, patch: 0 },
-      { major: 2, minor: 1, patch: 6 },
-      { major: 1, minor: 0, patch: 0 }
+    fakes.packages = [
+      new Package("fake-package", [
+        { major: 19, minor: 8, patch: 47 },
+        { major: 4, minor: 0, patch: 0 },
+        { major: 3, minor: 0, patch: 0 },
+        { major: 2, minor: 1, patch: 6 },
+        { major: 1, minor: 0, patch: 0 }
+      ])
     ]
   })
 
   const expectLatestVersion = () => {
     expect(textOf(find("#banner"))).toContain("19.8.47")
     expect(textOf(find("#readme"))).toContain("Here is the Readme content.")
-    expect(fakes.fakeDocService.fetch).toHaveBeenCalledWith({major: 19, minor: 8, patch: 47})
+    expect(fakes.fakeDocService.fetch).toHaveBeenCalledWith({name: "fake-package", version: {major: 19, minor: 8, patch: 47}})
   }
 
   describe("when the version is unpareasble", () => {
     it("fetches the home page for the latest version", async () => {
-      await renderApp(fakes, "/versions/19.x.32a")
+      await renderApp(fakes, "/fake-package/versions/19.x.32a")
       expectLatestVersion()
     })
   })
 
   describe("when the version is unparseable for a module", () => {
     it("fetches the home page for the latest version", async () => {
-      await renderApp(fakes, "/versions/19.x.32a/module/Blah.Blah")
+      await renderApp(fakes, "/fake-package/versions/19.x.32a/module/Blah.Blah")
       expectLatestVersion()
     })
   })
 
   describe("when the version is not found", () => {
     it("fetches the home page for the latest version", async () => {
-      await renderApp(fakes, "/versions/4.4.32")
+      await renderApp(fakes, "/fake-package/versions/4.4.32")
       expectLatestVersion()
     })
   })
 
   describe("when the version is not found for a module", () => {
     it("fetches the home page for the latest version", async () => {
-      await renderApp(fakes, "/versions/4.8.22/module/Blah.Blah")
+      await renderApp(fakes, "/fake-package/versions/4.8.22/module/Blah.Blah")
       expectLatestVersion()
+    })
+  })
+})
+
+describe("when the package is not found", () => {
+  let fakes: FakeDependencies
+
+  beforeEach(async () => {
+    fakes = defaultFakes()
+    fakes.packages = [
+      new Package("fake-package", [
+        { major: 19, minor: 8, patch: 47 },
+        { major: 4, minor: 0, patch: 0 },
+        { major: 3, minor: 0, patch: 0 },
+        { major: 2, minor: 1, patch: 6 },
+        { major: 1, minor: 0, patch: 0 }
+      ]),
+      new Package("super-package", [
+        { major: 1, minor: 0, patch: 2 }
+      ])
+    ]
+  })
+
+  const expectPackageListPage = () => {
+    expect(textOf(find("#packages"))).toContain("fake-package")
+    expect(textOf(find("#packages"))).toContain("super-package")
+  }
+
+  describe("for the latest version", () => {
+    it('shows the list of packages', async () => {
+      await renderApp(fakes, "/unknown-package")
+      expectPackageListPage()
+    })
+  })
+
+  describe("for the versions list", () => {
+    it('shows the list of packages', async () => {
+      await renderApp(fakes, "/unknown-package/versions")
+      expectPackageListPage()
+    })
+  })
+
+  describe("for a version", () => {
+    it("shows the list of packages", async () => {
+      await renderApp(fakes, "/unknown-package/versions/19.8.47")
+      expectPackageListPage()
+    })
+  })
+
+  describe("for a module", () => {
+    it("shows the list of packages", async () => {
+      await renderApp(fakes, "/unknown-package/versions/19.8.47/module/Blah.Blah")
+      expectPackageListPage()
     })
   })
 })

@@ -1,10 +1,42 @@
 import { renderApp, defaultFakes, FakeDependencies } from "./helpers/renderApp"
-import { findAll, textOf, find, expectLinkOpensInNewTab } from "./helpers/testHelpers";
+import { findAll, textOf, find, expectLinkOpensInNewTab, click } from "./helpers/testHelpers";
+import { Package } from "../src/model/Package";
 
 describe("initial page", () => {
   describe("when the app is accessed at the root page", () => {
     beforeEach(async () => {
-      await renderApp(defaultFakes())
+      var fakes = defaultFakes()
+      fakes.packages = [
+        new Package("fake-package", [
+          { major: 9, minor: 0, patch: 0 },
+          { major: 8, minor: 2, patch: 0 }
+        ]),
+        new Package("super-package", [
+          { major: 3, minor: 3, patch: 3 },
+          { major: 2, minor: 1, patch: 6 },
+          { major: 1, minor: 1, patch: 6 }
+        ])
+      ]
+      await renderApp(fakes, "/")
+    })
+
+    it("shows a list of packages", () => {
+      var packages = findAll("#packages li")
+      expect(textOf(packages.item(0))).toContain("fake-package")
+      expect(textOf(packages.item(1))).toContain("super-package")
+    })
+
+    it("links to the latest version for each package", () => {
+      var packageLinks = findAll("#packages li")
+      click(packageLinks.item(1))
+      expect(textOf(find("#banner"))).toContain("super-package")
+      expect(textOf(find("#banner"))).toContain("3.3.3")
+    })
+  })
+
+  describe("when the app is accessed at the root page for a package", () => {
+    beforeEach(async () => {
+      await renderApp(defaultFakes(), "/fake-package")
     })
   
     it("shows a list of modules", () => {
@@ -28,10 +60,10 @@ describe("initial page", () => {
   describe("when a module page is accessed directly", () => {
     beforeEach(async () => {
       var fakes = defaultFakes()
-      fakes.versions = [
-        { major: 9, minor: 0, patch: 0 }
+      fakes.packages = [
+        new Package("fake-package", [ { major: 9, minor: 0, patch: 0 } ])
       ]
-      await renderApp(fakes, "/versions/9.0.0/module/Module1.Module2")
+      await renderApp(fakes, "/fake-package/versions/9.0.0/module/Module1.Module2")
     })
     
     it("renders the module documentation", () => {
@@ -45,11 +77,13 @@ describe("initial page", () => {
 
     beforeEach(async () => {
       fakes = defaultFakes()
-      fakes.versions = [
-        { major: 20, minor: 10, patch: 0 },
-        { major: 9, minor: 0, patch: 0 }
+      fakes.packages = [
+        new Package("fake-package", [ 
+          { major: 20, minor: 10, patch: 0 },
+          { major: 9, minor: 0, patch: 0 }
+        ])
       ]
-      await renderApp(fakes, "/versions/9.0.0/module/Unknown.Module")
+      await renderApp(fakes, "/fake-package/versions/9.0.0/module/Unknown.Module")
     })
 
     it("renders the readme page for this version", () => {

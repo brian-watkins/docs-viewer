@@ -5,18 +5,24 @@ import { App } from "./components/App"
 import { HttpDocService } from "./adapters/HttpDocService"
 import ScrollToTop from "./util/ScrollToTop";
 import { GoogleAnalyticsService, GTag } from "./adapters/GoogleAnalyticsService";
+import { Package } from "./model/Package";
 
 const httpDocService = new HttpDocService()
 
 declare var gtag: GTag
 const googleAnalyticsService = new GoogleAnalyticsService(gtag, 'UA-92414229-1')
 
-const elmerVersions = [
-  { major: 6, minor: 0, patch: 0 },
-  { major: 5, minor: 0, patch: 1 },
-  { major: 5, minor: 0, patch: 0 },
-  { major: 4, minor: 0, patch: 0 },
-  { major: 3, minor: 3, patch: 1 }
+const packages = [
+  new Package("Elmer", [
+    { major: 6, minor: 0, patch: 0 },
+    { major: 5, minor: 0, patch: 1 },
+    { major: 5, minor: 0, patch: 0 },
+    { major: 4, minor: 0, patch: 0 },
+    { major: 3, minor: 3, patch: 1 }
+  ]),
+  new Package("Elmer.Http", [
+    { major: 1, minor: 0, patch: 0 }
+  ])
 ]
 
 ReactDOM.render(
@@ -25,7 +31,7 @@ ReactDOM.render(
       <App
         docService={httpDocService}
         analyticsService={googleAnalyticsService}
-        versions={elmerVersions}
+        packages={packages}
       />
     </ScrollToTop>
   </BrowserRouter>,

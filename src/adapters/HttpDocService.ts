@@ -1,12 +1,12 @@
-import { DocService } from "../services/DocService";
-import { Version } from "../model/Version";
-import * as VersionHelper from "../parser/VersionParser"
-import { ModuleDocumentation } from "../model/ModuleDocumentation";
 import Axios from "axios"
+import { DocService } from "../services/DocService"
+import * as VersionHelper from "../parser/VersionParser"
+import { ModuleDocumentation } from "../model/ModuleDocumentation"
+import { PackageVersion } from "../model/PackageVersion";
 
 export class HttpDocService implements DocService {
-  fetch = (version: Version) => {
-    const base = `/docs/${VersionHelper.toString(version)}`
+  fetch = (packageVersion: PackageVersion) => {
+    const base = `/docs/${packageVersion.name}/${VersionHelper.toString(packageVersion.version)}`
 
     return Promise.all([
       Axios.get(`${base}/docs.json`),

@@ -16,16 +16,17 @@ import {
   recordPart
 } from "./helpers/testHelpers";
 import { ModuleDocumentation } from "../src/model/ModuleDocumentation";
+import { Package } from "../src/model/Package";
 
 const itHasTheTypeReference = () => {
   it("provides a reference to the internal type", () => {
-    expectTypeReference("/versions/14.3.0/module/Other.Module#SuperAlias", "SuperAlias")
+    expectTypeReference("/fake-package/versions/14.3.0/module/Other.Module#SuperAlias", "SuperAlias")
   })
 }
 
 const itHasTheUnionTypeReference = () => {
   it("provides a reference to the internal union type", () => {
-    expectTypeReference("/versions/14.3.0/module/Other.Module#FunType", "FunType")
+    expectTypeReference("/fake-package/versions/14.3.0/module/Other.Module#FunType", "FunType")
   })
 }
 
@@ -412,11 +413,11 @@ const renderWithTypeDefinition = async (defn: string) => {
     }
   ]
 
-  const versions = [
-    { major: 14, minor: 3, patch: 0 }
+  const packages = [
+    new Package("fake-package", [ { major: 14, minor: 3, patch: 0 } ])
   ]
 
-  await renderApp(fakeDependencies({ docs, readme: "", versions }))
+  await renderApp(fakeDependencies({ docs, readme: "", packages }), "/fake-package/versions/14.3.0")
 
   const moduleItems = findAll("#module-list li")
   click(moduleItems.item(0))

@@ -1,9 +1,9 @@
 import * as React from "react"
 import { ModuleDocumentation } from "../model/ModuleDocumentation"
-import { Version } from "../model/Version";
 import { linkFor } from "../services/LinkProducer";
 import { ListItemLink } from "./ListItemLink";
-import { VersionContext } from "./VersionContext";
+import { PackageVersionContext } from "./PackageVersionContext";
+import { PackageVersion } from "../model/PackageVersion";
 
 
 export interface ModuleListProps { 
@@ -22,19 +22,19 @@ export class ModuleList extends React.Component<ModuleListProps, {}> {
   )
 
   showModules = () => (
-    <VersionContext.Consumer>
-      {version => (
+    <PackageVersionContext.Consumer>
+      {packageVersion => (
         <ul>
-          { this.props.docs.map(this.showModuleItem(version)) }
+          { this.props.docs.map(this.showModuleItem(packageVersion)) }
         </ul>
       )}
-    </VersionContext.Consumer>
+    </PackageVersionContext.Consumer>
   )
 
-  showModuleItem = (version: Version) => (moduleDoc: ModuleDocumentation) => (
+  showModuleItem = (packageVersion: PackageVersion) => (moduleDoc: ModuleDocumentation) => (
     <ListItemLink
       key={moduleDoc.name} 
-      to={linkFor(version, moduleDoc.name)}
+      to={linkFor(packageVersion, moduleDoc.name)}
       className={ this.isModuleSelected(moduleDoc.name) ? "selected" : "" }
       data-name={moduleDoc.name}
     >

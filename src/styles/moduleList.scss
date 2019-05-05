@@ -57,15 +57,15 @@
       margin-top: 14px;
     }
 
-    li[data-name='Elmer.Http'] {
-      margin-top: 14px;
-    }
-
     li[data-name='Elmer.Message'] {
       margin-top: 14px;
     }
 
     li[data-name='Elmer.Navigation'] {
+      break-before: column;
+    }
+
+    li[data-name='Elmer.Http.Route'] {
       break-before: column;
     }
 

@@ -2,11 +2,12 @@ import { HttpDocService } from "../src/adapters/HttpDocService";
 import { ModuleDocumentation } from "../src/model/ModuleDocumentation";
 import Axios from "axios"
 import MockAdapter from "axios-mock-adapter"
+import { DocService } from "../src/services/DocService";
 
 describe("Http Doc Service", () => {
   const testReadme = "Here is the test README content."
   let mock: MockAdapter
-  let subject: HttpDocService
+  let subject: DocService
   
   beforeEach(() => {
     mock = new MockAdapter(Axios)
@@ -18,22 +19,22 @@ describe("Http Doc Service", () => {
   })
 
   describe("When both requests are successful", () => {
-    const version = {major: 9, minor: 2, patch: 1}
+    const packageVersion = { name: "fake-package", version: {major: 9, minor: 2, patch: 1} }
 
     beforeEach(() => {
-      mock.onGet('/docs/9.2.1/README.md').reply(200, testReadme)
-      mock.onGet('/docs/9.2.1/docs.json').reply(200, fakeDocumentation())
+      mock.onGet('/docs/fake-package/9.2.1/README.md').reply(200, testReadme)
+      mock.onGet('/docs/fake-package/9.2.1/docs.json').reply(200, fakeDocumentation())
     })
 
     it("fetches the docs in sorted ordered by name", (done) => {
-      subject.fetch(version).then(response => {
+      subject.fetch(packageVersion).then(response => {
         expect(response.docs).toEqual(orderedFakeDocumentation())
         done()
       })
     })
   
     it("fetches the readme", (done) => {
-      subject.fetch(version).then(response => {
+      subject.fetch(packageVersion).then(response => {
         expect(response.readme).toEqual(testReadme)
         done()
       })

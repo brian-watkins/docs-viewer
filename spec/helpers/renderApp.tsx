@@ -8,26 +8,29 @@ import { AnalyticsService } from "../../src/services/AnalyticsService"
 import { wait } from "./testHelpers";
 import { Version } from "../../src/model/Version";
 import { testDocs } from "../fixtures/testDocumentation";
+import { Package } from "../../src/model/Package";
 
 export interface TestData {
   docs: Array<ModuleDocumentation>,
   readme: string,
-  versions?: Array<Version>
+  packages?: Array<Package>
 }
 
 export interface FakeDependencies {
   fakeDocService: DocService,
   fakeAnalyticsService: AnalyticsService,
-  versions: Array<Version>
+  packages: Array<Package>
 }
 
 export const defaultFakes = () : FakeDependencies => {
   return fakeDependencies({
     docs: testDocs,
     readme: "Here is the Readme content. And a [link](http://www.yahoo.com).",
-    versions: [
-      { major: 1, minor: 1, patch: 2 }
-    ] 
+    packages: [
+      new Package("fake-package", [
+        { major: 1, minor: 1, patch: 2}
+      ])
+    ]
   })
 }
 
@@ -41,12 +44,12 @@ export const fakeDependencies = (testData: TestData) : FakeDependencies => {
 
   const fakeAnalyticsService : Spied<AnalyticsService> = jasmine.createSpyObj("analyticsService", [ "sendPageView" ])
 
-  const versions = testData.versions || [{ major: 1, minor: 0, patch: 0 }]
+  const packages = testData.packages || [ new Package("fake-package", [{ major: 1, minor: 0, patch: 0 }]) ]
 
-  return { fakeDocService, fakeAnalyticsService, versions }
+  return { fakeDocService, fakeAnalyticsService, packages }
 }
 
-export const renderApp = (fakes: FakeDependencies, route: string = "/") => {
+export const renderApp = (fakes: FakeDependencies, route: string = "/fake-package") => {
   var div = document.querySelector("#react-test-app")
   if (div) {
     ReactDOM.unmountComponentAtNode(div);
@@ -67,7 +70,7 @@ const app = (fakes: FakeDependencies, route: string) => (
     <App
       docService={fakes.fakeDocService}
       analyticsService={fakes.fakeAnalyticsService}
-      versions={fakes.versions} 
+      packages={fakes.packages}
     />
   </MemoryRouter>
 )

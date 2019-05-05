@@ -1,17 +1,17 @@
 import * as React from "react"
-import { Version } from "../model/Version";
 import { ModuleList } from "./ModuleList";
 import { ReadMe } from "./Readme";
 import { Documentation } from "./Documentation";
 import { ModuleDocumentation } from "../model/ModuleDocumentation";
 import { DocService } from "../services/DocService";
 import { Banner } from "./Banner";
-import { VersionContext } from "./VersionContext"
+import { PackageVersionContext } from "./PackageVersionContext"
+import { PackageVersion } from "../model/PackageVersion";
 
 
 export interface DocumentationPageProps {
   docService: DocService,
-  version: Version,
+  packageVersion: PackageVersion,
   moduleName?: string,
 }
 
@@ -31,7 +31,7 @@ export class DocumentationPage extends React.Component<DocumentationPageProps, D
   }
 
   componentDidMount() {
-    this.props.docService.fetch(this.props.version).then(response => {
+    this.props.docService.fetch(this.props.packageVersion).then(response => {
       this.setState(() => ({
         readme: response.readme,
         docs: response.docs
@@ -40,14 +40,14 @@ export class DocumentationPage extends React.Component<DocumentationPageProps, D
   }
 
   render = () => (
-    <VersionContext.Provider value={this.props.version}>
+    <PackageVersionContext.Provider value={this.props.packageVersion}>
       <div>
         <Banner />
         <div id="container">
           { this.renderPage() }
         </div>
       </div>
-    </VersionContext.Provider>
+    </PackageVersionContext.Provider>
   )
 
   renderPage() {

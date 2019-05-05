@@ -1,17 +1,17 @@
 import * as React from "react"
-import { Version } from "../model/Version";
 import { Redirect } from "react-router";
 import { linkFor } from "../services/LinkProducer";
+import { Package } from "../model/Package";
 
 
 export interface LatestVersionProps {
-  versions: Array<Version>
+  package: Package
 }
 
 export const LatestVersion = (props: LatestVersionProps) => (
-  <Redirect to={latestVersionRoute(props.versions)} />
+  <Redirect to={latestVersionRoute(props.package)} />
 )
 
-const latestVersionRoute = (versions: Array<Version>) => (
-  linkFor(versions[0])
+const latestVersionRoute = (packageInfo: Package) => (
+  linkFor(packageInfo.atLatestVersion())
 )
