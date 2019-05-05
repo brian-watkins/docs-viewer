@@ -19,7 +19,7 @@ describe("Http Doc Service", () => {
   })
 
   describe("When both requests are successful", () => {
-    const packageVersion = { name: "fake-package", version: {major: 9, minor: 2, patch: 1} }
+    const packageVersion = { name: "Fake-Package", version: {major: 9, minor: 2, patch: 1} }
 
     beforeEach(() => {
       mock.onGet('/docs/fake-package/9.2.1/README.md').reply(200, testReadme)
