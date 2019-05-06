@@ -27,7 +27,7 @@ export const defaultFakes = () : FakeDependencies => {
     docs: testDocs,
     readme: "Here is the Readme content. And a [link](http://www.yahoo.com).",
     packages: [
-      new Package("fake-package", [
+      new Package("fake.package", [
         { major: 1, minor: 1, patch: 2}
       ])
     ]
@@ -44,12 +44,12 @@ export const fakeDependencies = (testData: TestData) : FakeDependencies => {
 
   const fakeAnalyticsService : Spied<AnalyticsService> = jasmine.createSpyObj("analyticsService", [ "sendPageView" ])
 
-  const packages = testData.packages || [ new Package("fake-package", [{ major: 1, minor: 0, patch: 0 }]) ]
+  const packages = testData.packages || [ new Package("fake.package", [{ major: 1, minor: 0, patch: 0 }]) ]
 
   return { fakeDocService, fakeAnalyticsService, packages }
 }
 
-export const renderApp = (fakes: FakeDependencies, route: string = "/fake-package") => {
+export const renderApp = (fakes: FakeDependencies, route: string = "/fake.package") => {
   var div = document.querySelector("#react-test-app")
   if (div) {
     ReactDOM.unmountComponentAtNode(div);

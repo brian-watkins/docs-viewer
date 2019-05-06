@@ -12,7 +12,7 @@ export interface VersionListProps {
 export class VersionList extends React.Component<VersionListProps> {
   render = () => (
     <div id="versions">
-      <h1>/ {this.props.package.name} / Versions</h1>
+      <h1>/ <span className="package">{this.props.package.displayName}</span> / Versions</h1>
       <ul>
         { this.props.package.versions.map(this.showVersion) }
       </ul>

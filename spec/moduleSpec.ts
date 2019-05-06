@@ -6,9 +6,9 @@ describe("when a module is clicked", () => {
   beforeEach(async () => {
     const fakes = defaultFakes()
     fakes.packages = [
-      new Package("fake-package", [ { major: 14, minor: 2, patch: 3 } ])
+      new Package("fake.package", [ { major: 14, minor: 2, patch: 3 } ])
     ]
-    await renderApp(fakes, "/fake-package/versions/14.2.3")
+    await renderApp(fakes, "/fake.package/versions/14.2.3")
 
     const moduleItems = findAll("#module-list li")
     click(moduleItems.item(1))
@@ -41,13 +41,13 @@ describe("when a module is clicked", () => {
     it("adds a link to the value", () => {
       var values = findAll("#documentation .value-block")
       expectAttribute(values.item(0), "id", "funcOne")
-      expectLink(findWithin(values.item(0), "[data-type-name]"), "/fake-package/versions/14.2.3/module/Module1.Module2#funcOne", "funcOne")
+      expectLink(findWithin(values.item(0), "[data-type-name]"), "/fake.package/versions/14.2.3/module/Module1.Module2#funcOne", "funcOne")
 
       expectAttribute(values.item(1), "id", "funcTwo")
-      expectLink(findWithin(values.item(1), "[data-type-name]"), "/fake-package/versions/14.2.3/module/Module1.Module2#funcTwo", "funcTwo")
+      expectLink(findWithin(values.item(1), "[data-type-name]"), "/fake.package/versions/14.2.3/module/Module1.Module2#funcTwo", "funcTwo")
 
       expectAttribute(values.item(2), "id", "funcThree")
-      expectLink(findWithin(values.item(2), "[data-type-name]"), "/fake-package/versions/14.2.3/module/Module1.Module2#funcThree", "funcThree")
+      expectLink(findWithin(values.item(2), "[data-type-name]"), "/fake.package/versions/14.2.3/module/Module1.Module2#funcThree", "funcThree")
     })
 
     it("shows the definition for each documented value", () => {
@@ -76,8 +76,8 @@ describe("when a module is clicked", () => {
     describe("when the referenced type is known", () => {
       it("links to types documented in another file", () => {
         var values = findAll("#documentation .value-block .definition")
-        expectLink(findWithin(values.item(0), "[data-arg-link]"), "/fake-package/versions/14.2.3/module/Module1#FunAlias", "FunAlias")
-        expectLink(findWithin(values.item(1), "[data-arg-link]"), "/fake-package/versions/14.2.3/module/Module1.Module3#SomeFunction", "SomeFunction")
+        expectLink(findWithin(values.item(0), "[data-arg-link]"), "/fake.package/versions/14.2.3/module/Module1#FunAlias", "FunAlias")
+        expectLink(findWithin(values.item(1), "[data-arg-link]"), "/fake.package/versions/14.2.3/module/Module1.Module3#SomeFunction", "SomeFunction")
       })
     })
 
@@ -93,13 +93,13 @@ describe("when a module is clicked", () => {
     it("adds a link to the type alias", () => {
       var typeAliases = findAll("#documentation .type-alias-block")
       expectAttribute(typeAliases.item(0), "id", "typeAliasOne")
-      expectLink(findWithin(typeAliases.item(0), "[data-type-name]"), "/fake-package/versions/14.2.3/module/Module1.Module2#typeAliasOne", "typeAliasOne")
+      expectLink(findWithin(typeAliases.item(0), "[data-type-name]"), "/fake.package/versions/14.2.3/module/Module1.Module2#typeAliasOne", "typeAliasOne")
 
       expectAttribute(typeAliases.item(1), "id", "typeAliasThree")
-      expectLink(findWithin(typeAliases.item(1), "[data-type-name]"), "/fake-package/versions/14.2.3/module/Module1.Module2#typeAliasThree", "typeAliasThree")
+      expectLink(findWithin(typeAliases.item(1), "[data-type-name]"), "/fake.package/versions/14.2.3/module/Module1.Module2#typeAliasThree", "typeAliasThree")
 
       expectAttribute(typeAliases.item(2), "id", "typeAliasTwo")
-      expectLink(findWithin(typeAliases.item(2), "[data-type-name]"), "/fake-package/versions/14.2.3/module/Module1.Module2#typeAliasTwo", "typeAliasTwo")
+      expectLink(findWithin(typeAliases.item(2), "[data-type-name]"), "/fake.package/versions/14.2.3/module/Module1.Module2#typeAliasTwo", "typeAliasTwo")
     })
 
     it("shows the args for the type alias", () => {
@@ -148,7 +148,7 @@ describe("when a module is clicked", () => {
     describe("when the aliased type is known", () => {
       it("links to the aliased type", () => {
         var typeAliases = findAll("#documentation .type-alias-block .definition")
-        expectLink(findWithin(typeAliases.item(1), "[data-arg-link]"), "/fake-package/versions/14.2.3/module/Module1.Module3#AwesomeAlias", "AwesomeAlias")
+        expectLink(findWithin(typeAliases.item(1), "[data-arg-link]"), "/fake.package/versions/14.2.3/module/Module1.Module3#AwesomeAlias", "AwesomeAlias")
       })
     })
   })
@@ -158,10 +158,10 @@ describe("when a module is clicked", () => {
       var unionTypes = findAll("#documentation .union-type-block")
 
       expectAttribute(unionTypes.item(0), "id", "FirstType")
-      expectLink(findWithin(unionTypes.item(0), "[data-type-name]"), "/fake-package/versions/14.2.3/module/Module1.Module2#FirstType", "FirstType")
+      expectLink(findWithin(unionTypes.item(0), "[data-type-name]"), "/fake.package/versions/14.2.3/module/Module1.Module2#FirstType", "FirstType")
 
       expectAttribute(unionTypes.item(1), "id", "SecondType")
-      expectLink(findWithin(unionTypes.item(1), "[data-type-name]"), "/fake-package/versions/14.2.3/module/Module1.Module2#SecondType", "SecondType")
+      expectLink(findWithin(unionTypes.item(1), "[data-type-name]"), "/fake.package/versions/14.2.3/module/Module1.Module2#SecondType", "SecondType")
     })
 
     it("shows the args for the union types", () => {

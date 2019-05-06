@@ -6,7 +6,7 @@ import { PackageVersion } from "../model/PackageVersion";
 
 export class HttpDocService implements DocService {
   fetch = (packageVersion: PackageVersion) => {
-    const base = `/docs/${packageVersion.name.toLowerCase()}/${VersionHelper.toString(packageVersion.version)}`
+    const base = `/docs/${packageVersion.name}/${VersionHelper.toString(packageVersion.version)}`
 
     return Promise.all([
       Axios.get(`${base}/docs.json`),

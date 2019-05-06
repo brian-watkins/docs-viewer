@@ -8,27 +8,27 @@ describe("Analytics", () => {
   beforeEach(() => {
     fakes = defaultFakes()
     fakes.packages = [
-      new Package("fake-package", [ { major: 9, minor: 1, patch: 2 } ])
+      new Package("fake.package", [ { major: 9, minor: 1, patch: 2 } ])
     ]
   })
 
   describe("when I go the default page", () => {
     beforeEach(async () => { 
-      await renderApp(fakes, "/fake-package/versions/9.1.2")
+      await renderApp(fakes, "/fake.package/versions/9.1.2")
     })
 
     it("records a page view", () => {
-      expect(fakes.fakeAnalyticsService.sendPageView).toHaveBeenCalledWith({ path: "/fake-package/versions/9.1.2" })
+      expect(fakes.fakeAnalyticsService.sendPageView).toHaveBeenCalledWith({ path: "/fake.package/versions/9.1.2" })
     })
   })
 
   describe("when I go to the home page for a version", () => {
     beforeEach(async () => { 
-      await renderApp(fakes, "/fake-package/versions/9.1.2")
+      await renderApp(fakes, "/fake.package/versions/9.1.2")
     })
 
     it("records a page view", () => {
-      expect(fakes.fakeAnalyticsService.sendPageView).toHaveBeenCalledWith({ path: "/fake-package/versions/9.1.2" })
+      expect(fakes.fakeAnalyticsService.sendPageView).toHaveBeenCalledWith({ path: "/fake.package/versions/9.1.2" })
     })
 
     describe("when I click a module", () => {
@@ -38,7 +38,7 @@ describe("Analytics", () => {
       })
 
       it("records a page view", () => {
-        expect(fakes.fakeAnalyticsService.sendPageView).toHaveBeenCalledWith({ path: "/fake-package/versions/9.1.2/module/Module1.Module2"})
+        expect(fakes.fakeAnalyticsService.sendPageView).toHaveBeenCalledWith({ path: "/fake.package/versions/9.1.2/module/Module1.Module2"})
       })
     })
 
@@ -48,7 +48,7 @@ describe("Analytics", () => {
       })
 
       it("records a page view", () => {
-        expect(fakes.fakeAnalyticsService.sendPageView).toHaveBeenCalledWith({ path: "/fake-package/versions" })
+        expect(fakes.fakeAnalyticsService.sendPageView).toHaveBeenCalledWith({ path: "/fake.package/versions" })
       })
     })
   })

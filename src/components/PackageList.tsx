@@ -19,7 +19,7 @@ export class PackageList extends React.Component<PackageListProps> {
   
   showPackage = (packageInfo: Package) => (
     <ListItemLink key={ packageInfo.name } to={ linkFor(packageInfo.atLatestVersion()) }>
-      <h1>{ packageInfo.name }</h1>
+      <h1 className="package">{ packageInfo.displayName }</h1>
     </ListItemLink>
   )
 }

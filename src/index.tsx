@@ -13,14 +13,14 @@ declare var gtag: GTag
 const googleAnalyticsService = new GoogleAnalyticsService(gtag, 'UA-92414229-1')
 
 const packages = [
-  new Package("Elmer", [
+  new Package("elmer", [
     { major: 6, minor: 0, patch: 0 },
     { major: 5, minor: 0, patch: 1 },
     { major: 5, minor: 0, patch: 0 },
     { major: 4, minor: 0, patch: 0 },
     { major: 3, minor: 3, patch: 1 }
   ]),
-  new Package("Elmer.Http", [
+  new Package("elmer.http", [
     { major: 1, minor: 0, patch: 0 }
   ])
 ]
