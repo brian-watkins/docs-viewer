@@ -5,6 +5,7 @@ $offset-background-color: #fcffff;
 $background-color: #fafafa;
 $emphasis-color: #e3f0fa;
 $background-emphasis: #f2f2f2;
+$background-emphasis-light: #f5f5f5;
 $font-stack: 'Source Sans Pro', sans-serif;
 $fixed-width-font-stack: 'Source Code Pro', sans-serif;
 
@@ -45,18 +46,20 @@ h1 {
 
 @mixin code-block {
   code {
-    font: 100% $fixed-width-font-stack;
+    font: 90% $fixed-width-font-stack;
     margin: 0px 0px;
     color: #000000;
-    background-color: $offset-background-color;
+    background-color: $background-emphasis-light;
   }
 
   pre code {
     font-size: .9em;
-    padding: 21px;
-    border-width: 7px;
+    padding: 14px 21px;
+    margin: 14px 0px 14px 0px;
+    border-width: 0px 0px 0px 7px;
     border-color: $background-color;
     border-style: solid;
     background-color: #ffffff;
+    overflow: visible;
   }
 }
