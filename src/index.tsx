@@ -21,6 +21,7 @@ const packages = [
     { major: 3, minor: 3, patch: 1 }
   ]),
   new Package("elmer.http", [
+    { major: 2, minor: 0, patch: 0 },
     { major: 1, minor: 0, patch: 0 }
   ])
 ]
